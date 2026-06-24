@@ -1,4 +1,6 @@
-﻿namespace MovieService.Domain.ValueObjects
+﻿using MovieService.Domain.Exceptions;
+
+namespace MovieService.Domain.ValueObjects
 {
     public class Money
     {
@@ -7,10 +9,10 @@
         public Money(decimal amount, string currency)
         {
             if (amount < 0)
-                throw new ArgumentException("Amount cannot be negative");
+                throw new DomainException(MoneyErrors.NegativeAmountCode, MoneyErrors.NegativeAmountMessage);
 
             if (string.IsNullOrWhiteSpace(currency))
-                throw new ArgumentException("Currency is required");
+                throw new DomainException(MoneyErrors.MissingCurrencyCode, MoneyErrors.MissingCurrencyMessage);
 
             Amount = amount;
             Currency = currency;
