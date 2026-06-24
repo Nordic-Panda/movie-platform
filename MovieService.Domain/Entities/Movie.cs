@@ -1,5 +1,4 @@
 ﻿using MovieService.Domain.Enums;
-using MovieService.Domain.Exceptions;
 
 public class Movie
 {
@@ -14,28 +13,60 @@ public class Movie
 
     private Movie() { }
 
-    public Movie(string title, TimeSpan duration, Genre genre)
+
+    internal Movie(Guid id, string title, TimeSpan duration, Genre genre)
     {
-        if (string.IsNullOrWhiteSpace(title))
-            throw new DomainException(
-                MovieErrors.MovieTitleEmptyCode,
-                MovieErrors.MovieTitleEmptyMessage
-                );
-
-        if (duration <= TimeSpan.Zero)
-            throw new DomainException(
-                MovieErrors.MovieDurationInvalidCode,
-                MovieErrors.MovieDurationInvalidMessage
-                );
-
-        if (!Enum.IsDefined(typeof(Genre), genre))
-            throw new DomainException(
-                MovieErrors.MovieGenreInvalidCode,
-                MovieErrors.MovieGenreInvalidMessage
-                );
-
+        Id = Id;
         Title = title;
         Duration = duration;
         Genre = genre;
     }
+
+    public void AddReview(string reviewerName, string comment, int rating)
+    {
+        var review = Review.Create(
+            Id,
+            reviewerName,
+            comment,
+            rating);
+
+        _reviews.Add(review);
+    }
+
+    //public Movie(string title, TimeSpan duration, Genre genre)
+    //{
+    //    if (string.IsNullOrWhiteSpace(title))
+    //        throw new DomainException(
+    //            MovieErrors.MovieTitleEmptyCode,
+    //            MovieErrors.MovieTitleEmptyMessage
+    //            );
+
+    //    if (duration <= TimeSpan.Zero)
+    //        throw new DomainException(
+    //            MovieErrors.MovieDurationInvalidCode,
+    //            MovieErrors.MovieDurationInvalidMessage
+    //            );
+
+    //    if (!Enum.IsDefined(typeof(Genre), genre))
+    //        throw new DomainException(
+    //            MovieErrors.MovieGenreInvalidCode,
+    //            MovieErrors.MovieGenreInvalidMessage
+    //            );
+
+    //    Title = title;
+    //    Duration = duration;
+    //    Genre = genre;
+    //}
+
+    //public void AddReview(string reviewerName, string comment, int rating)
+    //{
+    //    var review = new Review(
+    //        Id,
+    //        reviewerName,
+    //        comment,
+    //        rating);
+
+    //    _reviews.Add(review);
+    //}
+
 }

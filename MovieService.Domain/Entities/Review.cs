@@ -14,15 +14,52 @@ public class Review
 
     private Review() { }
 
-    public Review(string reviewerName, string comment, int rating)
+    private Review(Guid id, Guid movieId, string reviewerName, string comment, int rating)
     {
-        if (rating < ReviewConstants.MinRating || rating > ReviewConstants.MaxRating)
+        if (rating < ReviewConstants.MinRating ||
+            rating > ReviewConstants.MaxRating)
+        {
             throw new DomainException(
                 ReviewErrors.ReviewInvalidRatingCode,
                 ReviewErrors.ReviewInvalidRatingMessage);
+        }
 
+        Id = id;
+        MovieId = movieId;
         ReviewerName = reviewerName;
         Comment = comment;
         Rating = rating;
     }
+
+    public static Review Create(Guid movieId, string reviewerName, string comment, int rating)
+    {
+        return new Review(
+            Guid.NewGuid(),
+            movieId,
+            reviewerName,
+            comment,
+            rating);
+    }
+
+
+    //public Review(
+    //    Guid movieId,
+    //    string reviewerName,
+    //    string comment,
+    //    int rating)
+    //{
+    //    if (rating < ReviewConstants.MinRating ||
+    //        rating > ReviewConstants.MaxRating)
+    //    {
+    //        throw new DomainException(
+    //            ReviewErrors.ReviewInvalidRatingCode,
+    //            ReviewErrors.ReviewInvalidRatingMessage);
+    //    }
+
+    //    Id = Guid.NewGuid();
+    //    MovieId = movieId;
+    //    ReviewerName = reviewerName;
+    //    Comment = comment;
+    //    Rating = rating;
+    //}
 }
