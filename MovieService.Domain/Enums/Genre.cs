@@ -5,6 +5,8 @@
         Action,
         Comedy,
         Drama,
-        SciFi
+        SciFi,
+        Romance,
+        Horror
     }
 }

@@ -1,7 +1,7 @@
 ﻿using MovieService.Domain.Enums;
 using MovieService.Domain.Exceptions;
 
-namespace MovieService.Domain.ValueObjects
+namespace MovieService.Domain.Money
 {
     public class Money
     {
@@ -22,5 +22,7 @@ namespace MovieService.Domain.ValueObjects
             Amount = amount;
             Currency = currency;
         }
+
+        // can have a add, Value object is Data + rules + domain behavior
     }
 }

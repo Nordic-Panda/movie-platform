@@ -1,4 +1,4 @@
-﻿namespace MovieService.Domain.Exceptions
+﻿namespace MovieService.Domain.Money
 {
     public static class MoneyErrors
     {
