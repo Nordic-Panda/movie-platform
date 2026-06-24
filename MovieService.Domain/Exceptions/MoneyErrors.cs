@@ -2,10 +2,10 @@
 {
     public static class MoneyErrors
     {
-        public const string NegativeAmountCode = ErrorCodes.MoneyNegative;
+        public const string NegativeAmountCode = "NEGATIVE_AMOUNT";
         public const string NegativeAmountMessage = "Money amount cannot be negative";
 
-        public const string InvalidCurrencyCode = ErrorCodes.MoneyCurrencyInvalid;
-        public const string InvalidCurrencyMessage = "Currency is invalid";
+        public const string MissingCurrencyCode = "MISSING_CURRENCY";
+        public const string MissingCurrencyMessage = "Currency is required";
     }
 }

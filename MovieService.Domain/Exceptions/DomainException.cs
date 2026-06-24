@@ -1,5 +1,6 @@
 ﻿namespace MovieService.Domain.Exceptions
 {
+    // Custom Exception
     public class DomainException : Exception
     {
         public string Code { get; }
