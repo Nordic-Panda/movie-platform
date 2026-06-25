@@ -4,10 +4,6 @@
     <ProjectReference Include="..\MovieService.Domain\MovieService.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Movies\CreateMovie\" />
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
