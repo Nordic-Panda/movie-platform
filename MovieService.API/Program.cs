@@ -1,5 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Movies.CreateMovie;
+using MovieService.Infrastructure.Data;
+using MovieService.Infrastructure.Persistence.Movies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,14 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 //
+// Register DbContext
+//
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("Default")
+    ));
+
+//
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)
 //
 
@@ -21,7 +32,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<CreateMovieHandler>();
 
 // Infrastructure layer
-//builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
 var app = builder.Build();
 
