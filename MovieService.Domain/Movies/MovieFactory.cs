@@ -1,11 +1,16 @@
 ﻿using MovieService.Domain.Enums;
 using MovieService.Domain.Exceptions;
+using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
 {
     public static class MovieFactory
     {
-        public static Movie Create(string title, TimeSpan duration, Genre genre)
+        public static Movie Create(
+            string title,
+            TimeSpan duration,
+            Genre genre,
+            MovieDetails details)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new DomainException(
@@ -22,7 +27,7 @@ namespace MovieService.Domain.Movies
                     MovieErrors.MovieGenreInvalidCode,
                     MovieErrors.MovieGenreInvalidMessage);
 
-            return new Movie(Guid.NewGuid(), title, duration, genre);
+            return new Movie(Guid.NewGuid(), title, duration, genre, details);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace MovieService.Domain.ValueObjects
         public string? Synopsis { get; }
         public MovieService.Domain.Money.Money? Budget { get; }
 
-        public MovieDetails(string language, string synopsis, MovieService.Domain.Money.Money? budget = null)
+        public MovieDetails(string language, string? synopsis = null, MovieService.Domain.Money.Money? budget = null)
         {
 
             if (string.IsNullOrWhiteSpace(language))
