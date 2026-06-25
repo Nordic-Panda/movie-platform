@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Movies.CreateMovie;
@@ -29,6 +30,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)
 //
+
+// Validators
+builder.Services.AddValidatorsFromAssemblyContaining<CreateMovieValidator>();
 
 // Application layer
 builder.Services.AddScoped<CreateMovieHandler>();

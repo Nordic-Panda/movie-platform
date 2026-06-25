@@ -1,4 +1,5 @@
-﻿using MovieService.Application.Common.DTOs;
+﻿using FluentValidation;
+using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Interfaces.Repositories;
 
 namespace MovieService.Application.Movies.CreateMovie;
@@ -6,14 +7,19 @@ namespace MovieService.Application.Movies.CreateMovie;
 public class CreateMovieHandler
 {
     private readonly IMovieRepository _movieRepository;
+    private readonly IValidator<CreateMovieRequest> _validator;
 
-    public CreateMovieHandler(IMovieRepository movieRepository)
+    public CreateMovieHandler(IMovieRepository movieRepository, IValidator<CreateMovieRequest> validator)
     {
         _movieRepository = movieRepository;
+        _validator = validator;
     }
 
     public async Task<MovieDto> AddMovie(CreateMovieRequest request)
     {
+        // FluentValidation, validate inputs
+        await _validator.ValidateAndThrowAsync(request);
+
         // We needed to:
         // Convert from primitive values to correct form
         // Create movie with Domain MovieFactory
