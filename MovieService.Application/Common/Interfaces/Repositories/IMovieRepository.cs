@@ -1,7 +1,7 @@
 ﻿using MovieService.Domain.Entities;
 using MovieService.Domain.Movies;
 
-namespace MovieService.Application.Movies.CreateMovie
+namespace MovieService.Application.Common.Interfaces.Repositories
 {
     public interface IMovieRepository
     {
