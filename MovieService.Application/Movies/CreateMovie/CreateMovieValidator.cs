@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MovieService.Application.Common.DTOs;
+using MovieService.Application.Movies.CreateMovie;
 
 public class CreateMovieValidator : AbstractValidator<CreateMovieRequest>
 {
@@ -7,12 +8,12 @@ public class CreateMovieValidator : AbstractValidator<CreateMovieRequest>
     {
         RuleFor(x => x.Title)
             .NotEmpty()
-            .MinimumLength(2)
-            .MaximumLength(200);
+            .MinimumLength(CreateMovieValidatorConstants.TitleMinLength)
+            .MaximumLength(CreateMovieValidatorConstants.TitleMaxLength);
 
         RuleFor(x => x.DurationMinutes)
-            .GreaterThan(0)
-            .LessThanOrEqualTo(600);
+            .GreaterThan(CreateMovieValidatorConstants.DurationMinMinutes)
+            .LessThanOrEqualTo(CreateMovieValidatorConstants.DurationMaxMinutes);
 
         RuleFor(x => x.Genre)
             .NotEmpty();
@@ -21,7 +22,7 @@ public class CreateMovieValidator : AbstractValidator<CreateMovieRequest>
             .NotEmpty();
 
         RuleFor(x => x.CurrencyCode)
-            .Length(3)
+            .Length(CreateMovieValidatorConstants.CurrencyIsoMinLength)
             .When(x => x.CurrencyCode != null);
     }
 }
