@@ -14,7 +14,9 @@ builder.Services.AddControllers();
 //
 // 2. OpenAPI / Swagger
 //
-builder.Services.AddOpenApi();
+//builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 //
 // Register DbContext
@@ -41,8 +43,10 @@ var app = builder.Build();
 //
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 
