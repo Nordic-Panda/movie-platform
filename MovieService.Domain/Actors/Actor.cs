@@ -21,7 +21,7 @@ namespace MovieService.Domain.Actors
             if (birthYear < ActorRules.EarliestYear || birthYear > DateTime.UtcNow.Year)
                 throw new DomainException(
                     ActorErrors.ActorBirthYearInvalidCode,
-                    ActorErrors.ActorBirthYearInvalidMessage);
+                    ActorErrors.ActorBirthYearInvalidMessage(ActorRules.EarliestYear, DateTime.UtcNow.Year));
             
             Id = Guid.NewGuid();
             Name = name;

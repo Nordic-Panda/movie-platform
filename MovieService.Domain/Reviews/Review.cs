@@ -26,8 +26,8 @@ namespace MovieService.Domain.Reviews
                 rating > ReviewRules.MaxRating)
             {
                 throw new DomainException(
-                    ReviewErrors.ReviewInvalidRatingCode,
-                    ReviewErrors.ReviewInvalidRatingMessage);
+                    ReviewErrors.InvalidRatingCode,
+                    ReviewErrors.InvalidRatingMessage);
             }
 
             return new Review(Guid.NewGuid(), movieId, comment, rating);
