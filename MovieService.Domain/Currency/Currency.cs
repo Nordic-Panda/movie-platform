@@ -16,28 +16,28 @@ namespace MovieService.Domain.Currency
         {
             if (string.IsNullOrWhiteSpace(code))
                 throw new DomainException(
-                    CurrencyErrors.CurrencyCodeEmptyCode,
-                    CurrencyErrors.CurrencyCodeEmptyMessage);
+                    CurrencyErrors.CodeEmptyCode,
+                    CurrencyErrors.CodeEmptyMessage);
 
             if (code.Trim().Length != CurrencyRules.IsoCodeLength)
                 throw new DomainException(
-                    CurrencyErrors.CurrencyCodeInvalidLengthCode,
-                    CurrencyErrors.CurrencyCodeInvalidLengthMessage);
+                    CurrencyErrors.CodeInvalidLengthCode,
+                    CurrencyErrors.CodeInvalidLengthMessage(CurrencyRules.IsoCodeLength));
 
             if (string.IsNullOrWhiteSpace(name))
                 throw new DomainException(
-                    CurrencyErrors.CurrencyNameEmptyCode,
-                    CurrencyErrors.CurrencyNameEmptyMessage);
+                    CurrencyErrors.NameEmptyCode,
+                    CurrencyErrors.NameEmptyMessage);
 
             if (numberOfDecimal < CurrencyRules.MinDecimal)
                 throw new DomainException(
-                    CurrencyErrors.CurrencyDecimalInvalidCode,
-                    CurrencyErrors.CurrencyDecimalInvalidMessage);
+                    CurrencyErrors.DecimalTooSmallCode,
+                    CurrencyErrors.DecimalTooSmallMessage(CurrencyRules.MinDecimal));
 
             if (numberOfDecimal > CurrencyRules.MaxDecimal)
                 throw new DomainException(
-                    CurrencyErrors.CurrencyNameEmptyCode,
-                    CurrencyErrors.CurrencyNameEmptyMessage);
+                    CurrencyErrors.DecimalTooBigCode,
+                    CurrencyErrors.DecimalTooBigMessage(CurrencyRules.MaxDecimal));
 
 
             Code = code.Trim().ToUpper();

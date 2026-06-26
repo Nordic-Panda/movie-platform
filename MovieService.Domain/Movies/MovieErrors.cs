@@ -2,31 +2,31 @@
 {
     public class MovieErrors
     {
-        public const string MovieTitleEmptyCode = "MOVIE_EMPTY_TITLE";
-        public const string MovieTitleEmptyMessage = "Title is required";
+        public const string TitleEmptyCode = "MOVIE_EMPTY_TITLE";
+        public const string TitleEmptyMessage = "Movie title is required";
 
-        public const string MovieGenreInvalidCode = "MOVIE_GENRE_INVALID";
-        public const string MovieGenreInvalidMessage = "Genre is required";
+        public const string GenreInvalidCode = "MOVIE_GENRE_INVALID";
+        public const string GenreInvalidMessage = "Movie genre is required";
 
-        public const string MovieLanguageInvalidCode = "MOVIE_LANGUAGE_INVALID";
-        public const string MovieLanguageInvalidMessage = "Language is required";
+        public const string LanguageInvalidCode = "MOVIE_LANGUAGE_INVALID";
+        public const string LanguageInvalidMessage = "Movie language is required";
 
 
-        public const string MovieTitleTooShortCode = "MOVE_TITLE_TOO_SHORT_INVAVID";
-        public static string MovieTitleTooShortMessage(int minLength)
+        public const string TitleTooShortCode = "MOVE_TITLE_TOO_SHORT_INVAVID";
+        public static string TitleTooShortMessage(int minLength)
             => $"Movie title must be at least {minLength} characters.";
 
-        public const string MovieTitleTooLongCode = "MOVE_TITLE_TOO_LONG_INVAVID";
-        public static string MovieTitleTooLongMessage(int maxLength)
+        public const string TitleTooLongCode = "MOVE_TITLE_TOO_LONG_INVAVID";
+        public static string TitleTooLongMessage(int maxLength)
             => $"Movie title cannot exceed {maxLength} characters.";
 
 
-        public const string MovieDurationTooShortCode = "MOVIE_DURATION_TOO_SHORT";
-        public static string MovieDurationTooShortMessage(int minMinutes)
+        public const string DurationTooShortCode = "MOVIE_DURATION_TOO_SHORT";
+        public static string DurationTooShortMessage(int minMinutes)
             => $"Movie duration must be at least {minMinutes} minutes.";
 
-        public const string MovieDurationTooLongCode = "MOVIE_DURATION_TOO_LONG";
-        public static string MovieDurationTooLongMessage(int maxMinutes)
+        public const string DurationTooLongCode = "MOVIE_DURATION_TOO_LONG";
+        public static string DurationTooLongMessage(int maxMinutes)
             => $"Movie duration cannot exceed {maxMinutes} minutes.";
     }
 }
