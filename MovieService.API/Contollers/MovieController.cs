@@ -40,7 +40,10 @@ public class MoviesController : ControllerBase
     public async Task<IActionResult> Create(CreateMovieCommand command)
     {
         var result = await _mediator.Send(command);
-        return Ok(result);
+        return CreatedAtAction(
+            nameof(GetById),
+            new { id = result.Id },
+            ApiResponse<MovieDto>.Ok(result));
     }
 
     [HttpGet("{id:guid}")]
