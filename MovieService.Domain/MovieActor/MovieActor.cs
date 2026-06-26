@@ -35,32 +35,3 @@ namespace MovieService.Domain.Entities
         }
     }
 }
-
-
-
-//namespace MovieService.Domain.Entities
-//{
-//    public class MovieActor
-//    {
-//        public Guid MovieId { get; private set; }
-//        public Movie Movie { get; private set; }
-
-//        public Guid ActorId { get; private set; }
-//        public Actor Actor { get; private set; }
-
-//        public string CharacterName { get; private set; }
-
-//        private MovieActor() { }
-
-//        public MovieActor(Movie movie, Actor actor, string characterName)
-//        {
-//            Movie = movie;
-//            MovieId = movie.Id;
-
-//            Actor = actor;
-//            ActorId = actor.Id;
-
-//            CharacterName = characterName;
-//        }
-//    }
-//}

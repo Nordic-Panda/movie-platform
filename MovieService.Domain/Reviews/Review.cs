@@ -1,5 +1,4 @@
-﻿using MovieService.Domain.Constants;
-using MovieService.Domain.Exceptions;
+﻿using MovieService.Domain.Exceptions;
 
 namespace MovieService.Domain.Reviews
 {
@@ -23,12 +22,12 @@ namespace MovieService.Domain.Reviews
 
         public static Review Create(Guid movieId, string comment, int rating)
         {
-            if (rating < ReviewConstants.MinRating ||
-                rating > ReviewConstants.MaxRating)
+            if (rating < ReviewRules.MinRating ||
+                rating > ReviewRules.MaxRating)
             {
                 throw new DomainException(
-                    ReviewErrors.ReviewInvalidRatingCode,
-                    ReviewErrors.ReviewInvalidRatingMessage);
+                    ReviewErrors.InvalidRatingCode,
+                    ReviewErrors.InvalidRatingMessage(ReviewRules.MinRating, ReviewRules.MaxRating));
             }
 
             return new Review(Guid.NewGuid(), movieId, comment, rating);

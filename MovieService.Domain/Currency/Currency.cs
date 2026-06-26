@@ -6,8 +6,8 @@ namespace MovieService.Domain.Currency
     {
         public string Code { get; private set; } = null!;
         public string Name { get; private set; } = null!;
-        public int NumberOfDecimal { get; private set; } = 2;
-        public bool IsActive { get; private set; } = true;
+        public int NumberOfDecimal { get; private set; }
+        public bool IsActive { get; private set; }
 
         // This is for EF Core to produce the object, it needs a paramless Constructor
         private Currency() { }
@@ -16,23 +16,28 @@ namespace MovieService.Domain.Currency
         {
             if (string.IsNullOrWhiteSpace(code))
                 throw new DomainException(
-                    CurrencyErrors.CurrencyCodeEmptyCode,
-                    CurrencyErrors.CurrencyCodeEmptyMessage);
+                    CurrencyErrors.CodeEmptyCode,
+                    CurrencyErrors.CodeEmptyMessage);
 
-            if (code.Trim().Length != 3)
+            if (code.Trim().Length != CurrencyRules.IsoCodeLength)
                 throw new DomainException(
-                    CurrencyErrors.CurrencyCodeInvalidLengthCode,
-                    CurrencyErrors.CurrencyCodeInvalidLengthMessage);
+                    CurrencyErrors.CodeInvalidLengthCode,
+                    CurrencyErrors.CodeInvalidLengthMessage(CurrencyRules.IsoCodeLength));
 
             if (string.IsNullOrWhiteSpace(name))
                 throw new DomainException(
-                    CurrencyErrors.CurrencyNameEmptyCode,
-                    CurrencyErrors.CurrencyNameEmptyMessage);
+                    CurrencyErrors.NameEmptyCode,
+                    CurrencyErrors.NameEmptyMessage);
 
-            if (numberOfDecimal < 0 || numberOfDecimal > 8)
+            if (numberOfDecimal < CurrencyRules.MinDecimal)
                 throw new DomainException(
-                    CurrencyErrors.CurrencyDecimalInvalidCode,
-                    CurrencyErrors.CurrencyDecimalInvalidMessage);
+                    CurrencyErrors.DecimalTooSmallCode,
+                    CurrencyErrors.DecimalTooSmallMessage(CurrencyRules.MinDecimal));
+
+            if (numberOfDecimal > CurrencyRules.MaxDecimal)
+                throw new DomainException(
+                    CurrencyErrors.DecimalTooBigCode,
+                    CurrencyErrors.DecimalTooBigMessage(CurrencyRules.MaxDecimal));
 
 
             Code = code.Trim().ToUpper();

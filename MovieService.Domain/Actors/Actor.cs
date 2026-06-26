@@ -1,5 +1,4 @@
-﻿using MovieService.Domain.Constants;
-using MovieService.Domain.Exceptions;
+﻿using MovieService.Domain.Exceptions;
 
 namespace MovieService.Domain.Actors
 {
@@ -19,10 +18,10 @@ namespace MovieService.Domain.Actors
                     ActorErrors.ActorNameEmptyCode,
                     ActorErrors.ActorNameEmptyMessage);
 
-            if (birthYear < ActorConstants.EarliestYear || birthYear > DateTime.UtcNow.Year)
+            if (birthYear < ActorRules.EarliestYear || birthYear > DateTime.UtcNow.Year)
                 throw new DomainException(
                     ActorErrors.ActorBirthYearInvalidCode,
-                    ActorErrors.ActorBirthYearInvalidMessage);
+                    ActorErrors.ActorBirthYearInvalidMessage(ActorRules.EarliestYear, DateTime.UtcNow.Year));
             
             Id = Guid.NewGuid();
             Name = name;

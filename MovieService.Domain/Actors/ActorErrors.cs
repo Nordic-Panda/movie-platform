@@ -6,6 +6,7 @@
         public const string ActorNameEmptyMessage = "Actor name cannot be empty";
 
         public const string ActorBirthYearInvalidCode = "ACTOR_BIRTHYEAR_INVALID";
-        public const string ActorBirthYearInvalidMessage = "Actor birth year must be between 1850 and current year";
+        public static string ActorBirthYearInvalidMessage(int startingYear, int currentYear)
+            => $"Actor birth year must be between {startingYear} and {currentYear}.";
     }
 }
