@@ -28,6 +28,7 @@ namespace MovieService.API.Middlewares
 
         private static async Task HandleException(HttpContext context, Exception ex)
         {
+            Console.WriteLine(ex.GetType().FullName);
             var (code, message, statusCode, details) = ex switch
             {
                 DomainException e => (

@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
 using MovieService.Application.Common.DTOs;
+using MovieService.Application.Movies.CreateMovie;
 using MovieService.Domain.Currency;
 using MovieService.Domain.Movies;
 
-public class CreateMovieValidator : AbstractValidator<CreateMovieRequest>
+public class CreateMovieValidator : AbstractValidator<CreateMovieCommand>
 {
     public CreateMovieValidator()
     {
@@ -17,7 +18,7 @@ public class CreateMovieValidator : AbstractValidator<CreateMovieRequest>
             .LessThanOrEqualTo((int)MovieRules.MaxDuration.TotalMinutes);
 
         RuleFor(x => x.Genre)
-            .NotEmpty();
+            .IsInEnum();
 
         RuleFor(x => x.Language)
             .NotEmpty();

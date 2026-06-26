@@ -1,12 +1,16 @@
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieService.API.Filters;
 using MovieService.API.Middlewares;
+using MovieService.Application.Behaviors;
+using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Movies.CreateMovie;
 using MovieService.Infrastructure.Data;
 using MovieService.Infrastructure.Persistence.Movies;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +20,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ModelStateFilter>(); // adding in custom filter
+})
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(
+        new JsonStringEnumConverter()
+    );
 });
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -45,6 +55,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Validators
 builder.Services.AddValidatorsFromAssemblyContaining<CreateMovieValidator>();
+
+// Registering a behavior, Sovalidate it before coming to handler
+//builder.Services.AddScoped<ValidationBehavior<CreateMovieRequest>>();
+builder.Services.AddTransient(
+    typeof(IPipelineBehavior<,>),
+    typeof(ValidationBehavior<,>));
+
+// Add MediatR
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssemblyContaining<CreateMovieHandler>());
 
 // Application layer
 builder.Services.AddScoped<CreateMovieHandler>();

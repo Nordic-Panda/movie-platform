@@ -8,9 +8,9 @@ namespace MovieService.Application.Movies.CreateMovie
 {
     public static class CreateMovieFactory
     {
-        public static Movie Create(CreateMovieRequest request)
+        public static Movie Create(CreateMovieCommand request)
         {
-            var genre = Enum.Parse<Genre>(request.Genre);
+            var genre = request.Genre;
             var duration = TimeSpan.FromMinutes(request.DurationMinutes);
 
             var money = request.BudgetAmount.HasValue && !string.IsNullOrEmpty(request.CurrencyCode)
