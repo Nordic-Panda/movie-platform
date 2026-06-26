@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieService.Application.Movies.CreateMovie;
 using MovieService.Application.Common.DTOs;
+using MovieService.API.Contracts;
 
 namespace MovieService.Api.Controllers;
 
@@ -20,11 +21,10 @@ public class MoviesController : ControllerBase
     {
         var result = await _createMovieHandler.AddMovie(request);
 
-        // custom standardized response later with CreatedAtAction
         return CreatedAtAction(
             nameof(GetById),
             new { id = result.Id },
-            result
+            ApiResponse<MovieDto>.Ok(result)
         );
     }
 
