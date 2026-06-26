@@ -1,5 +1,8 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MovieService.API.Filters;
+using MovieService.API.Middlewares;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Movies.CreateMovie;
 using MovieService.Infrastructure.Data;
@@ -10,7 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 //
 // 1. Controllers (instead of minimal API endpoints)
 //
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ModelStateFilter>(); // adding in custom filter
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    // This stops ASP.NET from auto-returning 400, so we can use custom logic on returning data
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 //
 // 2. OpenAPI / Swagger
@@ -51,6 +63,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Custom exception middleware, order matters here
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
