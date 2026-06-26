@@ -1,7 +1,8 @@
 ﻿using MovieService.Domain.Enums;
 using MovieService.Domain.Exceptions;
+using MovieService.Domain.Money;
 
-namespace MovieService.Domain.Money
+namespace MovieService.Domain.ValueObjects
 {
     public class Money
     {

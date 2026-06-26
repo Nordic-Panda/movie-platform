@@ -6,8 +6,8 @@ namespace MovieService.Domain.Currency
     {
         public string Code { get; private set; } = null!;
         public string Name { get; private set; } = null!;
-        public int NumberOfDecimal { get; private set; } = 2;
-        public bool IsActive { get; private set; } = true;
+        public int NumberOfDecimal { get; private set; }
+        public bool IsActive { get; private set; }
 
         // This is for EF Core to produce the object, it needs a paramless Constructor
         private Currency() { }
@@ -19,7 +19,7 @@ namespace MovieService.Domain.Currency
                     CurrencyErrors.CurrencyCodeEmptyCode,
                     CurrencyErrors.CurrencyCodeEmptyMessage);
 
-            if (code.Trim().Length != 3)
+            if (code.Trim().Length != CurrencyRules.IsoCodeLength)
                 throw new DomainException(
                     CurrencyErrors.CurrencyCodeInvalidLengthCode,
                     CurrencyErrors.CurrencyCodeInvalidLengthMessage);
@@ -29,10 +29,15 @@ namespace MovieService.Domain.Currency
                     CurrencyErrors.CurrencyNameEmptyCode,
                     CurrencyErrors.CurrencyNameEmptyMessage);
 
-            if (numberOfDecimal < 0 || numberOfDecimal > 8)
+            if (numberOfDecimal < CurrencyRules.MinDecimal)
                 throw new DomainException(
                     CurrencyErrors.CurrencyDecimalInvalidCode,
                     CurrencyErrors.CurrencyDecimalInvalidMessage);
+
+            if (numberOfDecimal > CurrencyRules.MaxDecimal)
+                throw new DomainException(
+                    CurrencyErrors.CurrencyNameEmptyCode,
+                    CurrencyErrors.CurrencyNameEmptyMessage);
 
 
             Code = code.Trim().ToUpper();

@@ -17,17 +17,37 @@ namespace MovieService.Domain.Movies
                     MovieErrors.MovieTitleEmptyCode,
                     MovieErrors.MovieTitleEmptyMessage);
 
-            if (duration <= TimeSpan.Zero)
+            if (title.Length < MovieRules.TitleMinLength)
                 throw new DomainException(
-                    MovieErrors.MovieDurationInvalidCode,
-                    MovieErrors.MovieDurationInvalidMessage);
+                    MovieErrors.MovieTitleTooShortCode,
+                    MovieErrors.MovieTitleTooShortMessage(MovieRules.TitleMinLength));
+
+            if (title.Length > MovieRules.TitleMaxLength)
+                throw new DomainException(
+                    MovieErrors.MovieTitleTooLongCode,
+                    MovieErrors.MovieTitleTooLongMessage(MovieRules.TitleMaxLength));
+
+            if (duration < MovieRules.MinDuration)
+                throw new DomainException(
+                    MovieErrors.MovieDurationTooShortCode,
+                    MovieErrors.MovieDurationTooShortMessage((int)MovieRules.MinDuration.TotalMinutes));
+
+            if (duration > MovieRules.MaxDuration)
+                throw new DomainException(
+                    MovieErrors.MovieDurationTooLongCode,
+                    MovieErrors.MovieDurationTooLongMessage((int)MovieRules.MinDuration.TotalMinutes));
 
             if (!Enum.IsDefined(typeof(Genre), genre))
                 throw new DomainException(
                     MovieErrors.MovieGenreInvalidCode,
                     MovieErrors.MovieGenreInvalidMessage);
 
-            return new Movie(Guid.NewGuid(), title, duration, genre, details);
+            return new Movie(
+                Guid.NewGuid(),
+                title,
+                duration,
+                genre,
+                details);
         }
     }
 }

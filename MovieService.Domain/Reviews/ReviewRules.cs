@@ -1,6 +1,6 @@
-﻿namespace MovieService.Domain.Constants
+﻿namespace MovieService.Domain.Reviews
 {
-    public static class ReviewConstants
+    public static class ReviewRules
     {
         public const int MinRating = 1;
         public const int MaxRating = 5;
