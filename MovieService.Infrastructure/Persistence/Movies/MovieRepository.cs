@@ -11,7 +11,7 @@ namespace MovieService.Infrastructure.Persistence.Movies
 
         public MovieRepository(AppDbContext context)
         {
-            _context = context;
+            _context = context; 
         }
 
         public async Task AddAsync(Movie movie)
