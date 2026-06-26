@@ -11,3 +11,5 @@ Full-stack learning project built with .NET, React, and TypeScript, focused on m
 4. Movie, Actor and Review are own aggregates. This avoids to have everything includes in Movie, they can live without Movie.
 
 5. FluentValidation. Tool to run validation in ApiController. It does not replace domain validation cause FluentValidation only triggers if request is coming from Api, ignoring internal creation. Flow: Modelstate -> FluentValidation -> DomainException. Modelstate is on framwork level, coming first
+
+6. All places that needs custom response: Controller, FluentValidation, Domain exception, ModelstateFilter. Missing JWT, Auth failure, Infrastructure exceptions, Background Tasks 
