@@ -15,8 +15,8 @@ namespace MovieService.Domain.ValueObjects
 
             if (string.IsNullOrWhiteSpace(language))
                 throw new DomainException(
-                    MovieErrors.MovieLanguageInvalidCode,
-                    MovieErrors.MovieLanguageInvalidMessage);
+                    MovieErrors.LanguageInvalidCode,
+                    MovieErrors.LanguageInvalidMessage);
 
             Language = language;
             Synopsis = synopsis;
