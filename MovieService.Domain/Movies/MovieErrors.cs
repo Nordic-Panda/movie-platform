@@ -28,5 +28,7 @@
         public const string DurationTooLongCode = "MOVIE_DURATION_TOO_LONG";
         public static string DurationTooLongMessage(int maxMinutes)
             => $"Movie duration cannot exceed {maxMinutes} minutes.";
+
+        public const string MovieNotFoundMessage = "Movie not found";
     }
 }

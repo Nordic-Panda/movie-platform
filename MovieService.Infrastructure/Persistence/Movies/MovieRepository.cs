@@ -14,10 +14,11 @@ namespace MovieService.Infrastructure.Persistence.Movies
             _context = context; 
         }
 
-        public async Task AddAsync(Movie movie)
+        public async Task<Movie?> AddAsync(Movie movie)
         {
             await _context.Movies.AddAsync(movie);
             await _context.SaveChangesAsync();
+            return movie;
         }
 
         public async Task<Movie?> GetByIdAsync(Guid id)

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Interfaces.Repositories;
+using MovieService.Application.Common.Mappers;
 using MovieService.Application.Movies.CreateMovie;
 
 public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
@@ -19,7 +20,7 @@ public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
 
         await _movieRepository.AddAsync(movie);
 
-        return CreateMovieMapper.ToDto(movie);
+        return MovieMapper.ToDto(movie);
     }
 }
 
