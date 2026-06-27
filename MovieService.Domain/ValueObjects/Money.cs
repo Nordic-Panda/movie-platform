@@ -1,8 +1,4 @@
-﻿using MovieService.Domain.Enums;
-using MovieService.Domain.Exceptions;
-using MovieService.Domain.Money;
-
-namespace MovieService.Domain.ValueObjects
+﻿namespace MovieService.Domain.ValueObjects
 {
     public class Money
     {
@@ -10,18 +6,8 @@ namespace MovieService.Domain.ValueObjects
         public string Currency { get; }
 
         private Money() { }
-        public Money(decimal amount, string currency)
+        internal Money(decimal amount, string currency)
         {
-            if (amount < 0)
-                throw new DomainException(
-                    MoneyErrors.NegativeAmountCode,
-                    MoneyErrors.NegativeAmountMessage);
-
-            if (string.IsNullOrWhiteSpace(currency))
-                throw new DomainException(
-                    MoneyErrors.MissingCurrencyCode,
-                    MoneyErrors.MissingCurrencyMessage);
-
             Amount = amount;
             Currency = currency;
         }

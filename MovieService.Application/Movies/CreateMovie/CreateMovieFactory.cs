@@ -1,4 +1,6 @@
-﻿using MovieService.Domain.Movies;
+﻿using MovieService.Domain.Money;
+using MovieService.Domain.Movie.Details;
+using MovieService.Domain.Movies;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Application.Movies.CreateMovie
@@ -10,15 +12,17 @@ namespace MovieService.Application.Movies.CreateMovie
             var genre = request.Genre;
             var duration = TimeSpan.FromMinutes(request.DurationMinutes);
 
-            var money = request.BudgetAmount.HasValue && !string.IsNullOrEmpty(request.CurrencyCode)
-                ? new Money(request.BudgetAmount.Value, request.CurrencyCode)
-                : null;
+            Money? money = null;
 
-            var details = new MovieDetails(
+            if (request.BudgetAmount.HasValue && !string.IsNullOrWhiteSpace(request.CurrencyCode))
+            {
+                money = MoneyFactory.Create(request.BudgetAmount.Value, request.CurrencyCode);
+            }
+
+            var details = MovieDetailsFactory.Create(
                 request.Language,
                 request.Synopsis,
-                money
-            );
+                money);
 
             return MovieFactory.Create(
                 request.Title,

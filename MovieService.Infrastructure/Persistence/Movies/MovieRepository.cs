@@ -14,11 +14,10 @@ namespace MovieService.Infrastructure.Persistence.Movies
             _context = context; 
         }
 
-        public async Task<Movie?> AddAsync(Movie movie)
+        public async Task AddAsync(Movie movie)
         {
             await _context.Movies.AddAsync(movie);
             await _context.SaveChangesAsync();
-            return movie;
         }
 
         public async Task<IReadOnlyList<Movie>> GetAllMoviesAsync()
@@ -31,6 +30,11 @@ namespace MovieService.Infrastructure.Persistence.Movies
         {
             return await _context.Movies
                 .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }
