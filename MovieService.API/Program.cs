@@ -53,16 +53,20 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)
 //
 
-// Validators
+// Validators. FluentValidation scans the assembly and DI store them all, CreateMovieValidator can be replaced by ANY validator in Application
+// IValidator<CreateMovieCommand>
+//    -> CreateMovieValidator
+// It find these in the Validator, t ex CreateMovieValidator : AbstractValidator<CreateMovieCommand>
 builder.Services.AddValidatorsFromAssemblyContaining<CreateMovieValidator>();
 
-// Registering a behavior, Sovalidate it before coming to handler
-//builder.Services.AddScoped<ValidationBehavior<CreateMovieRequest>>();
+// Registering a behavior, every time someone calls Mediator.Send(...), execute ValidationBehavior around the handler.
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),
     typeof(ValidationBehavior<,>));
 
-// Add MediatR
+// Register handlers to MediatR
+// public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
+// so it register the IRequestHandler with command and dto to the pairing Handler
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblyContaining<CreateMovieHandler>());
 
