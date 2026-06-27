@@ -1,0 +1,35 @@
+﻿using MovieService.Domain.Money;
+using MovieService.Domain.Movie.Details;
+using MovieService.Domain.Movies;
+using MovieService.Domain.ValueObjects;
+
+namespace MovieService.Application.Movies.CreateMovie
+{
+    public static class CreateMovieFactory
+    {
+        public static Movie Create(CreateMovieCommand request)
+        {
+            var genre = request.Genre;
+            var duration = TimeSpan.FromMinutes(request.DurationMinutes);
+
+            Money? money = null;
+
+            if (request.BudgetAmount.HasValue && !string.IsNullOrWhiteSpace(request.CurrencyCode))
+            {
+                money = MoneyFactory.Create(request.BudgetAmount.Value, request.CurrencyCode);
+            }
+
+            var details = MovieDetailsFactory.Create(
+                request.Language,
+                request.Synopsis,
+                money);
+
+            return MovieFactory.Create(
+                request.Title,
+                duration,
+                genre,
+                details
+            );
+        }
+    }
+}

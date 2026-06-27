@@ -1,41 +1,102 @@
+using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MovieService.API.Filters;
+using MovieService.API.Middlewares;
+using MovieService.Application.Behaviors;
+using MovieService.Application.Common.DTOs;
+using MovieService.Application.Common.Interfaces.Repositories;
+using MovieService.Application.Movies.CreateMovie;
+using MovieService.Infrastructure.Data;
+using MovieService.Infrastructure.Persistence.Movies;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+//
+// 1. Controllers (instead of minimal API endpoints)
+//
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ModelStateFilter>(); // adding in custom filter
+})
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(
+        new JsonStringEnumConverter()
+    );
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    // This stops ASP.NET from auto-returning 400, so we can use custom logic on returning data
+    options.SuppressModelStateInvalidFilter = true;
+});
+
+//
+// 2. OpenAPI / Swagger
+//
+//builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+//
+// Register DbContext
+//
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("Default")
+    ));
+
+//
+// 3. Dependency Injection (REGISTER LAYERED SERVICES)
+//
+
+// Validators. FluentValidation scans the assembly and DI store them all, CreateMovieValidator can be replaced by ANY validator in Application
+// IValidator<CreateMovieCommand>
+//    -> CreateMovieValidator
+// It find these in the Validator, t ex CreateMovieValidator : AbstractValidator<CreateMovieCommand>
+builder.Services.AddValidatorsFromAssemblyContaining<CreateMovieValidator>();
+
+// Registering a behavior, every time someone calls Mediator.Send(...), execute ValidationBehavior around the handler.
+builder.Services.AddTransient(
+    typeof(IPipelineBehavior<,>),
+    typeof(ValidationBehavior<,>));
+
+// Register handlers to MediatR
+// public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
+// so it register the IRequestHandler with command and dto to the pairing Handler
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssemblyContaining<CreateMovieHandler>());
+
+// Application layer
+builder.Services.AddScoped<CreateMovieHandler>();
+
+// Infrastructure layer
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//
+// 4. HTTP pipeline
+//
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+// Custom exception middleware, order matters here
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseAuthorization();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+//
+// 5. Map controllers (IMPORTANT — replaces MapGet style)
+//
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
