@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieService.Domain.Movies;
+using MovieService.Infrastructure.Rules;
 
 namespace MovieService.Infrastructure.Data;
 
@@ -22,7 +23,7 @@ public class AppDbContext : DbContext
 
             entity.Property(x => x.Title)
                 .IsRequired()
-                .HasMaxLength(200);
+                .HasMaxLength(DbMovieRules.TitleMaxLength);
 
             entity.Property(x => x.Genre)
                 .IsRequired();
@@ -31,10 +32,10 @@ public class AppDbContext : DbContext
             {
                 details.Property(d => d.Language)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(DbMovieRules.LanguageMaxLength);
 
                 details.Property(d => d.Synopsis)
-                    .HasMaxLength(1000);
+                    .HasMaxLength(DbMovieRules.SynopsisMaxLength);
 
                 details.OwnsOne(d => d.Budget, money =>
                 {
