@@ -7,15 +7,15 @@ namespace MovieService.Application.Movies.GetAllMovies
 {
     public class GetAllMoviesHandler : IRequestHandler<GetAllMoviesQuery, IReadOnlyList<MovieDto>>
     {
-        private readonly IMovieRepository _repo;
+        private readonly IMovieRepository _movieRepository;
 
-        public GetAllMoviesHandler(IMovieRepository repo)
+        public GetAllMoviesHandler(IMovieRepository movieRepository)
         {
-            _repo = repo;
+            _movieRepository = movieRepository;
         }
         public async Task<IReadOnlyList<MovieDto>> Handle(GetAllMoviesQuery request, CancellationToken cancellationToken)
         {
-            var movies = await _repo.GetAllMoviesAsync();
+            var movies = await _movieRepository.GetAllMoviesAsync();
 
             return movies
                 .Select(MovieMapper.ToDto)

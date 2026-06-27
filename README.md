@@ -16,6 +16,8 @@ Full-stack learning project built with .NET, React, and TypeScript, focused on m
 
 6. All places that needs custom response: Controller, FluentValidation, Domain exception, ModelstateFilter. Missing JWT, Auth failure, Infrastructure exceptions, Background Tasks 
 
+7. MediatR. Get is query, Delete and Put is command. If Delete has no return type, use IRequest in command and Only sending command in IRequestHandler in command.
+
 
 ## Flow
 HTTP Request
@@ -31,7 +33,7 @@ Model Binding
 Controller
       │
       ▼
-Mediator.Send(command) Pipeline registered in program.cs
+Mediator.Send(command/query) Pipeline registered in program.cs
       │
       ▼
 ValidationBehavior

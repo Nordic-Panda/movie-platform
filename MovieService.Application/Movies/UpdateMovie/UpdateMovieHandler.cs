@@ -12,15 +12,15 @@ namespace MovieService.Application.Movies.UpdateMovie
 {
     public class UpdateMovieHandler : IRequestHandler<UpdateMovieCommand, MovieDto>
     {
-        private readonly IMovieRepository _repo;
+        private readonly IMovieRepository _movieRepository;
 
-        public UpdateMovieHandler(IMovieRepository repo)
+        public UpdateMovieHandler(IMovieRepository movieRepository)
         {
-            _repo = repo;
+            _movieRepository = movieRepository;
         }
         public async Task<MovieDto> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
         {
-            var movie = await _repo.GetByIdAsync(request.Id);
+            var movie = await _movieRepository.GetByIdAsync(request.Id);
 
             if (movie == null)
                 throw new NotFoundException(MovieErrors.MovieNotFoundCode, MovieErrors.MovieNotFoundMessage);
@@ -47,7 +47,7 @@ namespace MovieService.Application.Movies.UpdateMovie
                 details
                 );
 
-            await _repo.SaveChangesAsync();
+            await _movieRepository.SaveChangesAsync();
 
             return MovieMapper.ToDto(movie);
         }

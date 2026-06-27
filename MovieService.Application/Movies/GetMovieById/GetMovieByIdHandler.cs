@@ -10,16 +10,16 @@ namespace MovieService.Application.Movies.GetMovieById
     public class GetMovieByIdHandler
         : IRequestHandler<GetMovieByIdQuery, MovieDto>
     {
-        private readonly IMovieRepository _repo;
+        private readonly IMovieRepository _movieRepository;
 
-        public GetMovieByIdHandler(IMovieRepository repo)
+        public GetMovieByIdHandler(IMovieRepository movieRepository)
         {
-            _repo = repo;
+            _movieRepository = movieRepository;
         }
 
         public async Task<MovieDto> Handle(GetMovieByIdQuery request, CancellationToken ct)
         {
-            var movie = await _repo.GetByIdAsync(request.Id);
+            var movie = await _movieRepository.GetByIdAsync(request.Id);
 
             if (movie == null)
                 throw new NotFoundException(MovieErrors.MovieNotFoundCode, MovieErrors.MovieNotFoundMessage);
