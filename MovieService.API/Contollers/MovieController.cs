@@ -5,7 +5,7 @@ using MovieService.Application.Common.DTOs;
 using MovieService.Application.Movies.CreateMovie;
 using MovieService.Application.Movies.GetAllMovies;
 using MovieService.Application.Movies.GetMovieById;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using MovieService.Application.Movies.GetMovieDetailsById;
 
 namespace MovieService.Api.Controllers;
 
@@ -44,5 +44,13 @@ public class MoviesController : ControllerBase
         var result = await _mediator.Send(new GetAllMoviesQuery());
 
         return Ok(ApiResponse<IReadOnlyList<MovieDto>>.Ok(result));
+    }
+
+    [HttpGet("details/{id:guid}")]
+    public async Task<IActionResult> GetDetailsById(Guid id)
+    {
+        var result = await _mediator.Send(new GetMovieDetailsByIdQuery(id));
+
+        return Ok(ApiResponse<MovieDetailsDto>.Ok(result));
     }
 }
