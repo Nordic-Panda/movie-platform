@@ -29,6 +29,7 @@
         public static string DurationTooLongMessage(int maxMinutes)
             => $"Movie duration cannot exceed {maxMinutes} minutes.";
 
+        public const string MovieNotFoundCode = "MOVIE_NOT_FOUND";
         public const string MovieNotFoundMessage = "Movie not found";
     }
 }

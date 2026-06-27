@@ -7,5 +7,6 @@ namespace MovieService.Application.Common.Interfaces.Repositories
     {
         Task<Movie?> AddAsync(Movie movie);
         Task<Movie?> GetByIdAsync(Guid id);
+        Task<IReadOnlyList<Movie>> GetAllMoviesAsync();
     }
 }

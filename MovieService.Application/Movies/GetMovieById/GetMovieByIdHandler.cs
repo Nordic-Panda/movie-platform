@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
+using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
 using MovieService.Domain.Movies;
@@ -21,9 +22,7 @@ namespace MovieService.Application.Movies.GetMovieById
             var movie = await _repo.GetByIdAsync(request.Id);
 
             if (movie == null)
-                throw new KeyNotFoundException(MovieErrors.MovieNotFoundMessage);
-
-            
+                throw new NotFoundException(MovieErrors.MovieNotFoundCode, MovieErrors.MovieNotFoundMessage);
 
             return MovieMapper.ToDto(movie);
         }
