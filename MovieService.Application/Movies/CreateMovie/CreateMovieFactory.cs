@@ -1,7 +1,4 @@
-﻿using MovieService.Application.Common.DTOs;
-using MovieService.Domain.Enums;
-using MovieService.Domain.Money;
-using MovieService.Domain.Movies;
+﻿using MovieService.Domain.Movies;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Application.Movies.CreateMovie
