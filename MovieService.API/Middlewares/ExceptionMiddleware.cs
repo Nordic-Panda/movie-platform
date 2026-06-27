@@ -1,4 +1,5 @@
 ﻿using MovieService.API.Contracts;
+using MovieService.API.Mappers;
 using MovieService.Application.Common.Exceptions;
 using MovieService.Domain.Exceptions;
 
@@ -28,43 +29,13 @@ namespace MovieService.API.Middlewares
 
         private static async Task HandleException(HttpContext context, Exception ex)
         {
-            Console.WriteLine(ex.GetType().FullName);
-            var (code, message, statusCode, details) = ex switch
-            {
-                DomainException e => (
-                    e.Code,
-                    e.Message,
-                    StatusCodes.Status400BadRequest,
-                    null
-                ),
-
-                ValidationException e => (
-                    "VALIDATION_ERROR",
-                    e.Message,
-                    StatusCodes.Status400BadRequest,
-                    e.Errors
-                ),
-
-                KeyNotFoundException e => (
-                    "NOT_FOUND",
-                    e.Message,
-                    StatusCodes.Status404NotFound,
-                    null
-                ),
-
-                _ => (
-                     "SERVER_ERROR",
-                     "Something went wrong",
-                     StatusCodes.Status500InternalServerError,
-                     null
-                 )
-            };
+            var (code, message, statusCode, details) = ExceptionMapper.Map(ex);
 
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = "application/json";
 
             await context.Response.WriteAsJsonAsync(
-                ApiResponse<object>.Fail(code, message, details)
+                ApiResponse<Dictionary<string, string[]>>.Fail(code, message, details)
             );
         }
     }
