@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Contracts;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Movies.CreateMovie;
+using MovieService.Application.Movies.GetMovieById;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MovieService.Api.Controllers;
 
@@ -10,25 +12,6 @@ namespace MovieService.Api.Controllers;
 [Route("api/[controller]")]
 public class MoviesController : ControllerBase
 {
-    //private readonly CreateMovieHandler _createMovieHandler;
-
-    //public MoviesController(CreateMovieHandler createMovieHandler)
-    //{
-    //    _createMovieHandler = createMovieHandler;
-    //}
-
-    //[HttpPost]
-    //public async Task<IActionResult> Create(CreateMovieRequest request)
-    //{
-    //    var result = await _createMovieHandler.AddMovie(request);
-
-    //    return CreatedAtAction(
-    //        nameof(GetById),
-    //        new { id = result.Id },
-    //        ApiResponse<MovieDto>.Ok(result)
-    //    );
-    //}
-
     private readonly IMediator _mediator;
 
     public MoviesController(IMediator mediator)
@@ -47,9 +30,10 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        // placeholder
-        return Ok();
+        var result = await _mediator.Send(new GetMovieByIdQuery(id));
+
+        return Ok(ApiResponse<MovieDto>.Ok(result));
     }
 }

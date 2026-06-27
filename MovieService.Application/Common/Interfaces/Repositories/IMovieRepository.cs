@@ -5,6 +5,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
 {
     public interface IMovieRepository
     {
-        Task AddAsync(Movie movie);
+        Task<Movie?> AddAsync(Movie movie);
+        Task<Movie?> GetByIdAsync(Guid id);
     }
 }

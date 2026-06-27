@@ -1,9 +1,9 @@
 ﻿using MovieService.Application.Common.DTOs;
 using MovieService.Domain.Movies;
 
-namespace MovieService.Application.Movies.CreateMovie
+namespace MovieService.Application.Common.Mappers
 {
-    public static class CreateMovieMapper
+    public static class MovieMapper
     {
         public static MovieDto ToDto(Movie movie)
         {
