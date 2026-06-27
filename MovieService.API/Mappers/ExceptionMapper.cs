@@ -24,8 +24,8 @@ namespace MovieService.API.Mappers
                     e.Errors
                 ),
 
-                KeyNotFoundException e => (
-                    "NOT_FOUND",
+                NotFoundException e => (
+                    e.Code,
                     e.Message,
                     StatusCodes.Status404NotFound,
                     null
