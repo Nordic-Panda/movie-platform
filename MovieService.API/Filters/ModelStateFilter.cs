@@ -18,7 +18,7 @@ namespace MovieService.API.Filters
                     );
 
                 context.Result = new BadRequestObjectResult(
-                    ApiResponse<object>.Fail(
+                    ApiResponse<Dictionary<string, string[]>>.Fail(
                         "MODEL_VALIDATION_ERROR",
                         "Request validation failed",
                         errors
