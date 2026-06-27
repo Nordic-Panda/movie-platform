@@ -1,7 +1,8 @@
-﻿using MovieService.Application.Common.Interfaces.Repositories;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
+using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Domain.Movies;
 using MovieService.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace MovieService.Infrastructure.Persistence.Movies
 {
@@ -17,7 +18,11 @@ namespace MovieService.Infrastructure.Persistence.Movies
         public async Task AddAsync(Movie movie)
         {
             await _context.Movies.AddAsync(movie);
-            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            await _context.Movies.Where(m => m.Id == id).ExecuteDeleteAsync();
         }
 
         public async Task<IReadOnlyList<Movie>> GetAllMoviesAsync()

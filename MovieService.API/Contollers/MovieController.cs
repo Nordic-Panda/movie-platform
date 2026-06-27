@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Contracts;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Movies.CreateMovie;
+using MovieService.Application.Movies.DeleteMovieById;
 using MovieService.Application.Movies.GetAllMovies;
 using MovieService.Application.Movies.GetMovieById;
 using MovieService.Application.Movies.GetMovieDetailsById;
@@ -11,7 +12,7 @@ using MovieService.Application.Movies.UpdateMovie;
 namespace MovieService.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/movies")]
 public class MoviesController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -61,5 +62,14 @@ public class MoviesController : ControllerBase
         var result = await _mediator.Send(command);
 
         return Ok(ApiResponse<MovieDto>.Ok(result));
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteMovie(Guid id)
+    {
+        await _mediator.Send(new DeleteMovieCommand(id));
+
+        // This breaks REST a little bit, should have been NoContent, but held response consistancy
+        return Ok(ApiResponse<string>.Ok("Deleted"));
     }
 }
