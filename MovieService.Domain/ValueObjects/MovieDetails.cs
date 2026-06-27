@@ -1,7 +1,4 @@
-﻿using MovieService.Domain.Exceptions;
-using MovieService.Domain.Movies;
-
-namespace MovieService.Domain.ValueObjects
+﻿namespace MovieService.Domain.ValueObjects
 {
     public class MovieDetails
     {
@@ -10,14 +7,8 @@ namespace MovieService.Domain.ValueObjects
         public Money? Budget { get; }
         private MovieDetails(){ }
 
-        public MovieDetails(string language, string? synopsis = null, Money? budget = null)
+        internal MovieDetails(string language, string? synopsis = null, Money? budget = null)
         {
-
-            if (string.IsNullOrWhiteSpace(language))
-                throw new DomainException(
-                    MovieErrors.LanguageInvalidCode,
-                    MovieErrors.LanguageInvalidMessage);
-
             Language = language;
             Synopsis = synopsis;
             Budget = budget;

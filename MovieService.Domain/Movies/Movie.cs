@@ -23,5 +23,13 @@ namespace MovieService.Domain.Movies
             Genre = genre;
             Details = details;
         }
+
+        public void Update(string title, TimeSpan duration, Genre genre, MovieDetails details)
+        { 
+            Title = title;
+            Duration = duration;
+            Genre = genre;
+            Details = details;
+        }
     }
 }

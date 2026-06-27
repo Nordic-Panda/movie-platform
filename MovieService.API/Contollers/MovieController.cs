@@ -6,6 +6,7 @@ using MovieService.Application.Movies.CreateMovie;
 using MovieService.Application.Movies.GetAllMovies;
 using MovieService.Application.Movies.GetMovieById;
 using MovieService.Application.Movies.GetMovieDetailsById;
+using MovieService.Application.Movies.UpdateMovie;
 
 namespace MovieService.Api.Controllers;
 
@@ -52,5 +53,13 @@ public class MoviesController : ControllerBase
         var result = await _mediator.Send(new GetMovieDetailsByIdQuery(id));
 
         return Ok(ApiResponse<MovieDetailsDto>.Ok(result));
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateMovie(UpdateMovieCommand command)
+    {
+        var result = await _mediator.Send(command);
+
+        return Ok(ApiResponse<MovieDto>.Ok(result));
     }
 }
