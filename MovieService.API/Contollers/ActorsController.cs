@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Contracts;
 using MovieService.Application.Actors.CreateActor;
+using MovieService.Application.Actors.GetActorById;
 using MovieService.Application.Actors.GetActors;
 using MovieService.Application.Common.DTOs;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -30,10 +31,11 @@ namespace MovieService.API.Contollers
         }
 
         // GET api/<ActorsController>/5
-        [HttpGet("{id}")]
-        public string GetById(int id)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id)
         {
-            return "value";
+            var actor = await _mediator.Send(new GetActorByIdQuery(id));
+            return Ok(ApiResponse<ActorDto>.Ok(actor));
         }
 
         // POST api/<ActorsController>

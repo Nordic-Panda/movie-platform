@@ -9,5 +9,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task SaveChangesAsync();
 
         Task<IReadOnlyList<Actor>> GetAllActorsAsync();
+
+        Task<Actor?> GetByIdAsync(Guid id);
     }
 }

@@ -24,6 +24,11 @@ namespace MovieService.Infrastructure.Persistence.Actors
             return (await _context.Actors.ToListAsync()).AsReadOnly();
         }
 
+        public async Task<Actor?> GetByIdAsync(Guid id)
+        {
+            return await _context.Actors.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

@@ -19,7 +19,7 @@ namespace MovieService.Application.Movies.DeleteMovieById
             var movie = await _movieRepository.GetByIdAsync(request.Id);
 
             if (movie == null)
-                throw new NotFoundException(MovieErrors.MovieNotFoundCode, MovieErrors.MovieNotFoundMessage);
+                throw new NotFoundException(ActorErrors.MovieNotFoundCode, ActorErrors.MovieNotFoundMessage);
 
             await _movieRepository.DeleteAsync(request.Id);
         }
