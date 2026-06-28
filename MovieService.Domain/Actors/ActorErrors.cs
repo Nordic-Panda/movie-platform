@@ -11,5 +11,8 @@
         public const string ActorBirthYearInvalidCode = "ACTOR_BIRTHYEAR_INVALID";
         public static string ActorBirthYearInvalidMessage(int startingYear, int currentYear)
             => $"Actor birth year must be between {startingYear} and {currentYear}.";
+
+        public const string ActorNotFoundCode = "ACTOR_NOT_FOUND";
+        public const string ActorNotFoundMessage = "Actor not found";
     }
 }
