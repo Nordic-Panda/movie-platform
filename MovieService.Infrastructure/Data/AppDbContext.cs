@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieService.Domain.Actors;
+using MovieService.Domain.Entities;
 using MovieService.Domain.Movies;
 using MovieService.Infrastructure.Rules;
 using System.Diagnostics.Metrics;
@@ -15,6 +16,7 @@ public class AppDbContext : DbContext
 
     public DbSet<Movie> Movies => Set<Movie>();
     public DbSet<Actor> Actors => Set<Actor>();
+    public DbSet<MovieActor> MovieActor => Set<MovieActor>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -63,6 +65,20 @@ public class AppDbContext : DbContext
                 .IsRequired();
 
             entity.Property(x => x.BirthYear)
+                .IsRequired();
+        });
+
+        modelBuilder.Entity<MovieActor>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+
+            entity.Property(x => x.MovieId)
+                .IsRequired();
+
+            entity.Property(x => x.ActorId)
+                .IsRequired();
+
+            entity.Property(x => x.CharacterName)
                 .IsRequired();
         });
     }
