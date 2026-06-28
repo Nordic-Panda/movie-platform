@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Contracts;
 using MovieService.Application.Actors.CreateActor;
+using MovieService.Application.Actors.GetActors;
 using MovieService.Application.Common.DTOs;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -21,9 +22,11 @@ namespace MovieService.API.Contollers
 
         // GET: api/<ActorsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var allActors = await _mediator.Send(new GetActorsQuery());
+
+            return Ok(ApiResponse<IReadOnlyList<ActorDto>>.Ok(allActors));
         }
 
         // GET api/<ActorsController>/5

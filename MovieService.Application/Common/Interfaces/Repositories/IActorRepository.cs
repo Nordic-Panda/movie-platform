@@ -7,5 +7,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task AddAsync(Actor actor);
 
         Task SaveChangesAsync();
+
+        Task<IReadOnlyList<Actor>> GetAllActorsAsync();
     }
 }
