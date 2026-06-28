@@ -41,7 +41,7 @@ public class AppDbContext : DbContext
                 {
                     money.Property(m => m.Amount);
                     money.Property(m => m.Currency)
-                        .HasMaxLength(3);
+                        .HasMaxLength(DbMovieRules.CurrencyLength);
                 });
             });
         });
