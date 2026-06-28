@@ -1,9 +1,7 @@
-﻿using MovieService.Application.Common.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Domain.Actors;
 using MovieService.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MovieService.Infrastructure.Persistence.Actors
 {
@@ -19,6 +17,11 @@ namespace MovieService.Infrastructure.Persistence.Actors
         public async Task AddAsync(Actor actor)
         {
             await _context.Actors.AddAsync(actor);
+        }
+
+        public async Task<IReadOnlyList<Actor>> GetAllActorsAsync()
+        {
+            return (await _context.Actors.ToListAsync()).AsReadOnly();
         }
 
         public async Task SaveChangesAsync()
