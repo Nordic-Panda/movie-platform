@@ -8,6 +8,7 @@ public class CreateMovieValidator : AbstractValidator<CreateMovieCommand>
 {
     public CreateMovieValidator()
     {
+        // This is mixed business logic validation and input validation
         RuleFor(x => x.Title)
             .NotEmpty()
             .MinimumLength(MovieRules.TitleMinLength)
