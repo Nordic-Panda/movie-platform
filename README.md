@@ -1,7 +1,7 @@
 ct is not used
 
 # movie-platform
-Full-stack learning project built with .NET, React, and TypeScript, focused on microservices architecture, Clean Architecture, authentication, testing, and cloud-native development.
+Full-stack learning project built with .NET, React, and TypeScript, focused on Clean Architecture, authentication, testing, and cloud-native development.
 
 ## Self Note
 1. Using Value objects. Stuff that is identified by Value, not identity ID. Value object is Data + rules + domain behavior, VO or not depends on the business rules, lifecycle, ownership, and consistency requirements. MovieDetails is just descriptive data thus VO here.
