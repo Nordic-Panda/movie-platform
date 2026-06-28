@@ -18,5 +18,12 @@ namespace MovieService.Domain.Actors
             LastName = lName;
             BirthYear = birthYear;
         }
+
+        public void Update(string fName, string lName, int birthYear)
+        {
+            FirstName = fName;
+            LastName = lName;
+            BirthYear = birthYear;
+        }
     }
 }

@@ -4,8 +4,8 @@ using MovieService.API.Contracts;
 using MovieService.Application.Actors.CreateActor;
 using MovieService.Application.Actors.GetActorById;
 using MovieService.Application.Actors.GetActors;
+using MovieService.Application.Actors.PutActor;
 using MovieService.Application.Common.DTOs;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace MovieService.API.Contollers
@@ -21,7 +21,6 @@ namespace MovieService.API.Contollers
             _mediator = mediator;
         }
 
-        // GET: api/<ActorsController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -30,35 +29,34 @@ namespace MovieService.API.Contollers
             return Ok(ApiResponse<IReadOnlyList<ActorDto>>.Ok(allActors));
         }
 
-        // GET api/<ActorsController>/5
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var actor = await _mediator.Send(new GetActorByIdQuery(id));
-            return Ok(ApiResponse<ActorDto>.Ok(actor));
+            var actorDto = await _mediator.Send(new GetActorByIdQuery(id));
+            return Ok(ApiResponse<ActorDto>.Ok(actorDto));
         }
 
-        // POST api/<ActorsController>
         [HttpPost]
         public async Task<IActionResult> Create(CreateActorCommand command)
         {
-            var result = await _mediator.Send(command);
+            var actorDto = await _mediator.Send(command);
             return CreatedAtAction(
                 nameof(GetById),
-                new { id = result.Id },
-                ApiResponse<ActorDto>.Ok(result));
+                new { id = actorDto.Id },
+                ApiResponse<ActorDto>.Ok(actorDto));
         }
 
-        // PUT api/<ActorsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<IActionResult> Put(PutActorCommand command)
         {
+            var actorDto = await _mediator.Send(command);
+            return Ok(ApiResponse<ActorDto>.Ok(actorDto));
         }
 
-        // DELETE api/<ActorsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// DELETE api/<ActorsController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }
