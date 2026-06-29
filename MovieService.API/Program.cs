@@ -72,8 +72,8 @@ builder.Services.AddTransient(
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblyContaining<CreateMovieHandler>());
 
-// Application layer
-builder.Services.AddScoped<CreateMovieHandler>();
+// Application layer, not needed since we using mediatR
+//builder.Services.AddScoped<CreateMovieHandler>();
 
 // Infrastructure layer
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
