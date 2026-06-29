@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieService.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MovieService.Infrastructure.Data;
 namespace MovieService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260628095933_AddActors")]
+    partial class AddActors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,27 +45,6 @@ namespace MovieService.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Actors");
-                });
-
-            modelBuilder.Entity("MovieService.Domain.Entities.MovieActor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ActorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CharacterName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MovieActor");
                 });
 
             modelBuilder.Entity("MovieService.Domain.Movies.Movie", b =>

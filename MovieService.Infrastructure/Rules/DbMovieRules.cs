@@ -8,5 +8,6 @@
 
         public const int SynopsisMaxLength = 1000;
 
+        public const int CurrencyLength = 3;
     }
 }
