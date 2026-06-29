@@ -10,6 +10,7 @@ using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Movies.CreateMovie;
 using MovieService.Infrastructure.Data;
 using MovieService.Infrastructure.Persistence.Actors;
+using MovieService.Infrastructure.Persistence.MovieActors;
 using MovieService.Infrastructure.Persistence.Movies;
 using System.Text.Json.Serialization;
 
@@ -77,6 +78,7 @@ builder.Services.AddScoped<CreateMovieHandler>();
 // Infrastructure layer
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
+builder.Services.AddScoped<IMovieActorRepository, MovieActorRepository>();
 
 var app = builder.Build();
 
