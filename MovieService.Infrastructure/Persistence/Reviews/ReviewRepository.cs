@@ -15,7 +15,7 @@ namespace MovieService.Infrastructure.Persistence.Reviews
 
         public async Task AddReviewAsync(Review review)
         {
-            //await _context.Reviews.AddAsync(review);
+            await _context.Reviews.AddAsync(review);
         }
 
         public async Task SaveChangesAsync()
