@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Interfaces.Repositories;
+using MovieService.Application.Common.Mappers;
+using MovieService.Domain.Reviews;
 
 namespace MovieService.Application.Reviews.CreateReview
 {
@@ -15,10 +17,13 @@ namespace MovieService.Application.Reviews.CreateReview
 
         public async Task<ReviewDto> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
-            //var review = ReviewFac
-            //await _reviewRepository.AddReviewAsync();
-            //await _reviewRepository.SaveChangesAsync();
-            throw new NotImplementedException();
+            var review = ReviewFactory.Create(request.MovieId, request.Comment, request.Rating);
+
+            await _reviewRepository.AddReviewAsync(review);
+
+            await _reviewRepository.SaveChangesAsync();
+
+            return ReviewMapper.ToDto(review);
         }
     }
 }
