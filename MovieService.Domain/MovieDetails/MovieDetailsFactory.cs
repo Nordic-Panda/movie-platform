@@ -10,8 +10,8 @@ namespace MovieService.Domain.Movie.Details
         {
             if (string.IsNullOrWhiteSpace(language))
                 throw new DomainException(
-                    ActorErrors.LanguageInvalidCode,
-                    ActorErrors.LanguageInvalidMessage);
+                    MovieErrors.LanguageInvalidCode,
+                    MovieErrors.LanguageInvalidMessage);
 
             return new MovieDetails(language.ToUpper(), synopsis, budget);
         }

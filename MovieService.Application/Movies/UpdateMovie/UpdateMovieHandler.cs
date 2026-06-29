@@ -23,7 +23,7 @@ namespace MovieService.Application.Movies.UpdateMovie
             var movie = await _movieRepository.GetByIdAsync(request.Id);
 
             if (movie == null)
-                throw new NotFoundException(ActorErrors.MovieNotFoundCode, ActorErrors.MovieNotFoundMessage);
+                throw new NotFoundException(MovieErrors.MovieNotFoundCode, MovieErrors.MovieNotFoundMessage);
 
             // FluentValidation will be checking if this has value
             TimeSpan duration = TimeSpan.FromMinutes(request.DurationMinutes);

@@ -22,7 +22,7 @@ namespace MovieService.Application.Movies.GetMovieById
             var movie = await _movieRepository.GetByIdAsync(request.Id);
 
             if (movie == null)
-                throw new NotFoundException(ActorErrors.MovieNotFoundCode, ActorErrors.MovieNotFoundMessage);
+                throw new NotFoundException(MovieErrors.MovieNotFoundCode, MovieErrors.MovieNotFoundMessage);
 
             return MovieMapper.ToDto(movie);
         }

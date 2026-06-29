@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Contracts;
 using MovieService.Application.Common.DTOs;
+using MovieService.Application.Common.Mappers;
+using MovieService.Application.Movies.AddActorToMovie;
 using MovieService.Application.Movies.CreateMovie;
 using MovieService.Application.Movies.DeleteMovieById;
 using MovieService.Application.Movies.GetAllMovies;
@@ -71,5 +73,15 @@ public class MoviesController : ControllerBase
 
         // This breaks REST a little bit, should have been NoContent, but held response consistancy
         return Ok(ApiResponse<string>.Ok("Deleted"));
+    }
+
+    [HttpPost("{movieId:guid}/actors")]
+    public async Task<IActionResult> AddActorToMovie(
+    Guid movieId,
+    AddActorToMovieRequest request)
+    {
+        var command = MovieActorMapper.ToAddActorToMovieCommand(movieId, request.ActorId, request.CharacterName);
+        var result = await _mediator.Send(command);
+        return Ok(ApiResponse<MovieActorDto>.Ok(result));
     }
 }
