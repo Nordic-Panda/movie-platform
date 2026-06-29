@@ -1,6 +1,6 @@
 ﻿namespace MovieService.Domain.Movies
 {
-    public class ActorErrors
+    public class MovieErrors
     {
         public const string TitleEmptyCode = "MOVIE_EMPTY_TITLE";
         public const string TitleEmptyMessage = "Movie title is required";
