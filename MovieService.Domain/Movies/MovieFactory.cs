@@ -14,33 +14,33 @@ namespace MovieService.Domain.Movies
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new DomainException(
-                    ActorErrors.TitleEmptyCode,
-                    ActorErrors.TitleEmptyMessage);
+                    MovieErrors.TitleEmptyCode,
+                    MovieErrors.TitleEmptyMessage);
 
             if (title.Length < MovieRules.TitleMinLength)
                 throw new DomainException(
-                    ActorErrors.TitleTooShortCode,
-                    ActorErrors.TitleTooShortMessage(MovieRules.TitleMinLength));
+                    MovieErrors.TitleTooShortCode,
+                    MovieErrors.TitleTooShortMessage(MovieRules.TitleMinLength));
 
             if (title.Length > MovieRules.TitleMaxLength)
                 throw new DomainException(
-                    ActorErrors.TitleTooLongCode,
-                    ActorErrors.TitleTooLongMessage(MovieRules.TitleMaxLength));
+                    MovieErrors.TitleTooLongCode,
+                    MovieErrors.TitleTooLongMessage(MovieRules.TitleMaxLength));
 
             if (duration < MovieRules.MinDuration)
                 throw new DomainException(
-                    ActorErrors.DurationTooShortCode,
-                    ActorErrors.DurationTooShortMessage((int)MovieRules.MinDuration.TotalMinutes));
+                    MovieErrors.DurationTooShortCode,
+                    MovieErrors.DurationTooShortMessage((int)MovieRules.MinDuration.TotalMinutes));
 
             if (duration > MovieRules.MaxDuration)
                 throw new DomainException(
-                    ActorErrors.DurationTooLongCode,
-                    ActorErrors.DurationTooLongMessage((int)MovieRules.MinDuration.TotalMinutes));
+                    MovieErrors.DurationTooLongCode,
+                    MovieErrors.DurationTooLongMessage((int)MovieRules.MinDuration.TotalMinutes));
 
             if (!Enum.IsDefined(genre))
                 throw new DomainException(
-                    ActorErrors.GenreInvalidCode,
-                    ActorErrors.GenreInvalidMessage);
+                    MovieErrors.GenreInvalidCode,
+                    MovieErrors.GenreInvalidMessage);
 
             return new Movie(
                 Guid.NewGuid(),
