@@ -45,7 +45,7 @@ public class MoviesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetMovies([FromQuery] GetMoviesQuery query)
     {
-        var result = await _mediator.Send(new GetMoviesQuery());
+        var result = await _mediator.Send(query);
 
         return Ok(ApiResponse<IReadOnlyList<MovieDto>>.Ok(result));
     }
