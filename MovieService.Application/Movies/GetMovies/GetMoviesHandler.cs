@@ -28,6 +28,7 @@ namespace MovieService.Application.Movies.GetMovies
             var query = movies
                 .ApplyGenreFilter(request.Genre)
                 .ApplyTitleFilter(request.Title)
+                .ApplyDurationFilter(request.Duration)
                 .ApplyActorFilter(
                     request.ActorFirstName,
                     request.ActorLastName,
