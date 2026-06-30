@@ -27,6 +27,13 @@ namespace MovieService.Application.Movies.GetMovies.Filters
 
             var actorIds = actorQuery.Select(a => a.Id);
 
+
+            // Many to many template
+            //query.Where(main =>
+            //    joinSet.Any(j =>
+            //        j.MainId == main.Id &&
+            //        condition))
+
             return query.Where(m =>
                 movieActors.Any(ma =>
                     ma.MovieId == m.Id &&

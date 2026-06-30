@@ -4,7 +4,7 @@ namespace MovieService.Application.Movies.GetMovies.Filters
 {
     public static class MovieTitleFilter
     {
-        public static IQueryable<Movie> ApplyTitle(
+        public static IQueryable<Movie> ApplyTitleFilter(
             this IQueryable<Movie> query,
             string? title)
         {

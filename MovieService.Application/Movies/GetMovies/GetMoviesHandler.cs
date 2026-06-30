@@ -26,8 +26,8 @@ namespace MovieService.Application.Movies.GetMovies
 
             // These are still just IQueryable / Expression tree
             var query = movies
-                .ApplyGenre(request.Genre)
-                .ApplyTitle(request.Title)
+                .ApplyGenreFilter(request.Genre)
+                .ApplyTitleFilter(request.Title)
                 .ApplyActorFilter(
                     request.ActorFirstName,
                     request.ActorLastName,

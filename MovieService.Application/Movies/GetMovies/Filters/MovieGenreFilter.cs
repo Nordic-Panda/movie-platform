@@ -7,7 +7,7 @@ namespace MovieService.Application.Movies.GetMovies.Filters
     // Feature-based filters
     public static class MovieGenreFilter
     {
-        public static IQueryable<Movie> ApplyGenre(
+        public static IQueryable<Movie> ApplyGenreFilter(
             this IQueryable<Movie> query,
             string? genre)
         {

@@ -4,7 +4,7 @@ namespace MovieService.Application.Movies.GetMovies.Filters
 {
     public static class MovieDurationFilter
     {
-        public static IQueryable<Movie> ApplyDuration(
+        public static IQueryable<Movie> ApplyDurationFilter(
             this IQueryable<Movie> query,
             int? duration) 
         {
