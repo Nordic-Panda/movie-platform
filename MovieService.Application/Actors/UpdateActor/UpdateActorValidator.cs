@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using MovieService.Domain.Actors;
 
-namespace MovieService.Application.Actors.PutActor
+namespace MovieService.Application.Actors.UpdateActor
 {
-    public class PutActorValidator : AbstractValidator<PutActorCommand>
+    public class UpdateActorValidator : AbstractValidator<UpdateActorCommand>
     {
-        public PutActorValidator() 
+        public UpdateActorValidator() 
         {
             RuleFor(x => x.Id)
                 .NotEmpty();

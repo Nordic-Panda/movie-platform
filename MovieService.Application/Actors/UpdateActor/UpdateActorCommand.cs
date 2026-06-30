@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
 
-namespace MovieService.Application.Actors.PutActor
+namespace MovieService.Application.Actors.UpdateActor
 {
-    public record PutActorCommand
+    public record UpdateActorCommand
     (
         Guid Id,
         string FirstName,
