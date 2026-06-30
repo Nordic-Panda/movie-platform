@@ -2,7 +2,9 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MovieService.API.Contracts;
 using MovieService.API.Filters;
+using MovieService.API.Mappers;
 using MovieService.API.Middlewares;
 using MovieService.Application.Behaviors;
 using MovieService.Application.Common.DTOs;
@@ -12,6 +14,7 @@ using MovieService.Infrastructure.Data;
 using MovieService.Infrastructure.Persistence.Actors;
 using MovieService.Infrastructure.Persistence.MovieActors;
 using MovieService.Infrastructure.Persistence.Movies;
+using MovieService.Infrastructure.Persistence.Reviews;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,13 +75,14 @@ builder.Services.AddTransient(
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblyContaining<CreateMovieHandler>());
 
-// Application layer
-builder.Services.AddScoped<CreateMovieHandler>();
+// Application layer, not needed since we using mediatR
+//builder.Services.AddScoped<CreateMovieHandler>();
 
 // Infrastructure layer
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<IMovieActorRepository, MovieActorRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 var app = builder.Build();
 
@@ -90,6 +94,26 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// For MVC error
+app.UseStatusCodePages(async context =>
+{
+    var response = context.HttpContext.Response;
+
+    var (code, message) = response.StatusCode switch
+    {
+        404 => ("NOT_FOUND", "The requested resource was not found"),
+        405 => ("METHOD_NOT_ALLOWED", "HTTP method not allowed"),
+        _ => ("HTTP_ERROR", "Request failed")
+    };
+
+    response.ContentType = "application/json";
+
+    await response.WriteAsJsonAsync(
+        ApiResponse<Dictionary<string, string[]>>.Fail(code, message)
+    );
+});
+
 
 // Custom exception middleware, order matters here
 app.UseMiddleware<ExceptionMiddleware>();

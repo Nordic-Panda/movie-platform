@@ -5,17 +5,17 @@ using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
 using MovieService.Domain.Actors;
 
-namespace MovieService.Application.Actors.PutActor
+namespace MovieService.Application.Actors.UpdateActor
 {
-    public class PutActorHandler : IRequestHandler<PutActorCommand, ActorDto>
+    public class UpdateActorHandler : IRequestHandler<UpdateActorCommand, ActorDto>
     {
         private readonly IActorRepository _actorRepository;
 
-        public PutActorHandler(IActorRepository actorRepository)
+        public UpdateActorHandler(IActorRepository actorRepository)
         {
             _actorRepository = actorRepository;
         }
-        public async Task<ActorDto> Handle(PutActorCommand request, CancellationToken cancellationToken)
+        public async Task<ActorDto> Handle(UpdateActorCommand request, CancellationToken cancellationToken)
         {
             var actor = await _actorRepository.GetByIdAsync(request.Id);
 
