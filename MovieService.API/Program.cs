@@ -2,7 +2,9 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MovieService.API.Contracts;
 using MovieService.API.Filters;
+using MovieService.API.Mappers;
 using MovieService.API.Middlewares;
 using MovieService.Application.Behaviors;
 using MovieService.Application.Common.DTOs;
@@ -92,6 +94,26 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// For MVC error
+app.UseStatusCodePages(async context =>
+{
+    var response = context.HttpContext.Response;
+
+    var (code, message) = response.StatusCode switch
+    {
+        404 => ("NOT_FOUND", "The requested resource was not found"),
+        405 => ("METHOD_NOT_ALLOWED", "HTTP method not allowed"),
+        _ => ("HTTP_ERROR", "Request failed")
+    };
+
+    response.ContentType = "application/json";
+
+    await response.WriteAsJsonAsync(
+        ApiResponse<Dictionary<string, string[]>>.Fail(code, message)
+    );
+});
+
 
 // Custom exception middleware, order matters here
 app.UseMiddleware<ExceptionMiddleware>();
