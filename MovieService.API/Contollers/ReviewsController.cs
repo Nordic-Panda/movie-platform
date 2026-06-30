@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Contracts;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Reviews.CreateReview;
+using MovieService.Application.Reviews.GetReviewById;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,11 +29,13 @@ namespace MovieService.API.Contollers
         //    return new string[] { "value1", "value2" };
         //}
 
-        // GET api/<ReviewsController>/5
-        [HttpGet("{id}")]
-        public string GetById(int id)
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id)
         {
-            return "value";
+            var reviewDto = await _mediator.Send(new GetReviewByIdQuery(id));
+
+            return Ok(ApiResponse<ReviewDto>.Ok(reviewDto));
         }
 
         [HttpPost("movies/{movieId:guid}")]
