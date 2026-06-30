@@ -1,5 +1,4 @@
-﻿using Azure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Domain.Movies;
 using MovieService.Infrastructure.Data;
