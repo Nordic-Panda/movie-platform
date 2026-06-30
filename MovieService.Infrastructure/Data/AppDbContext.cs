@@ -2,8 +2,8 @@
 using MovieService.Domain.Actors;
 using MovieService.Domain.Entities;
 using MovieService.Domain.Movies;
+using MovieService.Domain.Reviews;
 using MovieService.Infrastructure.Rules;
-using System.Diagnostics.Metrics;
 
 namespace MovieService.Infrastructure.Data;
 
@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<Movie> Movies => Set<Movie>();
     public DbSet<Actor> Actors => Set<Actor>();
     public DbSet<MovieActor> MovieActor => Set<MovieActor>();
+    public DbSet<Review> Reviews => Set<Review>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -79,6 +80,23 @@ public class AppDbContext : DbContext
                 .IsRequired();
 
             entity.Property(x => x.CharacterName)
+                .IsRequired();
+
+            entity.HasIndex(x => new { x.MovieId, x.ActorId, x.CharacterName })
+                .IsUnique();
+        });
+
+        modelBuilder.Entity<Review>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+
+            entity.Property(x => x.MovieId)
+                .IsRequired();
+
+            entity.Property(x => x.Comment)
+                .IsRequired();
+
+            entity.Property(x => x.Rating)
                 .IsRequired();
         });
     }

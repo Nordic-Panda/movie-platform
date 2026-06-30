@@ -4,7 +4,7 @@ using MovieService.API.Contracts;
 using MovieService.Application.Actors.CreateActor;
 using MovieService.Application.Actors.GetActorById;
 using MovieService.Application.Actors.GetActors;
-using MovieService.Application.Actors.PutActor;
+using MovieService.Application.Actors.UpdateActor;
 using MovieService.Application.Common.DTOs;
 
 
@@ -47,7 +47,7 @@ namespace MovieService.API.Contollers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(PutActorCommand command)
+        public async Task<IActionResult> Put(UpdateActorCommand command)
         {
             var actorDto = await _mediator.Send(command);
             return Ok(ApiResponse<ActorDto>.Ok(actorDto));
