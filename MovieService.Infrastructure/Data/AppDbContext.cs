@@ -84,6 +84,13 @@ public class AppDbContext : DbContext
 
             entity.HasIndex(x => new { x.MovieId, x.ActorId, x.CharacterName })
                 .IsUnique();
+
+            // Cascade delete, on delete all Entity that has relation to this will be deleted
+
+            entity.HasOne<Movie>()
+                .WithMany()
+                .HasForeignKey(x => x.Id)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Review>(entity =>
@@ -98,6 +105,11 @@ public class AppDbContext : DbContext
 
             entity.Property(x => x.Rating)
                 .IsRequired();
+
+            entity.HasOne<Movie>()
+                .WithMany()
+                .HasForeignKey(x => x.Id)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

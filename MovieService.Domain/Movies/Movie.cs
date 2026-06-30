@@ -1,5 +1,4 @@
 ﻿using MovieService.Domain.Enums;
-using MovieService.Domain.Exceptions;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
