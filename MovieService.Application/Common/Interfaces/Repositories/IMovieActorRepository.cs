@@ -6,5 +6,6 @@ namespace MovieService.Application.Common.Interfaces.Repositories
     {
         Task AddActorToMovieAsync(MovieActor movieActor);
         Task SaveChangesAsync();
+        IQueryable<MovieActor> Query();
     }
 }

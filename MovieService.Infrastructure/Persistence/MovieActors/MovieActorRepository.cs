@@ -1,4 +1,5 @@
-﻿using MovieService.Application.Common.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Domain.Entities;
 using MovieService.Infrastructure.Data;
 namespace MovieService.Infrastructure.Persistence.MovieActors
@@ -20,6 +21,11 @@ namespace MovieService.Infrastructure.Persistence.MovieActors
         public async Task SaveChangesAsync()
         {
             await _appDbContext.SaveChangesAsync();
+        }
+
+        public IQueryable<MovieActor> Query()
+        {
+            return _appDbContext.MovieActor.AsQueryable();
         }
     }
 }

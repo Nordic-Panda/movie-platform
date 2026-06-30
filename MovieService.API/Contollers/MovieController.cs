@@ -6,9 +6,9 @@ using MovieService.Application.Common.Mappers;
 using MovieService.Application.Movies.AddActorToMovie;
 using MovieService.Application.Movies.CreateMovie;
 using MovieService.Application.Movies.DeleteMovieById;
-using MovieService.Application.Movies.GetAllMovies;
 using MovieService.Application.Movies.GetMovieById;
 using MovieService.Application.Movies.GetMovieDetailsById;
+using MovieService.Application.Movies.GetMovies;
 using MovieService.Application.Movies.UpdateMovie;
 
 namespace MovieService.Api.Controllers;
@@ -25,7 +25,7 @@ public class MoviesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateMovieCommand command)
+    public async Task<IActionResult> Create([FromBody] CreateMovieCommand command)
     {
         var result = await _mediator.Send(command);
         return CreatedAtAction(
@@ -35,7 +35,7 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         var result = await _mediator.Send(new GetMovieByIdQuery(id));
 
@@ -43,15 +43,15 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllMovies()
+    public async Task<IActionResult> GetMovies([FromQuery] GetMoviesQuery query)
     {
-        var result = await _mediator.Send(new GetAllMoviesQuery());
+        var result = await _mediator.Send(new GetMoviesQuery());
 
         return Ok(ApiResponse<IReadOnlyList<MovieDto>>.Ok(result));
     }
 
     [HttpGet("details/{id:guid}")]
-    public async Task<IActionResult> GetDetailsById(Guid id)
+    public async Task<IActionResult> GetDetailsById([FromRoute] Guid id)
     {
         var result = await _mediator.Send(new GetMovieDetailsByIdQuery(id));
 
@@ -59,7 +59,7 @@ public class MoviesController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateMovie(UpdateMovieCommand command)
+    public async Task<IActionResult> UpdateMovie([FromBody] UpdateMovieCommand command)
     {
         var result = await _mediator.Send(command);
 
@@ -67,7 +67,7 @@ public class MoviesController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteMovie(Guid id)
+    public async Task<IActionResult> DeleteMovie([FromRoute] Guid id)
     {
         await _mediator.Send(new DeleteMovieCommand(id));
 
@@ -77,8 +77,8 @@ public class MoviesController : ControllerBase
 
     [HttpPost("{movieId:guid}/actors")]
     public async Task<IActionResult> AddActorToMovie(
-    Guid movieId,
-    AddActorToMovieRequest request)
+    [FromRoute] Guid movieId,
+    [FromBody] AddActorToMovieRequest request)
     {
         var command = MovieActorMapper.ToAddActorToMovieCommand(movieId, request.ActorId, request.CharacterName);
         var result = await _mediator.Send(command);
