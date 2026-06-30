@@ -7,5 +7,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task AddReviewAsync(Review review);
 
         Task SaveChangesAsync();
+
+        Task<Review?> GetReviewById(Guid id);
     }
 }
