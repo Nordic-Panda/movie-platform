@@ -9,7 +9,9 @@ namespace MovieService.Infrastructure.Data
             if (db.Users.Any())
                 return;
 
-            db.Users.Add(new User(Guid.NewGuid(), "test@user.com", "password"));
+            var password = "pass";
+            var hashedPass = BCrypt.Net.BCrypt.HashPassword(password);
+            db.Users.Add(new User(Guid.NewGuid(), "test@user.com", hashedPass));
 
             await db.SaveChangesAsync();
         }

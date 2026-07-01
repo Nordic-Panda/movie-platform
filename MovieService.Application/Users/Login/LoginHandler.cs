@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using BCrypt.Net;
+using MediatR;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
@@ -21,9 +22,14 @@ namespace MovieService.Application.Users.Login
             var user = await _userRepository.GetUserByEmailAsync(request.Email);
 
             if (user == null)
-                throw new NotFoundException(UserErrors.NotFoundCode, UserErrors.NotFoundMessage);
+                throw new UnauthorizedException(UserErrors.NotFoundCode, UserErrors.NotFoundMessage);
 
-            // check password after hash
+            var passwordDoesMatch = BCrypt.Net.BCrypt.Verify(request.Password, user?.PasswordHash);
+
+            if (!passwordDoesMatch)
+                throw new UnauthorizedException(UserErrors.NotFoundCode, UserErrors.NotFoundMessage);
+
+
 
             // real accesstoken
             var accesstoken = "accesstoken dummy";
