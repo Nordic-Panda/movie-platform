@@ -2,7 +2,7 @@
 {
     public record LoginResponseDto(
         string AccessToken,
-        int ExpiresIn,
+        int ExpiresInMinutes,
         UserDto User
     );
 }

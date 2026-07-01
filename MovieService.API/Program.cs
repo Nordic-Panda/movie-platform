@@ -10,6 +10,8 @@ using MovieService.API.Common.Settings;
 using MovieService.Application.Behaviors;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
+using MovieService.Application.Common.Settings;
+using MovieService.Infrastructure.Auth;
 using MovieService.Infrastructure.Data;
 using MovieService.Infrastructure.Persistence.Actors;
 using MovieService.Infrastructure.Persistence.MovieActors;
@@ -61,9 +63,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.Configure<PaginationSettings>(
     builder.Configuration.GetSection("Pagination"));
 
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("Jwt"));
+
 // IOptions<PaginationSettings> is just a container, real PaginationSettings lays in Value of that container
 builder.Services.AddSingleton<IPaginationSettings>(sp =>
     sp.GetRequiredService<IOptions<PaginationSettings>>().Value);
+
 
 //
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)
@@ -88,6 +94,7 @@ builder.Services.AddMediatR(cfg =>
 
 // Application layer, not needed since we using mediatR
 //builder.Services.AddScoped<CreateMovieHandler>();
+builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
 // Infrastructure layer
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
