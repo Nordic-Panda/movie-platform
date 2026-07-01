@@ -2,14 +2,14 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MovieService.API.Contracts;
-using MovieService.API.Filters;
-using MovieService.API.Mappers;
-using MovieService.API.Middlewares;
+using Microsoft.Extensions.Options;
+using MovieService.API.Common.Contracts;
+using MovieService.API.Common.Filters;
+using MovieService.API.Common.Middlewares;
+using MovieService.API.Common.Settings;
 using MovieService.Application.Behaviors;
-using MovieService.Application.Common.DTOs;
+using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
-using MovieService.Application.Movies.CreateMovie;
 using MovieService.Infrastructure.Data;
 using MovieService.Infrastructure.Persistence.Actors;
 using MovieService.Infrastructure.Persistence.MovieActors;
@@ -53,6 +53,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("Default")
     ));
+
+// Register value from Configuration, note that this does not mean appsettings, this could be azure too
+// When using Azure config or something else, they inject more data to Configuration
+// So this is unchanged. This does not care where exactly data comes from
+builder.Services.Configure<PaginationSettings>(
+    builder.Configuration.GetSection("Pagination"));
+
+// IOptions<PaginationSettings> is just a container, real PaginationSettings lays in Value of that container
+builder.Services.AddSingleton<IPaginationSettings>(sp =>
+    sp.GetRequiredService<IOptions<PaginationSettings>>().Value);
 
 //
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)
