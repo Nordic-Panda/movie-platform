@@ -31,6 +31,13 @@ namespace MovieService.API.Common.Mappers
                     null
                 ),
 
+                UnauthorizedException e => (
+                    e.Code,
+                    e.Message,
+                    StatusCodes.Status401Unauthorized,
+                    null
+                ),
+
                 _ => (
                     "SERVER_ERROR",
                     "Something went wrong",
