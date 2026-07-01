@@ -2,11 +2,9 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MovieService.API.Common.Contracts;
 using MovieService.API.Common.Filters;
 using MovieService.API.Common.Middlewares;
-using MovieService.API.Common.Settings;
 using MovieService.Application.Behaviors;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
@@ -65,11 +63,6 @@ builder.Services.Configure<PaginationSettings>(
 
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("Jwt"));
-
-// IOptions<PaginationSettings> is just a container, real PaginationSettings lays in Value of that container
-builder.Services.AddSingleton<IPaginationSettings>(sp =>
-    sp.GetRequiredService<IOptions<PaginationSettings>>().Value);
-
 
 //
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)

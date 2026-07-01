@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MovieService.Application.Common.DTOs;
-using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
+using MovieService.Application.Common.Settings;
 using MovieService.Application.Movies.GetMovies.Filters;
 
 namespace MovieService.Application.Movies.GetMovies
@@ -12,14 +13,14 @@ namespace MovieService.Application.Movies.GetMovies
         private readonly IMovieRepository _movieRepository;
         private readonly IMovieActorRepository _movieActorRepository;
         private readonly IActorRepository _actorRepository;
-        private readonly IPaginationSettings _settings;
+        private readonly PaginationSettings _settings;
 
-        public GetMoviesHandler(IMovieRepository movieRepository, IMovieActorRepository movieActorRepository, IActorRepository actorRepository, IPaginationSettings settings)
+        public GetMoviesHandler(IMovieRepository movieRepository, IMovieActorRepository movieActorRepository, IActorRepository actorRepository, IOptions<PaginationSettings> settings)
         {
             _movieRepository = movieRepository;
             _movieActorRepository = movieActorRepository;
             _actorRepository = actorRepository;
-            _settings = settings;
+            _settings = settings.Value;
         }
         public async Task<IReadOnlyList<MovieDto>> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
         {
