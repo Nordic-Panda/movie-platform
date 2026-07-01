@@ -1,4 +1,5 @@
 ct is not used in all places
+JWT missing validation
 Navigation properties - read more about this
 Include - read more about this
 Tracking - AsNoTracking() - read later
