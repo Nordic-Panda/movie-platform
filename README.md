@@ -18,6 +18,8 @@ Full-stack learning project built with .NET, React, and TypeScript, focused on C
 
 7. MediatR. Get is query, Delete and Put is command. If Delete has no return type, use IRequest in command and Only sending command in IRequestHandler in command.
 
+8. This is Hybrid of Domain focused or DDD style for Entity AND CQRS. DDD style - Minimal navigation, it's clean domain, scalable, but more complex on queries and repository. CQRS style - WriteModel are simple, Read Model DTO with joins/projections, used in larger system. Full EF model - detailed navigation, easiest but can lead to over-fetching.
+
 
 ## Flow
 HTTP Request
