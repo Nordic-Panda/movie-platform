@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MovieService.Application.Users.login;
 
 namespace MovieService.API.Contollers
 {
@@ -15,9 +16,9 @@ namespace MovieService.API.Contollers
         }
 
         //[HttpPost("login")]
-        //public async Task<IActionResult> Login([FromBody] LoginCommand request) 
+        //public async Task<IActionResult> Login([FromBody] LoginCommand request)
         //{
-            
+
         //}
     }
 }
