@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using MovieService.API.Contracts;
+using MovieService.API.Common.Contracts;
 
-namespace MovieService.API.Filters
+namespace MovieService.API.Common.Filters
 {
     public class ModelStateFilter : IActionFilter
     {

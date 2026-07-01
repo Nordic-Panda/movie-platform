@@ -1,6 +1,6 @@
-﻿using MovieService.API.Contracts;
+﻿using MovieService.API.Common.Contracts;
 
-namespace MovieService.API.Mappers
+namespace MovieService.API.Common.Mappers
 {
     public static class ApiResponseFactory
     {

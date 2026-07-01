@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MovieService.Application.Common.DTOs;
+using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Movies.GetMovies.Filters;
 
@@ -11,15 +12,20 @@ namespace MovieService.Application.Movies.GetMovies
         private readonly IMovieRepository _movieRepository;
         private readonly IMovieActorRepository _movieActorRepository;
         private readonly IActorRepository _actorRepository;
+        private readonly IPaginationSettings _settings;
 
-        public GetMoviesHandler(IMovieRepository movieRepository, IMovieActorRepository movieActorRepository, IActorRepository actorRepository)
+        public GetMoviesHandler(IMovieRepository movieRepository, IMovieActorRepository movieActorRepository, IActorRepository actorRepository, IPaginationSettings settings)
         {
             _movieRepository = movieRepository;
             _movieActorRepository = movieActorRepository;
             _actorRepository = actorRepository;
+            _settings = settings;
         }
         public async Task<IReadOnlyList<MovieDto>> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
         {
+            var page = request.Page ?? _settings.DefaultPage;
+            var pageSize = _settings.DefaultPageSize;
+            
             var movies = _movieRepository.Query();
             var movieActors = _movieActorRepository.Query();
             var actors = _actorRepository.Query();
@@ -40,8 +46,8 @@ namespace MovieService.Application.Movies.GetMovies
             // We wouldn't waste resources, reduce load under heavy traffic
             var result = await query
                 .OrderBy(m => m.Title)
-                .Skip((request.Page - 1) * request.PageSize)
-                .Take(request.PageSize)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(m => new MovieDto
                 (
                     m.Id,

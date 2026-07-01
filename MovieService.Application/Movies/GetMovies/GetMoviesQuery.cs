@@ -9,7 +9,6 @@ namespace MovieService.Application.Movies.GetMovies
         int? Duration,
         string? ActorFirstName,
         string? ActorLastName,
-        int Page = 1,
-        int PageSize = 20
+        int? Page
     ) : IRequest<IReadOnlyList<MovieDto>>;
 }

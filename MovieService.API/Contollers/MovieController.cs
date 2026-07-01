@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MovieService.API.Contracts;
+using MovieService.API.Common.Contracts;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Mappers;
 using MovieService.Application.Movies.AddActorToMovie;

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using MovieService.API.Contracts;
+using MovieService.API.Common.Contracts;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Reviews.CreateReview;
 using MovieService.Application.Reviews.GetReviewById;

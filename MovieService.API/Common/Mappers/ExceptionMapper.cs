@@ -1,7 +1,7 @@
 ﻿using MovieService.Application.Common.Exceptions;
 using MovieService.Domain.Exceptions;
 
-namespace MovieService.API.Mappers
+namespace MovieService.API.Common.Mappers
 {
     public static class ExceptionMapper
     {

@@ -1,4 +1,4 @@
-﻿namespace MovieService.API.Contracts
+﻿namespace MovieService.API.Common.Contracts
 {
     public class ApiResponse<T>
     {
