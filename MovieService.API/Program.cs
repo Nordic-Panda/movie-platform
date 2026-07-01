@@ -15,6 +15,7 @@ using MovieService.Infrastructure.Persistence.Actors;
 using MovieService.Infrastructure.Persistence.MovieActors;
 using MovieService.Infrastructure.Persistence.Movies;
 using MovieService.Infrastructure.Persistence.Reviews;
+using MovieService.Infrastructure.Persistence.Users;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -93,6 +94,7 @@ builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<IMovieActorRepository, MovieActorRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

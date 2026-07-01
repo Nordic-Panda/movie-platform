@@ -5,7 +5,7 @@ using MovieService.Domain.Reviews;
 
 namespace MovieService.Infrastructure.Persistence.Reviews
 {
-    internal class ReviewsConfiguration : IEntityTypeConfiguration<Review>
+    internal class ReviewConfiguration : IEntityTypeConfiguration<Review>
     {
         void IEntityTypeConfiguration<Review>.Configure(EntityTypeBuilder<Review> entity)
         {

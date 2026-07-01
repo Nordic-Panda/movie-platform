@@ -5,11 +5,11 @@ using MovieService.Infrastructure.Data;
 
 namespace MovieService.Infrastructure.Persistence.Users
 {
-    public class UsersRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public UsersRepository(AppDbContext appDbContext)
+        public UserRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
