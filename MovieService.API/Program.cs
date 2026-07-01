@@ -125,6 +125,15 @@ app.UseStatusCodePages(async context =>
 });
 
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider
+        .GetRequiredService<AppDbContext>();
+
+    await DbSeeder.SeedUser(db);
+}
+
+
 // Custom exception middleware, order matters here
 app.UseMiddleware<ExceptionMiddleware>();
 

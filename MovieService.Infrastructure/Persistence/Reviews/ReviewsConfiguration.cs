@@ -22,7 +22,7 @@ namespace MovieService.Infrastructure.Persistence.Reviews
 
             entity.HasOne<Movie>()
                 .WithMany()
-                .HasForeignKey(x => x.Id)
+                .HasForeignKey(x => x.MovieId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

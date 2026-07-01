@@ -1,4 +1,4 @@
-﻿namespace MovieService.Domain.Exceptions
+﻿namespace MovieService.Domain.Common.Exceptions
 {
     // Custom Exception
     public class DomainException : Exception

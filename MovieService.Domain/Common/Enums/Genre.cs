@@ -1,4 +1,4 @@
-﻿namespace MovieService.Domain.Enums
+﻿namespace MovieService.Domain.Common.Enums
 {
     public enum Genre
     {

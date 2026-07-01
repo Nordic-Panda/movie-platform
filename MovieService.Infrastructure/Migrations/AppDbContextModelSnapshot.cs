@@ -108,7 +108,37 @@ namespace MovieService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MovieId");
+
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Users.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Entities.MovieActor", b =>
+                {
+                    b.HasOne("MovieService.Domain.Movies.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MovieService.Domain.Movies.Movie", b =>
@@ -159,6 +189,15 @@ namespace MovieService.Infrastructure.Migrations
                         });
 
                     b.Navigation("Details")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Reviews.Review", b =>
+                {
+                    b.HasOne("MovieService.Domain.Movies.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

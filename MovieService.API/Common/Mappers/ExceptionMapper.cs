@@ -1,5 +1,5 @@
 ﻿using MovieService.Application.Common.Exceptions;
-using MovieService.Domain.Exceptions;
+using MovieService.Domain.Common.Exceptions;
 
 namespace MovieService.API.Common.Mappers
 {
