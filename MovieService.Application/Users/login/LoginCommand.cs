@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
 
-namespace MovieService.Application.Users.login
+namespace MovieService.Application.Users.Login
 {
     public record LoginCommand
     (
