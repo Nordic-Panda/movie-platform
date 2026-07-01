@@ -3,7 +3,6 @@ using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
-using MovieService.Domain.Reviews;
 using MovieService.Domain.Users;
 
 namespace MovieService.Application.Users.Login
@@ -24,6 +23,9 @@ namespace MovieService.Application.Users.Login
             if (user == null)
                 throw new NotFoundException(UserErrors.NotFoundCode, UserErrors.NotFoundMessage);
 
+            // check password after hash
+
+            // real accesstoken
             var accesstoken = "accesstoken dummy";
             int expiresIn = 1000;
 

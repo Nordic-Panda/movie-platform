@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MovieService.Application.Users.login;
+using MovieService.API.Common.Contracts;
+using MovieService.Application.Common.DTOs;
+using MovieService.Application.Users.Login;
 
 namespace MovieService.API.Contollers
 {
@@ -15,10 +17,12 @@ namespace MovieService.API.Contollers
             _mediator = mediator;
         }
 
-        //[HttpPost("login")]
-        //public async Task<IActionResult> Login([FromBody] LoginCommand request)
-        //{
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginCommand request)
+        {
+            var responseDto = await _mediator.Send(request);
 
-        //}
+            return Ok(ApiResponse<LoginResponseDto>.Ok(responseDto));
+        }
     }
 }
