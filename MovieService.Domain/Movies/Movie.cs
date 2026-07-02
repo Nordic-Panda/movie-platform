@@ -1,4 +1,6 @@
-﻿using MovieService.Domain.Enums;
+﻿using MovieService.Domain.Common.Enums;
+using MovieService.Domain.Entities;
+using MovieService.Domain.Reviews;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
@@ -10,6 +12,11 @@ namespace MovieService.Domain.Movies
         public TimeSpan Duration { get; private set; }
         public Genre Genre { get; private set; }
         public MovieDetails Details { get; private set; }
+
+        //// DDD style, AddReview, AddMovieActor, as they all depend on Movie
+        //public ICollection<Entities.MovieActor> MovieActors { get; private set; } = new List<Entities.MovieActor>();
+
+        //public ICollection<Review> Reviews { get; private set; } = new List<Review>();
 
         private Movie() { }
 

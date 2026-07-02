@@ -2,19 +2,20 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MovieService.API.Common.Contracts;
 using MovieService.API.Common.Filters;
 using MovieService.API.Common.Middlewares;
-using MovieService.API.Common.Settings;
 using MovieService.Application.Behaviors;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
+using MovieService.Application.Common.Settings;
+using MovieService.Infrastructure.Auth;
 using MovieService.Infrastructure.Data;
 using MovieService.Infrastructure.Persistence.Actors;
 using MovieService.Infrastructure.Persistence.MovieActors;
 using MovieService.Infrastructure.Persistence.Movies;
 using MovieService.Infrastructure.Persistence.Reviews;
+using MovieService.Infrastructure.Persistence.Users;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,9 +61,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.Configure<PaginationSettings>(
     builder.Configuration.GetSection("Pagination"));
 
-// IOptions<PaginationSettings> is just a container, real PaginationSettings lays in Value of that container
-builder.Services.AddSingleton<IPaginationSettings>(sp =>
-    sp.GetRequiredService<IOptions<PaginationSettings>>().Value);
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("Jwt"));
 
 //
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)
@@ -87,12 +87,14 @@ builder.Services.AddMediatR(cfg =>
 
 // Application layer, not needed since we using mediatR
 //builder.Services.AddScoped<CreateMovieHandler>();
+builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
 // Infrastructure layer
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<IMovieActorRepository, MovieActorRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
@@ -123,6 +125,15 @@ app.UseStatusCodePages(async context =>
         ApiResponse<Dictionary<string, string[]>>.Fail(code, message)
     );
 });
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider
+        .GetRequiredService<AppDbContext>();
+
+    await DbSeeder.SeedUser(db);
+}
 
 
 // Custom exception middleware, order matters here

@@ -1,7 +1,5 @@
 ﻿using MovieService.API.Common.Contracts;
 using MovieService.API.Common.Mappers;
-using MovieService.Application.Common.Exceptions;
-using MovieService.Domain.Exceptions;
 
 namespace MovieService.API.Common.Middlewares
 {

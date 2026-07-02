@@ -1,5 +1,5 @@
 ﻿using MovieService.Application.Common.Exceptions;
-using MovieService.Domain.Exceptions;
+using MovieService.Domain.Common.Exceptions;
 
 namespace MovieService.API.Common.Mappers
 {
@@ -28,6 +28,13 @@ namespace MovieService.API.Common.Mappers
                     e.Code,
                     e.Message,
                     StatusCodes.Status404NotFound,
+                    null
+                ),
+
+                UnauthorizedException e => (
+                    e.Code,
+                    e.Message,
+                    StatusCodes.Status401Unauthorized,
                     null
                 ),
 

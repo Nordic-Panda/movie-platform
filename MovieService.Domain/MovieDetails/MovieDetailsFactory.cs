@@ -1,4 +1,4 @@
-﻿using MovieService.Domain.Exceptions;
+﻿using MovieService.Domain.Common.Exceptions;
 using MovieService.Domain.Movies;
 using MovieService.Domain.ValueObjects;
 

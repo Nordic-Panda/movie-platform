@@ -1,6 +1,4 @@
-﻿using MovieService.Domain.Exceptions;
-
-namespace MovieService.Domain.Reviews
+﻿namespace MovieService.Domain.Reviews
 {
     public class Review
     {

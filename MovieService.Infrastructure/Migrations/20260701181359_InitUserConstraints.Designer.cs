@@ -12,8 +12,8 @@ using MovieService.Infrastructure.Data;
 namespace MovieService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260628095933_AddActors")]
-    partial class AddActors
+    [Migration("20260701181359_InitUserConstraints")]
+    partial class InitUserConstraints
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,30 @@ namespace MovieService.Infrastructure.Migrations
                     b.ToTable("Actors");
                 });
 
+            modelBuilder.Entity("MovieService.Domain.Entities.MovieActor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CharacterName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId", "ActorId", "CharacterName")
+                        .IsUnique();
+
+                    b.ToTable("MovieActor");
+                });
+
             modelBuilder.Entity("MovieService.Domain.Movies.Movie", b =>
                 {
                     b.Property<Guid>("Id")
@@ -67,6 +91,60 @@ namespace MovieService.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Reviews.Review", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Users.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Entities.MovieActor", b =>
+                {
+                    b.HasOne("MovieService.Domain.Movies.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MovieService.Domain.Movies.Movie", b =>
@@ -117,6 +195,15 @@ namespace MovieService.Infrastructure.Migrations
                         });
 
                     b.Navigation("Details")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Reviews.Review", b =>
+                {
+                    b.HasOne("MovieService.Domain.Movies.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -3,6 +3,7 @@ using MovieService.Domain.Actors;
 using MovieService.Domain.Entities;
 using MovieService.Domain.Movies;
 using MovieService.Domain.Reviews;
+using MovieService.Domain.Users;
 
 namespace MovieService.Infrastructure.Data;
 
@@ -17,6 +18,7 @@ public class AppDbContext : DbContext
     public DbSet<Actor> Actors => Set<Actor>();
     public DbSet<MovieActor> MovieActor => Set<MovieActor>();
     public DbSet<Review> Reviews => Set<Review>();
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
