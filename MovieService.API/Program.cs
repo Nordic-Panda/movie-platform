@@ -40,9 +40,12 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 
-
+// Active Swagger auth UI
 builder.Services.ActiveSwaggerAuthentication();
-
+// Custom JwtAuth config
+builder.Services.AddJwtAuthentication(builder.Configuration);
+// Auth Config and Policies
+builder.Services.AddAuthorizationPolicies();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
@@ -57,19 +60,6 @@ builder.Services.Configure<PaginationSettings>(
 
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("Jwt"));
-
-// Custom JwtAuth config
-builder.Services.AddJwtAuthentication(builder.Configuration);
-
-
-// Adding policies
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy(Policies.AdminOnly, p =>
-        p.RequireRole(UserRole.Admin.ToString()))
-    .AddPolicy(Policies.MovieDelete, p =>
-        p.RequireRole(UserRole.Admin.ToString()))
-    .AddPolicy(Policies.MovieCreate, p =>
-        p.RequireRole(UserRole.User.ToString(), UserRole.Admin.ToString()));
 
 
 // Validators. FluentValidation scans the assembly and DI store them all, CreateMovieValidator can be replaced by ANY validator in Application

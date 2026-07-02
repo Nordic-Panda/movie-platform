@@ -1,4 +1,4 @@
-﻿namespace MovieService.API.Common.Policies
+﻿namespace MovieService.API.Common.policy
 {
     public class Policies
     {
