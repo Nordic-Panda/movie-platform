@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Common.Contracts;
-using MovieService.API.Common.Policies;
+using MovieService.API.Common.Policy;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Mappers;
 using MovieService.Application.Movies.AddActorToMovie;

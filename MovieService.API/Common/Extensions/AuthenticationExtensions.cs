@@ -1,5 +1,5 @@
 ﻿using MovieService.Domain.Common.Enums;
-using MovieService.API.Common.policy;
+using MovieService.API.Common.Policy;
 
 namespace MovieService.API.Common.Extensions
 {
