@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Common.Contracts;
+using MovieService.API.Common.Policies;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Mappers;
 using MovieService.Application.Movies.AddActorToMovie;
@@ -25,7 +26,7 @@ public class MoviesController : ControllerBase
         _mediator = mediator;
     }
 
-    [Authorize]
+    [Authorize(Policy = Policies.MovieCreate)]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateMovieCommand command)
     {
@@ -72,6 +73,9 @@ public class MoviesController : ControllerBase
         return Ok(ApiResponse<MovieDto>.Ok(result));
     }
 
+    // Must fullfill BOTH policy, not OR
+    [Authorize(Policy = Policies.MovieDelete)]
+    [Authorize(Policy = Policies.AdminOnly)]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteMovie([FromRoute] Guid id)
     {

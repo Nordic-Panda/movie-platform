@@ -7,10 +7,12 @@ using MovieService.API.Common.Contracts;
 using MovieService.API.Common.Extensions;
 using MovieService.API.Common.Filters;
 using MovieService.API.Common.Middlewares;
+using MovieService.API.Common.Policies;
 using MovieService.Application.Behaviors;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Settings;
+using MovieService.Domain.Common.Enums;
 using MovieService.Infrastructure.Auth;
 using MovieService.Infrastructure.Data;
 using MovieService.Infrastructure.Persistence.Actors;
@@ -68,6 +70,16 @@ builder.Services.Configure<JwtSettings>(
 
 // Custom JwtAuth config
 builder.Services.AddJwtAuthentication(builder.Configuration);
+
+
+// Adding policies
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(Policies.AdminOnly, p =>
+        p.RequireRole(UserRole.Admin.ToString()))
+    .AddPolicy(Policies.MovieDelete, p =>
+        p.RequireRole(UserRole.Admin.ToString()))
+    .AddPolicy(Policies.MovieCreate, p =>
+        p.RequireRole(UserRole.User.ToString(), UserRole.Admin.ToString()));
 
 //
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)

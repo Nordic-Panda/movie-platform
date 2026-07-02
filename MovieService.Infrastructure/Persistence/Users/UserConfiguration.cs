@@ -18,6 +18,9 @@ namespace MovieService.Infrastructure.Persistence.Users
 
             entity.Property(x => x.PasswordHash)
                 .IsRequired();
+
+            entity.Property(x => x.Role)
+                .HasConversion<int>();
         }
     }
 }
