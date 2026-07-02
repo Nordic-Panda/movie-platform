@@ -44,13 +44,12 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.ActiveSwaggerAuthentication();
 // Custom JwtAuth config
 builder.Services.AddJwtAuthentication(builder.Configuration);
-// Auth Config and Policies
+// Add Policies
 builder.Services.AddAuthorizationPolicies();
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("Default")
-    ));
+// Add application layer services, MediatR, FluentValidation 
+builder.Services.AddApplicationServices();
+// Add Infrastructure layer services, Register DBcontext, Repositories, services
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 // Register value from Configuration, note that this does not mean appsettings, this could be azure too
 // When using Azure config or something else, they inject more data to Configuration
@@ -62,33 +61,8 @@ builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("Jwt"));
 
 
-// Validators. FluentValidation scans the assembly and DI store them all, CreateMovieValidator can be replaced by ANY validator in Application
-// IValidator<CreateMovieCommand>
-//    -> CreateMovieValidator
-// It find these in the Validator, t ex CreateMovieValidator : AbstractValidator<CreateMovieCommand>
-builder.Services.AddValidatorsFromAssemblyContaining<CreateMovieValidator>();
 
-// Registering a behavior, every time someone calls Mediator.Send(...), execute ValidationBehavior around the handler.
-builder.Services.AddTransient(
-    typeof(IPipelineBehavior<,>),
-    typeof(ValidationBehavior<,>));
 
-// Register handlers to MediatR
-// public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
-// so it register the IRequestHandler with command and dto to the pairing Handler
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssemblyContaining<CreateMovieHandler>());
-
-// Application layer, not needed since we using mediatR
-//builder.Services.AddScoped<CreateMovieHandler>();
-builder.Services.AddScoped<ITokenService, JwtTokenService>();
-
-// Infrastructure layer
-builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-builder.Services.AddScoped<IActorRepository, ActorRepository>();
-builder.Services.AddScoped<IMovieActorRepository, MovieActorRepository>();
-builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
