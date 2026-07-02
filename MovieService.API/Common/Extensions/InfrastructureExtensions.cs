@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
+using MovieService.Application.Common.Settings;
 using MovieService.Infrastructure.Auth;
 using MovieService.Infrastructure.Data;
 using MovieService.Infrastructure.Persistence.Actors;
@@ -27,6 +28,15 @@ namespace MovieService.API.Common.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<ITokenService, JwtTokenService>();
+
+            // Register value from Configuration to TypedValue, note that this does not mean appsettings, this could be azure too
+            // When using Azure config or something else, they inject more data to Configuration
+            // So this is unchanged. This does not care where exactly data comes from
+            services.Configure<PaginationSettings>(
+                config.GetSection("Pagination"));
+
+            services.Configure<JwtSettings>(
+                config.GetSection("Jwt"));
 
             return services;
         }
