@@ -1,5 +1,6 @@
 ct is not used in all places
-JWT missing validation
+
+
 Navigation properties - read more about this
 Include - read more about this
 Tracking - AsNoTracking() - read later
@@ -26,6 +27,7 @@ Full-stack learning project built with .NET, React, and TypeScript, focused on C
 8. This is Hybrid of Domain focused or DDD style for Entity AND CQRS. DDD style - Minimal navigation, it's clean domain, scalable, but more complex on queries and repository. CQRS style - WriteModel are simple, Read Model DTO with joins/projections, used in larger system. Full EF model - detailed navigation, easiest but can lead to over-fetching.
 
 9. I'm using direct insert when we handle review. While DDD style wants movie.AddReview as review is based on Movie.
+
 
 ## Flow
 HTTP Request

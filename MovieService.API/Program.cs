@@ -2,13 +2,18 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi;
 using MovieService.API.Common.Contracts;
+using MovieService.API.Common.Extensions;
 using MovieService.API.Common.Filters;
 using MovieService.API.Common.Middlewares;
+using MovieService.API.Common.Policies;
 using MovieService.Application.Behaviors;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Settings;
+using MovieService.Domain.Common.Enums;
 using MovieService.Infrastructure.Auth;
 using MovieService.Infrastructure.Data;
 using MovieService.Infrastructure.Persistence.Actors;
@@ -45,7 +50,20 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 //
 //builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "JWT Authorization header using the Bearer scheme."
+    });
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference("bearer", document)] = []
+    });
+});
 
 //
 // Register DbContext
@@ -63,6 +81,19 @@ builder.Services.Configure<PaginationSettings>(
 
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("Jwt"));
+
+// Custom JwtAuth config
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
+
+// Adding policies
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(Policies.AdminOnly, p =>
+        p.RequireRole(UserRole.Admin.ToString()))
+    .AddPolicy(Policies.MovieDelete, p =>
+        p.RequireRole(UserRole.Admin.ToString()))
+    .AddPolicy(Policies.MovieCreate, p =>
+        p.RequireRole(UserRole.User.ToString(), UserRole.Admin.ToString()));
 
 //
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)
@@ -141,6 +172,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 //
