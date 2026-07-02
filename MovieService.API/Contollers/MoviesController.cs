@@ -36,6 +36,10 @@ public class MoviesController : ControllerBase
             ApiResponse<MovieDto>.Ok(result));
     }
 
+    // Endspoints without attribute with Authorize are anonymous by default
+    // However, if there is a global Authentication, then this is needed
+    // Or add just for clarity reason
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
