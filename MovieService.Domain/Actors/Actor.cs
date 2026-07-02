@@ -1,6 +1,4 @@
-﻿using MovieService.Domain.Exceptions;
-
-namespace MovieService.Domain.Actors
+﻿namespace MovieService.Domain.Actors
 {
     public class Actor
     {

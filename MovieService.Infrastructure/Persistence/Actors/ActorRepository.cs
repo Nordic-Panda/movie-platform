@@ -29,6 +29,11 @@ namespace MovieService.Infrastructure.Persistence.Actors
             return await _context.Actors.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public IQueryable<Actor> Query()
+        {
+            return _context.Actors.AsQueryable();
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

@@ -40,5 +40,10 @@ namespace MovieService.Infrastructure.Persistence.Movies
         {
             await _context.SaveChangesAsync();
         }
+
+        public IQueryable<Movie> Query()
+        {
+            return _context.Movies.AsQueryable();
+        }
     }
 }

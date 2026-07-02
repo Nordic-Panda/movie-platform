@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieService.API.Contracts;
+using MovieService.API.Common.Contracts;
+using MovieService.API.Common.Policies;
 using MovieService.Application.Actors.CreateActor;
 using MovieService.Application.Actors.GetActorById;
 using MovieService.Application.Actors.GetActors;
@@ -46,6 +48,7 @@ namespace MovieService.API.Contollers
                 ApiResponse<ActorDto>.Ok(actorDto));
         }
 
+        [Authorize(Policy = Policies.AdminOnly)]
         [HttpPut]
         public async Task<IActionResult> Put(UpdateActorCommand command)
         {

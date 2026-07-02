@@ -10,5 +10,6 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task<IReadOnlyList<Movie>> GetAllMoviesAsync();
         Task SaveChangesAsync();
         Task DeleteAsync(Guid id);
+        IQueryable<Movie> Query();
     }
 }

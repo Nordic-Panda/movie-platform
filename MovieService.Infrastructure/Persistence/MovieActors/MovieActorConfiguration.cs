@@ -26,7 +26,7 @@ namespace MovieService.Infrastructure.Persistence.MovieActors
 
             entity.HasOne<Movie>()
                 .WithMany()
-                .HasForeignKey(x => x.Id)
+                .HasForeignKey(x => x.MovieId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

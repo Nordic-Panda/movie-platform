@@ -1,4 +1,4 @@
-﻿using MovieService.Domain.Exceptions;
+﻿using MovieService.Domain.Common.Exceptions;
 
 namespace MovieService.Domain.MovieActor
 {

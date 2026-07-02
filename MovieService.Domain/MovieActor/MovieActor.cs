@@ -1,7 +1,4 @@
-﻿using MovieService.Domain.Exceptions;
-using MovieService.Domain.MovieActor;
-
-namespace MovieService.Domain.Entities
+﻿namespace MovieService.Domain.Entities
 {
     public class MovieActor
     {
