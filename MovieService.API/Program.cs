@@ -2,8 +2,6 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi;
 using MovieService.API.Common.Contracts;
 using MovieService.API.Common.Extensions;
 using MovieService.API.Common.Filters;
@@ -25,9 +23,6 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//
-// 1. Controllers (instead of minimal API endpoints)
-//
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ModelStateFilter>(); // adding in custom filter
@@ -45,29 +40,10 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 
-//
-// 2. OpenAPI / Swagger
-//
-//builder.Services.AddOpenApi();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        Description = "JWT Authorization header using the Bearer scheme."
-    });
-    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
-    {
-        [new OpenApiSecuritySchemeReference("bearer", document)] = []
-    });
-});
 
-//
-// Register DbContext
-//
+builder.Services.ActiveSwaggerAuthentication();
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("Default")
@@ -95,9 +71,6 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy(Policies.MovieCreate, p =>
         p.RequireRole(UserRole.User.ToString(), UserRole.Admin.ToString()));
 
-//
-// 3. Dependency Injection (REGISTER LAYERED SERVICES)
-//
 
 // Validators. FluentValidation scans the assembly and DI store them all, CreateMovieValidator can be replaced by ANY validator in Application
 // IValidator<CreateMovieCommand>
@@ -129,9 +102,6 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
-//
-// 4. HTTP pipeline
-//
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -175,9 +145,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//
-// 5. Map controllers (IMPORTANT — replaces MapGet style)
-//
 app.MapControllers();
 
 app.Run();
