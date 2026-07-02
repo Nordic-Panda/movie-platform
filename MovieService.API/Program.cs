@@ -1,12 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Common.Extensions;
-using MovieService.API.Common.Filters;
-using MovieService.Application.Common.Settings;
-using MovieService.Infrastructure.Data;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 // Add Controller related config, custom modelStateFilter
 builder.Services.AddApiControllers();
@@ -23,13 +17,8 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider
-        .GetRequiredService<AppDbContext>();
-
-    await DbSeeder.SeedUser(db);
-}
+// DB seeder
+await app.SeedDatabaseAsync();
 // Middleware registers
 app.UseApiMiddlewares();
 
