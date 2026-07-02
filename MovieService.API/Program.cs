@@ -2,7 +2,9 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MovieService.API.Common.Contracts;
+using MovieService.API.Common.Extensions;
 using MovieService.API.Common.Filters;
 using MovieService.API.Common.Middlewares;
 using MovieService.Application.Behaviors;
@@ -63,6 +65,9 @@ builder.Services.Configure<PaginationSettings>(
 
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("Jwt"));
+
+// Custom JwtAuth config
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 //
 // 3. Dependency Injection (REGISTER LAYERED SERVICES)
@@ -141,6 +146,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 //

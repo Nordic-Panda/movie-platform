@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Common.Contracts;
 using MovieService.Application.Common.DTOs;
@@ -24,6 +25,7 @@ public class MoviesController : ControllerBase
         _mediator = mediator;
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateMovieCommand command)
     {
