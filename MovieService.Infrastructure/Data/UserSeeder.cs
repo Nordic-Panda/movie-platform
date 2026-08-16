@@ -2,7 +2,7 @@
 
 namespace MovieService.Infrastructure.Data
 {
-    public class DbSeeder
+    public class UserSeeder
     {
         public static async Task SeedUser(AppDbContext db)
         {

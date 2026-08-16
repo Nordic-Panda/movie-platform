@@ -11,7 +11,8 @@ namespace MovieService.API.Common.Extensions
             var db = scope.ServiceProvider
                 .GetRequiredService<AppDbContext>();
 
-            await DbSeeder.SeedUser(db);
+            await UserSeeder.SeedUser(db);
+            await GenreSeeder.SeedGenres(db);
         }
     }
 }

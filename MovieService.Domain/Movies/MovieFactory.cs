@@ -9,7 +9,7 @@ namespace MovieService.Domain.Movies
         public static Movie Create(
             string title,
             TimeSpan duration,
-            Genre genre,
+            ICollection<Genre> genres,
             MovieDetails details)
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -37,16 +37,11 @@ namespace MovieService.Domain.Movies
                     MovieErrors.DurationTooLongCode,
                     MovieErrors.DurationTooLongMessage((int)MovieRules.MinDuration.TotalMinutes));
 
-            if (!Enum.IsDefined(genre))
-                throw new DomainException(
-                    MovieErrors.GenreInvalidCode,
-                    MovieErrors.GenreInvalidMessage);
-
             return new Movie(
                 Guid.NewGuid(),
                 title,
                 duration,
-                genre,
+                genres,
                 details);
         }
     }

@@ -18,6 +18,10 @@ public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
 
         var movie = CreateMovieFactory.Create(request);
 
+        var genres = await _genreRepository.GetByIdsAsync(
+            request.GenreIds,
+            cancellationToken);
+
         await _movieRepository.AddAsync(movie);
         await _movieRepository.SaveChangesAsync();
 

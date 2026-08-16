@@ -1,4 +1,5 @@
-﻿using MovieService.Domain.Money;
+﻿using MovieService.Domain.Genres;
+using MovieService.Domain.Money;
 using MovieService.Domain.Movie.Details;
 using MovieService.Domain.Movies;
 using MovieService.Domain.ValueObjects;
@@ -9,7 +10,7 @@ namespace MovieService.Application.Movies.CreateMovie
     {
         public static Movie Create(CreateMovieCommand request)
         {
-            var genre = request.Genre;
+            var genres = request.Genres ?? new List<Genre>();
             var duration = TimeSpan.FromMinutes(request.DurationMinutes);
 
             Money? money = null;
@@ -27,7 +28,7 @@ namespace MovieService.Application.Movies.CreateMovie
             return MovieFactory.Create(
                 request.Title,
                 duration,
-                genre,
+                genres,
                 details
             );
         }
