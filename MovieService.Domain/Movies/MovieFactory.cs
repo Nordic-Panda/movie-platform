@@ -1,5 +1,5 @@
-﻿using MovieService.Domain.Common.Enums;
-using MovieService.Domain.Common.Exceptions;
+﻿using MovieService.Domain.Common.Exceptions;
+using MovieService.Domain.Genres;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies

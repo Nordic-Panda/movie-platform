@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
-using MovieService.Domain.Common.Enums;
+using MovieService.Domain.Genres;
 
 namespace MovieService.Application.Movies.CreateMovie;
 

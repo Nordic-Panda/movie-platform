@@ -1,5 +1,5 @@
 ﻿using MovieService.Application.Common.Exceptions;
-using MovieService.Domain.Common.Enums;
+using MovieService.Domain.Genres;
 using MovieService.Domain.Movies;
 
 namespace MovieService.Application.Movies.GetMovies.Filters
