@@ -19,20 +19,20 @@ namespace MovieService.Domain.Movies
         private Movie() { }
 
         // no validation here because factory did it
-        internal Movie(Guid id, string title, TimeSpan duration, ICollection<Genre> genres, MovieDetails details)
+        internal Movie(Guid id, string title, TimeSpan duration, IEnumerable<Genre> genres, MovieDetails details)
         {
             Id = id;
             Title = title;
             Duration = duration;
-            Genre = genres;
+            Genre = genres.ToList();
             Details = details;
         }
 
-        public void Update(string title, TimeSpan duration, ICollection<Genre> genres, MovieDetails details)
+        public void Update(string title, TimeSpan duration, IEnumerable<Genre> genres, MovieDetails details)
         { 
             Title = title;
             Duration = duration;
-            Genre = genres;
+            Genre = genres.ToList();
             Details = details;
         }
     }

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
-using MovieService.Domain.Genres;
 
 namespace MovieService.Application.Movies.UpdateMovie
 {
@@ -8,7 +7,7 @@ namespace MovieService.Application.Movies.UpdateMovie
         Guid Id,
         string Title,
         int DurationMinutes,
-        Genre Genre,
+        ICollection<Guid> GenreIds,
         string Language,
         string? Synopsis,
         decimal? BudgetAmount,
