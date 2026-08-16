@@ -17,9 +17,6 @@ namespace MovieService.Application.Movies.UpdateMovie
                 .GreaterThanOrEqualTo((int)MovieRules.MinDuration.TotalMinutes)
                 .LessThanOrEqualTo((int)MovieRules.MaxDuration.TotalMinutes);
 
-            RuleFor(x => x.Genre)
-                .IsInEnum();
-
             RuleFor(x => x.Language)
                 .NotEmpty();
 

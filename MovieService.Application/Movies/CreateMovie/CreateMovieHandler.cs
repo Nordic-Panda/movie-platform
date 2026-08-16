@@ -27,7 +27,7 @@ public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
             throw new NotFoundException(GenreErrors.OneOrMoreGenresNotFoundCode, GenreErrors.OneOrMoreGenresNotFoundMessage);
         }
 
-        var movie = CreateMovieFactory.Create(request);
+        var movie = CreateMovieFactory.Create(request, genres);
 
         await _movieRepository.AddAsync(movie);
         await _movieRepository.SaveChangesAsync();

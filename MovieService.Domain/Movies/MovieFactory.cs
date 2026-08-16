@@ -9,7 +9,7 @@ namespace MovieService.Domain.Movies
         public static Movie Create(
             string title,
             TimeSpan duration,
-            ICollection<Genre> genres,
+            IReadOnlyCollection<Genre> genres,
             MovieDetails details)
         {
             if (string.IsNullOrWhiteSpace(title))

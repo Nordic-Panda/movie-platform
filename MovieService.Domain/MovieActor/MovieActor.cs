@@ -6,7 +6,7 @@
         public Guid MovieId { get; private set; }
         public Guid ActorId { get; private set; }
 
-        public string CharacterName { get; private set; }
+        public string CharacterName { get; private set; } = string.Empty;
 
         private MovieActor() { }
 

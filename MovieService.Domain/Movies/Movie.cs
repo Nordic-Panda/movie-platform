@@ -6,10 +6,13 @@ namespace MovieService.Domain.Movies
     public class Movie
     {
         public Guid Id { get; private set; }
-        public string Title { get; private set; }
+        public string Title { get; private set; } = string.Empty;
         public TimeSpan Duration { get; private set; }
-        public ICollection<Genre> Genre { get; private set; } = new List<Genre>();
-        public MovieDetails Details { get; private set; }
+
+        // DDD style, we don't expose the collection, If it needs to be changed, go through MY domain behavior
+        private readonly List<Genre> _genres = new();
+        public IReadOnlyCollection<Genre> Genres => _genres;
+        public MovieDetails Details { get; private set; } = null!;
 
         //// DDD style, AddReview, AddMovieActor, as they all depend on Movie
         //public ICollection<Entities.MovieActor> MovieActors { get; private set; } = new List<Entities.MovieActor>();
@@ -24,7 +27,7 @@ namespace MovieService.Domain.Movies
             Id = id;
             Title = title;
             Duration = duration;
-            Genre = genres.ToList();
+            UpdateGenres(genres);
             Details = details;
         }
 
@@ -32,8 +35,14 @@ namespace MovieService.Domain.Movies
         { 
             Title = title;
             Duration = duration;
-            Genre = genres.ToList();
+            UpdateGenres(genres);
             Details = details;
+        }
+
+        public void UpdateGenres(IEnumerable<Genre> genres)
+        {
+            _genres.Clear();
+            _genres.AddRange(genres);
         }
     }
 }

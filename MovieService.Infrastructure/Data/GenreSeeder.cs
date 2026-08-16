@@ -1,5 +1,6 @@
 ﻿using MovieService.Domain.Genres;
 using MovieService.Infrastructure.Data.SeedData;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieService.Infrastructure.Data
 {
@@ -7,7 +8,7 @@ namespace MovieService.Infrastructure.Data
     {
         public static async Task SeedGenres(AppDbContext db)
         {
-            if (db.Genres.Any())
+            if (await db.Genres.AnyAsync())
                 return;
 
             var genres = new[]

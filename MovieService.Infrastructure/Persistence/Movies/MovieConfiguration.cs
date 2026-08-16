@@ -15,8 +15,12 @@ namespace MovieService.Infrastructure.Persistence.Movies
                 .IsRequired()
                 .HasMaxLength(DbMovieRules.TitleMaxLength);
 
-            entity.Property(x => x.Genre)
-                .IsRequired();
+            // Create a MovieGenres join table for the many-to-many relationship between Movie and Genre
+            // Reason why this is different than MovieActor which is also a joint table is because
+            // MovieActor has additional properties Charactername etc while MovieGenres does not have any additional properties
+            entity.HasMany(x => x.Genres)
+                .WithMany()
+                .UsingEntity("MovieGenres");
 
             entity.OwnsOne(x => x.Details, details =>
             {
@@ -29,10 +33,10 @@ namespace MovieService.Infrastructure.Persistence.Movies
 
                 details.OwnsOne(d => d.Budget, money =>
                 {
-                    money.Property(m => m.Amount);
+                    money.Property(m => m.Amount)
                     // 18 = total digits
                     // 2 = digits after the decimal point
-                    //.HasPrecision(18, 2);
+                    .HasPrecision(18, 2);
                     money.Property(m => m.Currency)
                         .HasMaxLength(DbMovieRules.CurrencyLength);
                 });

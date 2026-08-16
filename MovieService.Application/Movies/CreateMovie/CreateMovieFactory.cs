@@ -8,9 +8,8 @@ namespace MovieService.Application.Movies.CreateMovie
 {
     public static class CreateMovieFactory
     {
-        public static Movie Create(CreateMovieCommand request)
+        public static Movie Create(CreateMovieCommand request, IReadOnlyCollection<Genre> genres)
         {
-            var genres = request.Genres ?? new List<Genre>();
             var duration = TimeSpan.FromMinutes(request.DurationMinutes);
 
             Money? money = null;

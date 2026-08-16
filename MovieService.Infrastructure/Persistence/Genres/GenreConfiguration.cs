@@ -13,6 +13,9 @@ namespace MovieService.Infrastructure.Persistence.Genres
             entity.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(100);
+
+            entity.HasIndex(x => x.Name)
+                .IsUnique();
         }
     }
 }
