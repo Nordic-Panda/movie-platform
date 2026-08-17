@@ -8,6 +8,7 @@ public record CreateMovieCommand(
     int DurationMinutes,
     ICollection<Guid> GenreIds,
     string Language,
+    int Year,
     string? Synopsis,
     decimal? BudgetAmount,
     string? CurrencyCode

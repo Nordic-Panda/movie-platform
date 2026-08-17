@@ -8,6 +8,7 @@ namespace MovieService.Domain.Movies
     {
         public static Movie Create(
             string title,
+            int year,
             TimeSpan duration,
             IReadOnlyCollection<Genre> genres,
             MovieDetails details
@@ -31,6 +32,12 @@ namespace MovieService.Domain.Movies
                     MovieErrors.TitleTooLongMessage(MovieRules.TitleMaxLength)
                 );
 
+            if (!MovieRules.IsValidYear(year, DateTime.UtcNow.Year))
+                throw new DomainException(
+                    MovieErrors.YearInvalidCode,
+                    MovieErrors.YearInvalidMessage(MovieRules.MinYear, DateTime.UtcNow.Year)
+                );
+
             if (duration < MovieRules.MinDuration)
                 throw new DomainException(
                     MovieErrors.DurationTooShortCode,
@@ -43,7 +50,7 @@ namespace MovieService.Domain.Movies
                     MovieErrors.DurationTooLongMessage((int)MovieRules.MaxDuration.TotalMinutes)
                 );
 
-            return new Movie(Guid.NewGuid(), title, duration, genres, details);
+            return new Movie(Guid.NewGuid(), title, year, duration, genres, details);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace MovieService.Application.Movies.UpdateMovie
         int DurationMinutes,
         ICollection<Guid> GenreIds,
         string Language,
+        int Year,
         string? Synopsis,
         decimal? BudgetAmount,
         string? CurrencyCode

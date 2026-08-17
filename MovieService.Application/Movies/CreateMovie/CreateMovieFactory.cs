@@ -19,17 +19,9 @@ namespace MovieService.Application.Movies.CreateMovie
                 money = MoneyFactory.Create(request.BudgetAmount.Value, request.CurrencyCode);
             }
 
-            var details = MovieDetailsFactory.Create(
-                request.Language,
-                request.Synopsis,
-                money);
+            var details = MovieDetailsFactory.Create(request.Language, request.Synopsis, money);
 
-            return MovieFactory.Create(
-                request.Title,
-                duration,
-                genres,
-                details
-            );
+            return MovieFactory.Create(request.Title, request.Year, duration, genres, details);
         }
     }
 }

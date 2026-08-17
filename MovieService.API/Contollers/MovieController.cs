@@ -67,10 +67,19 @@ public class MovieController : ControllerBase
         return Ok(ApiResponse<MovieDetailsDto>.Ok(result));
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateMovie([FromBody] UpdateMovieCommand command)
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateMovie(
+        [FromRoute] Guid id,
+        [FromBody] UpdateMovieCommand command
+    )
     {
-        var result = await _mediator.Send(command);
+        // Command is a record, so using 'with' here to create a copy with the route ID instead of modifying command.Id.
+        var commandWithId = command with
+        {
+            Id = id,
+        };
+
+        var result = await _mediator.Send(commandWithId);
 
         return Ok(ApiResponse<MovieDto>.Ok(result));
     }

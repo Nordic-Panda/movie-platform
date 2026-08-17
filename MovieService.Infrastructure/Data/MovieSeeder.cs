@@ -41,6 +41,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Iron Divide",
                     128,
+                    2024,
                     new[] { action, thriller },
                     "English",
                     "A former special forces operative is forced back into action when a heavily protected convoy carrying classified technology is attacked. As the mission unfolds, he discovers that the people behind the attack are connected to his own past.",
@@ -50,6 +51,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Black Horizon",
                     117,
+                    2023,
                     new[] { action, scienceFiction },
                     "English",
                     "After a spacecraft crashes in a remote desert, a military rescue team discovers technology that could change the balance of power between nations. They must protect it while escaping forces determined to claim it first.",
@@ -59,6 +61,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Last Run",
                     109,
+                    2022,
                     new[] { action, crime, thriller },
                     "English",
                     "A retired getaway driver is given one final job after his brother disappears. What begins as a simple extraction quickly becomes a dangerous race through the city's criminal underworld.",
@@ -68,6 +71,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Redline",
                     103,
+                    2021,
                     new[] { action, crime },
                     "English",
                     "A street racer becomes an unwilling courier after witnessing a violent robbery. With both the police and criminals searching for him, he has only one night to deliver the evidence that could expose an entire organization.",
@@ -77,6 +81,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Storm Command",
                     134,
+                    2020,
                     new[] { action, adventure },
                     "English",
                     "When a powerful storm destroys communications across the Pacific, a rescue commander leads a small team into dangerous waters to locate a missing research vessel before it disappears forever.",
@@ -86,6 +91,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Final Strike",
                     121,
+                    2019,
                     new[] { action, thriller, drama },
                     "English",
                     "An intelligence officer uncovers a planned attack that has been hidden inside a decades-old operation. With only a few hours remaining, she must decide who she can trust before the final strike begins.",
@@ -99,6 +105,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Beyond the Map",
                     126,
+                    2024,
                     new[] { adventure, drama },
                     "English",
                     "A young cartographer discovers a forgotten map describing an unexplored valley hidden beyond the world's most dangerous mountain range. She joins an expedition that soon realizes the map contains more secrets than expected.",
@@ -108,6 +115,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Lost Kingdom",
                     138,
+                    2022,
                     new[] { adventure, action },
                     "English",
                     "An archaeologist and a former soldier travel deep into the jungle searching for a legendary kingdom believed to have disappeared centuries ago. Their discovery attracts a rival expedition willing to destroy everything to reach it first.",
@@ -117,6 +125,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Ocean's Edge",
                     114,
+                    2021,
                     new[] { adventure, thriller },
                     "English",
                     "A marine biologist joins a private expedition to investigate a mysterious signal coming from the deepest part of the ocean. The team soon discovers something that was never meant to be found.",
@@ -126,6 +135,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Desert Crown",
                     119,
+                    2020,
                     new[] { adventure, romance, drama },
                     "English",
                     "Two explorers searching for an ancient crown become stranded in the desert after their expedition is sabotaged. As they struggle to survive, their rivalry slowly turns into something neither expected.",
@@ -135,6 +145,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Northern Passage",
                     132,
+                    2019,
                     new[] { adventure, drama },
                     "Swedish",
                     "A group of researchers attempts to cross a remote Arctic passage before winter closes the route. When their equipment fails, they must rely on one another to survive the harsh landscape.",
@@ -144,6 +155,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Island of Ash",
                     111,
+                    2018,
                     new[] { adventure, horror, thriller },
                     "English",
                     "A group of students travels to a volcanic island to document its unusual wildlife. After an unexpected eruption cuts them off from the outside world, they discover that something else is living beneath the island.",
@@ -157,6 +169,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Little Fox",
                     89,
+                    2023,
                     new[] { animation, adventure },
                     "English",
                     "A young fox leaves the safety of his forest home after hearing stories about a distant city. Along the journey he meets unusual friends who teach him that courage does not always mean being fearless.",
@@ -166,6 +179,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Cloud Kingdom",
                     96,
+                    2022,
                     new[] { animation, adventure, comedy },
                     "English",
                     "A curious girl discovers a hidden kingdom floating above the clouds. With the help of a nervous dragon and an overly confident inventor, she must stop the kingdom from falling back to Earth.",
@@ -175,6 +189,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Moonlight Mouse",
                     84,
+                    2021,
                     new[] { animation, comedy, romance },
                     "English",
                     "A small mouse living inside an old theatre dreams of becoming a musician. When the theatre is threatened with closure, he discovers that even the smallest performer can bring an entire community together.",
@@ -184,6 +199,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Robot's Day Off",
                     91,
+                    2020,
                     new[] { animation, comedy, scienceFiction },
                     "English",
                     "A household robot secretly takes a day away from its owners to discover what life outside its programming looks like. What follows is an unexpected journey through a city full of machines and humans.",
@@ -193,6 +209,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Paper Dragon",
                     102,
+                    2019,
                     new[] { animation, drama, adventure },
                     "English",
                     "A lonely child discovers that drawings in an old notebook can come to life. Together with a paper dragon, she sets out to repair a magical world that is slowly disappearing.",
@@ -202,6 +219,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Stars Above Us",
                     88,
+                    2018,
                     new[] { animation, scienceFiction, drama },
                     "English",
                     "Two children living on a distant space station discover a forgotten message from Earth. Their attempt to answer it takes them on a journey that changes how their entire community sees the universe.",
@@ -215,6 +233,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Laughing Matters",
                     97,
+                    2024,
                     new[] { comedy, drama },
                     "English",
                     "A struggling comedian gets one unexpected opportunity to perform at the city's biggest comedy festival. Unfortunately, everything that can go wrong during the week seems determined to happen at exactly the wrong time.",
@@ -224,6 +243,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Wrong Address",
                     94,
+                    2023,
                     new[] { comedy, romance },
                     "English",
                     "After a delivery driver accidentally brings a package to the wrong apartment, he meets the person living there and becomes involved in a series of increasingly ridiculous misunderstandings.",
@@ -233,6 +253,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Weekend Plan",
                     101,
+                    2022,
                     new[] { comedy, romance },
                     "English",
                     "Three friends plan a quiet weekend at a countryside house, but an unexpected wedding, a missing car and a very confused neighbor turn their relaxing trip into complete chaos.",
@@ -242,6 +263,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Office Escape",
                     106,
+                    2021,
                     new[] { comedy },
                     "English",
                     "A group of employees decides to finally stand up to their impossible boss. Their carefully planned protest quickly turns into a ridiculous office adventure involving secret meetings and accidental sabotage.",
@@ -251,6 +273,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Almost Famous",
                     112,
+                    2020,
                     new[] { comedy, drama },
                     "English",
                     "A small-town musician accidentally becomes an internet celebrity overnight. While trying to understand his sudden fame, he discovers that being famous is much more complicated than he imagined.",
@@ -260,6 +283,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Dinner for Eight",
                     99,
+                    2019,
                     new[] { comedy, romance },
                     "French",
                     "Eight strangers arrive at the same restaurant expecting completely different dinners. A series of misunderstandings brings their stories together and turns an ordinary evening into an unforgettable night.",
@@ -273,6 +297,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "City of Thieves",
                     119,
+                    2024,
                     new[] { crime, action, drama },
                     "English",
                     "Two rival thieves are forced to work together after a carefully planned robbery goes wrong. Their uneasy partnership becomes even more dangerous when they realize one of them has been betrayed.",
@@ -282,6 +307,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Silent Witness",
                     108,
+                    2023,
                     new[] { crime, thriller, drama },
                     "English",
                     "A witness to a high-profile murder refuses to speak to the police. A determined detective slowly discovers why the witness is silent and uncovers a conspiracy reaching far beyond the original crime.",
@@ -291,6 +317,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Cold Evidence",
                     115,
+                    2022,
                     new[] { crime, thriller },
                     "English",
                     "A forensic investigator finds a piece of evidence that contradicts every conclusion from a decade-old case. Reopening the investigation puts her career and her life at risk.",
@@ -300,6 +327,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Last Heist",
                     124,
+                    2021,
                     new[] { crime, action, thriller },
                     "English",
                     "A professional thief assembles one final crew for the largest robbery of his career. As the plan unfolds, it becomes clear that someone inside the group has a completely different agenda.",
@@ -309,6 +337,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Under the Bridge",
                     102,
+                    2020,
                     new[] { crime, drama },
                     "Swedish",
                     "A detective investigating a disappearance discovers a connection to a series of unsolved crimes from the previous decade. The deeper she looks, the more the city's secrets begin to surface.",
@@ -318,6 +347,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Broken Deal",
                     110,
+                    2019,
                     new[] { crime, romance, drama },
                     "English",
                     "A financial criminal plans to disappear after completing one final deal, but his former partner returns with information that threatens everything he has built.",
@@ -331,6 +361,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Forgotten Letter",
                     104,
+                    2024,
                     new[] { drama, romance },
                     "English",
                     "An unexpected letter arrives decades after it was written, bringing two families together and forcing them to confront a secret that has shaped their lives for generations.",
@@ -340,6 +371,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Broken Roads",
                     116,
+                    2023,
                     new[] { drama, crime },
                     "English",
                     "A former criminal returns home after years away and tries to rebuild his relationship with his family. His past, however, refuses to stay buried for long.",
@@ -349,6 +381,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Winter Silence",
                     123,
+                    2022,
                     new[] { drama },
                     "Swedish",
                     "A woman returns to her childhood village after many years away to settle her father's estate. The visit forces her to confront memories and relationships she thought she had left behind.",
@@ -358,6 +391,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Long Way Home",
                     118,
+                    2021,
                     new[] { drama, adventure },
                     "English",
                     "After losing his job and his home, a middle-aged teacher begins a journey across the country to reconnect with the daughter he has not seen in years.",
@@ -367,6 +401,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "A Second Chance",
                     107,
+                    2020,
                     new[] { drama, romance },
                     "English",
                     "Two former classmates meet again after twenty years. Both have changed, but neither has completely forgotten the choices that separated them in the first place.",
@@ -376,6 +411,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Last Photograph",
                     129,
+                    2019,
                     new[] { drama, thriller },
                     "English",
                     "A photographer discovers a mysterious image among her late father's belongings. Investigating its origin leads her into a story that her family spent decades trying to hide.",
@@ -389,6 +425,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Shadow House",
                     109,
+                    2024,
                     new[] { horror, thriller },
                     "English",
                     "A family moves into an abandoned house hoping to start a new life. Strange sounds and unexplained events soon convince them that something in the house remembers the people who lived there before.",
@@ -398,6 +435,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Empty Room",
                     101,
+                    2023,
                     new[] { horror, drama },
                     "English",
                     "A hotel manager discovers that one room has appeared on the building's original plans but does not exist in the actual hotel. Guests who claim to have entered it never return the same.",
@@ -407,6 +445,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Whisper Lake",
                     113,
+                    2022,
                     new[] { horror, drama },
                     "English",
                     "A group of friends returns to a remote lake where one of their friends disappeared years earlier. On their first night, they begin hearing his voice coming from the water.",
@@ -416,6 +455,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Night Harvest",
                     106,
+                    2021,
                     new[] { horror, thriller },
                     "English",
                     "A farming community celebrates its annual harvest festival while a series of disappearances begins to attract the attention of a local journalist.",
@@ -425,6 +465,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Old Hospital",
                     118,
+                    2020,
                     new[] { horror, thriller },
                     "English",
                     "Five urban explorers enter an abandoned hospital searching for footage that could make them famous. They soon discover that the building is not as empty as everyone believed.",
@@ -434,6 +475,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Crimson Night",
                     111,
+                    2019,
                     new[] { horror, adventure, thriller },
                     "English",
                     "A scientific expedition arrives on a remote volcanic island to study unusual seismic activity. When the volcano begins to awaken, the team discovers something far more dangerous beneath the surface.",
@@ -447,6 +489,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Summer in Paris",
                     101,
+                    2024,
                     new[] { romance, comedy },
                     "French",
                     "Two strangers meet during a summer trip through Paris and agree to spend one evening together. Neither expects the short encounter to change the direction of their lives.",
@@ -456,6 +499,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Sands of Promise",
                     119,
+                    2023,
                     new[] { romance, adventure, drama },
                     "English",
                     "Two explorers searching for an ancient treasure become stranded together in the desert. As they struggle to survive, their professional rivalry slowly becomes something more personal.",
@@ -465,6 +509,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Echoes of Love",
                     104,
+                    2022,
                     new[] { romance, drama },
                     "English",
                     "A letter written many years ago brings two people together and reveals a love story that was interrupted by circumstances neither of them could control.",
@@ -474,6 +519,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Accidental Hearts",
                     94,
+                    2021,
                     new[] { romance, comedy },
                     "English",
                     "A package delivered to the wrong apartment introduces two strangers who could not be more different. What begins as an awkward misunderstanding gradually becomes an unexpected relationship.",
@@ -483,6 +529,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "When We Meet Again",
                     107,
+                    2020,
                     new[] { romance, drama },
                     "English",
                     "Two former classmates meet again after twenty years and discover that their feelings from the past never completely disappeared.",
@@ -492,6 +539,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Letters from Rome",
                     113,
+                    2019,
                     new[] { romance, drama },
                     "Italian",
                     "A writer travels to Rome to finish a novel and unexpectedly meets someone who inspires her to reconsider the story she has been trying to tell.",
@@ -505,6 +553,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Beyond the Stars",
                     141,
+                    2024,
                     new[] { scienceFiction, drama },
                     "English",
                     "Humanity sends its first generation ship toward a distant habitable planet. Decades into the journey, the passengers discover that the mission's original purpose was not what they were told.",
@@ -514,6 +563,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Final Protocol",
                     133,
+                    2023,
                     new[] { scienceFiction, action, thriller },
                     "English",
                     "A security engineer discovers a hidden protocol capable of controlling every connected system on Earth. Powerful organizations immediately begin competing to control the technology.",
@@ -523,6 +573,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Dark Frontier",
                     117,
+                    2022,
                     new[] { scienceFiction, action },
                     "English",
                     "After a spacecraft crashes in a remote desert, scientists discover technology that appears to have been designed by an unknown civilization.",
@@ -532,6 +583,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Beyond the Circuit",
                     91,
+                    2021,
                     new[] { scienceFiction, animation, comedy },
                     "English",
                     "A household robot secretly leaves its owner's home for one day to discover what life is like outside its programming.",
@@ -541,6 +593,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Signals from Orion",
                     88,
+                    2020,
                     new[] { scienceFiction, animation, drama },
                     "English",
                     "Two children living on a distant space station discover an ancient message from Earth and decide to answer it despite the enormous risks.",
@@ -550,6 +603,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Silent Planet",
                     127,
+                    2019,
                     new[] { scienceFiction, thriller, adventure },
                     "English",
                     "A research team lands on a seemingly lifeless planet and discovers that every previous expedition disappeared without leaving a trace.",
@@ -563,6 +617,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Silent Justice",
                     108,
+                    2024,
                     new[] { thriller, crime, drama },
                     "English",
                     "A witness to a high-profile murder refuses to speak to investigators. A detective slowly uncovers the reason for the silence and discovers a conspiracy much larger than the original crime.",
@@ -572,6 +627,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Frozen Clues",
                     115,
+                    2023,
                     new[] { thriller, crime },
                     "English",
                     "A forensic investigator discovers evidence that contradicts every conclusion from a decade-old case. Reopening the investigation puts her career and her life in danger.",
@@ -581,6 +637,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Final Escape",
                     109,
+                    2022,
                     new[] { thriller, action, crime },
                     "English",
                     "A retired getaway driver accepts one final job to rescue his missing brother. The mission quickly turns into a race against the city's most dangerous criminals.",
@@ -590,6 +647,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "Countdown Protocol",
                     121,
+                    2021,
                     new[] { thriller, action, drama },
                     "English",
                     "An intelligence officer discovers that a planned attack is connected to a secret operation from decades earlier. With only hours remaining, she must determine who can be trusted.",
@@ -599,6 +657,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Hidden Image",
                     129,
+                    2020,
                     new[] { thriller, drama },
                     "English",
                     "A photographer finds a mysterious image among her late father's possessions and begins investigating its origin, uncovering a secret that her family has protected for decades.",
@@ -608,6 +667,7 @@ namespace MovieService.Infrastructure.Data
                 Movie(
                     "The Forgotten World",
                     127,
+                    2019,
                     new[] { thriller, scienceFiction, adventure },
                     "English",
                     "A research team lands on an apparently lifeless planet where every previous expedition has disappeared. As night approaches, they realize they may not be the first visitors.",
@@ -624,6 +684,7 @@ namespace MovieService.Infrastructure.Data
         private static Movie Movie(
             string title,
             int durationMinutes,
+            int year,
             IEnumerable<MovieService.Domain.Genres.Genre> genres,
             string language,
             string synopsis,
@@ -639,6 +700,7 @@ namespace MovieService.Infrastructure.Data
 
             return MovieFactory.Create(
                 title,
+                year,
                 TimeSpan.FromMinutes(durationMinutes),
                 genres.ToArray(),
                 details

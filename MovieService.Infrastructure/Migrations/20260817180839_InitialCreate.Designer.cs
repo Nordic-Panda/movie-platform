@@ -12,7 +12,7 @@ using MovieService.Infrastructure.Data;
 namespace MovieService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260816201049_InitialCreate")]
+    [Migration("20260817180839_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -118,6 +118,9 @@ namespace MovieService.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

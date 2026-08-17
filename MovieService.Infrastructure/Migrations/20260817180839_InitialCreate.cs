@@ -43,6 +43,7 @@ namespace MovieService.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
                     Duration = table.Column<TimeSpan>(type: "time", nullable: false),
                     Details_Language = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Details_Synopsis = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
