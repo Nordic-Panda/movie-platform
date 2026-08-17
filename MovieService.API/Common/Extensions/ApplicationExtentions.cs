@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using MovieService.Application.Behaviors;
+using MovieService.Application.Movies.CreateMovie;
 
 namespace MovieService.API.Common.Extensions
 {
