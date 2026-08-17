@@ -16,24 +16,37 @@ namespace MovieService.Application.Movies.GetMovies
         private readonly IActorRepository _actorRepository;
         private readonly PaginationSettings _settings;
 
-        public GetMoviesHandler(IMovieRepository movieRepository, IMovieActorRepository movieActorRepository, IActorRepository actorRepository, IOptions<PaginationSettings> settings)
+        public GetMoviesHandler(
+            IMovieRepository movieRepository,
+            IMovieActorRepository movieActorRepository,
+            IActorRepository actorRepository,
+            IOptions<PaginationSettings> settings
+        )
         {
             _movieRepository = movieRepository;
             _movieActorRepository = movieActorRepository;
             _actorRepository = actorRepository;
             _settings = settings.Value;
         }
-        public async Task<IReadOnlyList<MovieDto>> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
+
+        public async Task<IReadOnlyList<MovieDto>> Handle(
+            GetMoviesQuery request,
+            CancellationToken cancellationToken
+        )
         {
             var page = request.Page ?? _settings.DefaultPage;
             var pageSize = _settings.DefaultPageSize;
-            
+
             var movies = _movieRepository.Query();
             var movieActors = _movieActorRepository.Query();
             var actors = _actorRepository.Query();
 
             // These are still just IQueryable / Expression tree
+
+            // Include Genres because filtering by movie.Genres does not load the related entities.
+            // ApplyGenreFilter only affects which movies are returned.
             var query = movies
+                .Include(m => m.Genres)
                 .ApplyGenreFilter(request.GenreIds)
                 .ApplyTitleFilter(request.Title)
                 .ApplyDurationFilter(request.Duration)
@@ -41,7 +54,8 @@ namespace MovieService.Application.Movies.GetMovies
                     request.ActorFirstName,
                     request.ActorLastName,
                     movieActors,
-                    actors);
+                    actors
+                );
 
             // Avoid nullable in DTO mapping
             // Send cancellation token to ToListAsync so when user close browser or navigates away
@@ -52,9 +66,7 @@ namespace MovieService.Application.Movies.GetMovies
                 .Take(pageSize)
                 .ToListAsync(cancellationToken);
 
-            return result
-                .Select(m => MovieMapper.ToDto(m))
-                .ToList();
+            return result.Select(m => MovieMapper.ToDto(m)).ToList();
 
             // We cannot use MovieMapper.ToDto inside the EF Core IQueryable projection
             // because EF Core may not be able to translate custom C# methods into SQL.
