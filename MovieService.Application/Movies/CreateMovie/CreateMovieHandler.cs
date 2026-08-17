@@ -10,11 +10,13 @@ public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
 {
     private readonly IMovieRepository _movieRepository;
     private readonly IGenreRepository _genreRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateMovieHandler(IMovieRepository movieRepository, IGenreRepository genreRepository)
+    public CreateMovieHandler(IMovieRepository movieRepository, IGenreRepository genreRepository, IUnitOfWork unitOfWork)
     {
         _movieRepository = movieRepository;
         _genreRepository = genreRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<MovieDto> Handle(CreateMovieCommand request, CancellationToken ct)
@@ -30,7 +32,7 @@ public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
         var movie = CreateMovieFactory.Create(request, genres);
 
         await _movieRepository.AddAsync(movie);
-        await _movieRepository.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync(ct);
 
         return MovieMapper.ToDto(movie);
     }

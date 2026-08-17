@@ -15,11 +15,13 @@ namespace MovieService.Application.Movies.UpdateMovie
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IGenreRepository _genreRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateMovieHandler(IMovieRepository movieRepository, IGenreRepository genreRepository)
+        public UpdateMovieHandler(IMovieRepository movieRepository, IGenreRepository genreRepository, IUnitOfWork unitOfWork)
         {
             _movieRepository = movieRepository;
             _genreRepository = genreRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<MovieDto> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
         {
@@ -58,7 +60,7 @@ namespace MovieService.Application.Movies.UpdateMovie
                 details
                 );
 
-            await _movieRepository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return MovieMapper.ToDto(movie);
         }

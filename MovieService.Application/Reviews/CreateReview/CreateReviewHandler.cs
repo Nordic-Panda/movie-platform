@@ -12,11 +12,13 @@ namespace MovieService.Application.Reviews.CreateReview
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IMovieRepository _movieRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateReviewHandler(IReviewRepository reviewRepository, IMovieRepository movieRepository)
+        public CreateReviewHandler(IReviewRepository reviewRepository, IMovieRepository movieRepository, IUnitOfWork unitOfWork)
         {
             _reviewRepository = reviewRepository;
             _movieRepository = movieRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ReviewDto> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
@@ -31,7 +33,7 @@ namespace MovieService.Application.Reviews.CreateReview
 
             await _reviewRepository.AddReviewAsync(review);
 
-            await _reviewRepository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return ReviewMapper.ToDto(review);
         }

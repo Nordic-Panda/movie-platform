@@ -13,12 +13,14 @@ namespace MovieService.Application.Movies.AddActorToMovie
         private readonly IMovieActorRepository _movieActorRepository;
         private readonly IMovieRepository _movieRepository;
         private readonly IActorRepository _actorRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AddActorToMovieHandler(IMovieActorRepository movieActorRepository, IMovieRepository movieRepository, IActorRepository actorRepository)
+        public AddActorToMovieHandler(IMovieActorRepository movieActorRepository, IMovieRepository movieRepository, IActorRepository actorRepository, IUnitOfWork unitOfWork)
         {
             _movieActorRepository = movieActorRepository;
             _movieRepository = movieRepository;
             _actorRepository = actorRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<MovieActorDto> Handle(AddActorToMovieCommand command, CancellationToken cancellationToken)
@@ -36,7 +38,7 @@ namespace MovieService.Application.Movies.AddActorToMovie
             var movieActor = MovieActorFactory.Create(command.MovieId, command.ActorId, command.CharacterName);
 
             await _movieActorRepository.AddActorToMovieAsync(movieActor);
-            await _movieActorRepository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return MovieActorMapper.ToDto(movieActor);
         }
