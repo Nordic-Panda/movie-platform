@@ -43,9 +43,10 @@ namespace MovieService.API.Contollers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetAllGenres([FromQuery] GetGenresQuery query)
+        public async Task<IActionResult> GetAllGenres()
         {
-            var result = await _mediator.Send(query);
+            // Empty query is ok since this is more for scalability and consistency with other queries
+            var result = await _mediator.Send(new GetGenresQuery());
 
             return Ok(ApiResponse<IReadOnlyList<GenreDto>>.Ok(result));
         }

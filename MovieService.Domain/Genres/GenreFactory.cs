@@ -10,6 +10,12 @@ namespace MovieService.Domain.Genres
                 throw new DomainException(
                     GenreErrors.GenreNameEmptyCode,
                     GenreErrors.GenreNameEmptyMessage);
+
+            if (name.Length > GenreRules.TitleMaxLength)
+                throw new DomainException(
+                    GenreErrors.GenreNameTooLongCode,
+                    GenreErrors.GenreNameTooLongMessage(GenreRules.TitleMaxLength));
+
             return new Genre(Guid.NewGuid(), name.Trim());
         }
     }
