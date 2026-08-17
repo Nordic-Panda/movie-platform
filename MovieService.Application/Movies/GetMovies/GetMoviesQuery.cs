@@ -1,14 +1,14 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
+
 namespace MovieService.Application.Movies.GetMovies
 {
-    public record GetMoviesQuery
-    (
+    public record GetMoviesQuery(
         ICollection<Guid>? GenreIds,
         string? Title,
         int? Duration,
         string? ActorFirstName,
         string? ActorLastName,
         int? Page
-    ) : IRequest<IReadOnlyList<MovieDto>>;
+    ) : IRequest<PagedResult<MovieDto>>;
 }

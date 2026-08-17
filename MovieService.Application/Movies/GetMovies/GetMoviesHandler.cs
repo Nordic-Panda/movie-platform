@@ -9,7 +9,7 @@ using MovieService.Application.Movies.GetMovies.Filters;
 
 namespace MovieService.Application.Movies.GetMovies
 {
-    public class GetMoviesHandler : IRequestHandler<GetMoviesQuery, IReadOnlyList<MovieDto>>
+    public class GetMoviesHandler : IRequestHandler<GetMoviesQuery, PagedResult<MovieDto>>
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IMovieActorRepository _movieActorRepository;
@@ -29,7 +29,7 @@ namespace MovieService.Application.Movies.GetMovies
             _settings = settings.Value;
         }
 
-        public async Task<IReadOnlyList<MovieDto>> Handle(
+        public async Task<PagedResult<MovieDto>> Handle(
             GetMoviesQuery request,
             CancellationToken cancellationToken
         )
@@ -57,6 +57,9 @@ namespace MovieService.Application.Movies.GetMovies
                     actors
                 );
 
+            // Count pages before skip and take
+            var totalCount = await query.CountAsync(cancellationToken);
+
             // Avoid nullable in DTO mapping
             // Send cancellation token to ToListAsync so when user close browser or navigates away
             // We wouldn't waste resources, reduce load under heavy traffic
@@ -66,7 +69,11 @@ namespace MovieService.Application.Movies.GetMovies
                 .Take(pageSize)
                 .ToListAsync(cancellationToken);
 
-            return result.Select(m => MovieMapper.ToDto(m)).ToList();
+            var items = result.Select(m => MovieMapper.ToDto(m)).ToList();
+
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            return new PagedResult<MovieDto>(items, page, pageSize, totalCount, totalPages);
 
             // We cannot use MovieMapper.ToDto inside the EF Core IQueryable projection
             // because EF Core may not be able to translate custom C# methods into SQL.
