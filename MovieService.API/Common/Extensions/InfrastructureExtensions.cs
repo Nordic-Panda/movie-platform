@@ -4,6 +4,7 @@ using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Settings;
 using MovieService.Infrastructure.Auth;
 using MovieService.Infrastructure.Data;
+using MovieService.Infrastructure.Persistence;
 using MovieService.Infrastructure.Persistence.Actors;
 using MovieService.Infrastructure.Persistence.Genres;
 using MovieService.Infrastructure.Persistence.MovieActors;
@@ -28,6 +29,8 @@ namespace MovieService.API.Common.Extensions
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<ITokenService, JwtTokenService>();
 
