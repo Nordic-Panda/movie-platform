@@ -13,6 +13,7 @@ namespace MovieService.API.Common.Extensions
 
             await UserSeeder.SeedUser(db);
             await GenreSeeder.SeedGenres(db);
+            await MovieSeeder.SeedMovies(db);
         }
     }
 }
