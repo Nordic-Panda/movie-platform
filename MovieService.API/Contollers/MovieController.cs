@@ -26,7 +26,8 @@ public class MovieController : ControllerBase
         _mediator = mediator;
     }
 
-    [Authorize(Policy = Policies.MovieCreate)]
+    //[Authorize(Policy = Policies.MovieCreate)]
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateMovieCommand command)
     {
@@ -34,7 +35,8 @@ public class MovieController : ControllerBase
         return CreatedAtAction(
             nameof(GetById),
             new { id = result.Id },
-            ApiResponse<MovieDto>.Ok(result));
+            ApiResponse<MovieDto>.Ok(result)
+        );
     }
 
     // Endspoints without attribute with Authorize are anonymous by default
@@ -87,10 +89,15 @@ public class MovieController : ControllerBase
 
     [HttpPost("{movieId:guid}/actors")]
     public async Task<IActionResult> AddActorToMovie(
-    [FromRoute] Guid movieId,
-    [FromBody] AddActorToMovieRequest request)
+        [FromRoute] Guid movieId,
+        [FromBody] AddActorToMovieRequest request
+    )
     {
-        var command = MovieActorMapper.ToAddActorToMovieCommand(movieId, request.ActorId, request.CharacterName);
+        var command = MovieActorMapper.ToAddActorToMovieCommand(
+            movieId,
+            request.ActorId,
+            request.CharacterName
+        );
         var result = await _mediator.Send(command);
         return Ok(ApiResponse<MovieActorDto>.Ok(result));
     }
