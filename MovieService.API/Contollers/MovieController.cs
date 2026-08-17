@@ -56,7 +56,7 @@ public class MovieController : ControllerBase
     {
         var result = await _mediator.Send(query);
 
-        return Ok(ApiResponse<IReadOnlyList<MovieDto>>.Ok(result));
+        return Ok(ApiResponse<PagedResult<MovieDto>>.Ok(result));
     }
 
     [HttpGet("details/{id:guid}")]
