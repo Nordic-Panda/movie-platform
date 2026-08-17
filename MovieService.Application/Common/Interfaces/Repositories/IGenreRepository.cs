@@ -18,5 +18,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         void Update(Genre genre);
 
         Task Delete(Guid id);
+
+        Task<Genre?> GetByNameAsync(string name);
     }
 }

@@ -17,11 +17,11 @@ namespace MovieService.Api.Controllers;
 
 [ApiController]
 [Route("api/movies")]
-public class MoviesController : ControllerBase
+public class MovieController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public MoviesController(IMediator mediator)
+    public MovieController(IMediator mediator)
     {
         _mediator = mediator;
     }
