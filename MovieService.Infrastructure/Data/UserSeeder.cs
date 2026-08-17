@@ -1,12 +1,13 @@
 ﻿using MovieService.Domain.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieService.Infrastructure.Data
 {
-    public class DbSeeder
+    public class UserSeeder
     {
         public static async Task SeedUser(AppDbContext db)
         {
-            if (db.Users.Any())
+            if (await db.Users.AnyAsync())
                 return;
 
             var password = "pass";

@@ -4,7 +4,7 @@ public record MovieDto(
     Guid Id,
     string Title,
     int DurationMinutes,
-    string Genre,
+    IReadOnlyList<GenreDto> Genres,
     string Language,
     string? Synopsis,
     decimal? BudgetAmount,

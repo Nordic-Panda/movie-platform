@@ -2,7 +2,7 @@
 {
     public class MovieDetails
     {
-        public string Language { get; }
+        public string Language { get; } = string.Empty;
         public string? Synopsis { get; }
         public Money? Budget { get; }
         private MovieDetails(){ }

@@ -4,7 +4,7 @@ namespace MovieService.Application.Movies.GetMovies
 {
     public record GetMoviesQuery
     (
-        string? Genre,
+        ICollection<Guid>? GenreIds,
         string? Title,
         int? Duration,
         string? ActorFirstName,

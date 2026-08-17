@@ -10,10 +10,12 @@ namespace MovieService.Application.Actors.UpdateActor
     public class UpdateActorHandler : IRequestHandler<UpdateActorCommand, ActorDto>
     {
         private readonly IActorRepository _actorRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateActorHandler(IActorRepository actorRepository)
+        public UpdateActorHandler(IActorRepository actorRepository, IUnitOfWork unitOfWork)
         {
             _actorRepository = actorRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<ActorDto> Handle(UpdateActorCommand request, CancellationToken cancellationToken)
         {
@@ -24,7 +26,7 @@ namespace MovieService.Application.Actors.UpdateActor
 
             actor.Update(request.FirstName, request.LastName, request.BirthYear);
 
-            await _actorRepository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return ActorMapper.ToDto(actor);
         }

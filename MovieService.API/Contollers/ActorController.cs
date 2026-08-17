@@ -14,11 +14,11 @@ namespace MovieService.API.Contollers
 {
     [Route("api/actors")]
     [ApiController]
-    public class ActorsController : ControllerBase
+    public class ActorController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ActorsController(IMediator mediator)
+        public ActorController(IMediator mediator)
         {
             _mediator = mediator;
         }

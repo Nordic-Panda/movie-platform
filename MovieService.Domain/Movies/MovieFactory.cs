@@ -1,5 +1,5 @@
-﻿using MovieService.Domain.Common.Enums;
-using MovieService.Domain.Common.Exceptions;
+﻿using MovieService.Domain.Common.Exceptions;
+using MovieService.Domain.Genres;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
@@ -9,7 +9,7 @@ namespace MovieService.Domain.Movies
         public static Movie Create(
             string title,
             TimeSpan duration,
-            Genre genre,
+            IReadOnlyCollection<Genre> genres,
             MovieDetails details)
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -37,16 +37,11 @@ namespace MovieService.Domain.Movies
                     MovieErrors.DurationTooLongCode,
                     MovieErrors.DurationTooLongMessage((int)MovieRules.MinDuration.TotalMinutes));
 
-            if (!Enum.IsDefined(genre))
-                throw new DomainException(
-                    MovieErrors.GenreInvalidCode,
-                    MovieErrors.GenreInvalidMessage);
-
             return new Movie(
                 Guid.NewGuid(),
                 title,
                 duration,
-                genre,
+                genres,
                 details);
         }
     }

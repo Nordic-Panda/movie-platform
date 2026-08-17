@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MovieService.Application.Common.Interfaces.Repositories;
+﻿using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Domain.Entities;
 using MovieService.Infrastructure.Data;
 namespace MovieService.Infrastructure.Persistence.MovieActors
