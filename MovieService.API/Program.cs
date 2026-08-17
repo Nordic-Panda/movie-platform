@@ -10,6 +10,7 @@ builder.Services.ActiveSwaggerAuthentication();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 // Add Policies
 builder.Services.AddAuthorizationPolicies();
+builder.Services.AddCorsPolicy(builder.Configuration);
 // Add application layer services, MediatR, FluentValidation 
 builder.Services.AddApplicationServices();
 // Add Infrastructure layer services, Register DBcontext, Repositories, services

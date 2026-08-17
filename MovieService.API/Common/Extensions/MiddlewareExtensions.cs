@@ -1,4 +1,5 @@
 ﻿using MovieService.API.Common.Contracts;
+using MovieService.API.Common.Errors;
 using MovieService.API.Common.Middlewares;
 
 namespace MovieService.API.Common.Extensions
@@ -20,9 +21,25 @@ namespace MovieService.API.Common.Extensions
 
                 var (code, message) = response.StatusCode switch
                 {
-                    404 => ("NOT_FOUND", "Resource not found"),
-                    405 => ("METHOD_NOT_ALLOWED", "Method not allowed"),
-                    _ => ("HTTP_ERROR", "Request failed")
+                    401 => (
+                        AuthErrors.UnauthorizedCode,
+                        AuthErrors.UnauthorizedMessage),
+
+                    403 => (
+                        AuthErrors.ForbiddenCode,
+                        AuthErrors.ForbiddenMessage),
+
+                    404 => (
+                        AuthErrors.NotFoundCode,
+                        AuthErrors.NotFoundMessage),
+
+                    405 => (
+                        AuthErrors.MethodNotAllowedCode,
+                        AuthErrors.MethodNotAllowedMessage),
+
+                    _ => (
+                        AuthErrors.HttpErrorCode,
+                        AuthErrors.HttpErrorMessage)
                 };
 
                 response.ContentType = "application/json";
@@ -35,8 +52,12 @@ namespace MovieService.API.Common.Extensions
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
+
+            app.UseCors("Frontend");
+
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             return app;
         }

@@ -4,7 +4,7 @@
     {
         public bool Success { get; set; }
         public T? Data { get; set; }
-        public ApiError? Error { get; set; }
+        public ApiErrors? Error { get; set; }
 
         public static ApiResponse<T> Ok(T data)
         {
@@ -16,7 +16,7 @@
             return new ApiResponse<T>
             {
                 Success = false,
-                Error = new ApiError
+                Error = new ApiErrors
                 {
                     Code = code,
                     Message = msg,

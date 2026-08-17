@@ -1,6 +1,6 @@
 ﻿namespace MovieService.API.Common.Contracts
 {
-    public class ApiError
+    public class ApiErrors
     {
         public string Code { get; set; } = "";
         public string Message { get; set; } = "";
