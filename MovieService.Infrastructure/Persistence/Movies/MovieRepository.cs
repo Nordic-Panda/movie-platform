@@ -11,7 +11,7 @@ namespace MovieService.Infrastructure.Persistence.Movies
 
         public MovieRepository(AppDbContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         public async Task AddAsync(Movie movie)
@@ -26,13 +26,13 @@ namespace MovieService.Infrastructure.Persistence.Movies
 
         public async Task<IReadOnlyList<Movie>> GetAllMoviesAsync()
         {
-            return (await _context.Movies.ToListAsync())
-                .AsReadOnly();
+            return (await _context.Movies.Include(x => x.Genres).ToListAsync()).AsReadOnly();
         }
 
         public async Task<Movie?> GetByIdAsync(Guid id)
         {
-            return await _context.Movies
+            return await _context
+                .Movies.Include(x => x.Genres)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
