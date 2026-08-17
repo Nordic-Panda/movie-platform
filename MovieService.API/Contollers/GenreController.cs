@@ -3,13 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Common.Contracts;
 using MovieService.API.Common.Policy;
-using MovieService.Application.Actors.GetActors;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Genres.CreateGenre;
 using MovieService.Application.Genres.GetGenreById;
 using MovieService.Application.Genres.GetGenres;
-using MovieService.Application.Movies.GetMovieById;
-using MovieService.Application.Movies.GetMovies;
 
 namespace MovieService.API.Contollers
 {
