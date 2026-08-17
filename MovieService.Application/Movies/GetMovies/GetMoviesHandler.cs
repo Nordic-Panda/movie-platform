@@ -52,7 +52,7 @@ namespace MovieService.Application.Movies.GetMovies
                 .Take(pageSize)
                 .ToListAsync(cancellationToken);
 
-            return movies
+            return result
                 .Select(m => MovieMapper.ToDto(m))
                 .ToList();
 

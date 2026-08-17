@@ -23,7 +23,7 @@ namespace MovieService.Application.Genres.CreateGenre
 
             var existingGenre = await _genreRepository.GetByNameAsync(request.Name);
 
-            if (existingGenre is not null)
+            if (existingGenre != null)
             {
                 throw new ConflictException(GenreErrors.GenreNameAlreadyExistsCode, GenreErrors.GenreNameAlreadyExistsMessage);
             }

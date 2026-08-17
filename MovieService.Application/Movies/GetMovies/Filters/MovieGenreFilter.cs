@@ -7,7 +7,7 @@ namespace MovieService.Application.Movies.GetMovies.Filters
     {
         public static IQueryable<Movie> ApplyGenreFilter(
             this IQueryable<Movie> query,
-            ICollection<Guid> genreIds)
+            ICollection<Guid>? genreIds)
         {
 
             // Do nothing if genre is null or whitespace

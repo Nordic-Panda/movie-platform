@@ -7,7 +7,9 @@ using MovieService.Application.Actors.GetActors;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Genres.CreateGenre;
 using MovieService.Application.Genres.GetGenreById;
+using MovieService.Application.Genres.GetGenres;
 using MovieService.Application.Movies.GetMovieById;
+using MovieService.Application.Movies.GetMovies;
 
 namespace MovieService.API.Contollers
 {
@@ -40,6 +42,15 @@ namespace MovieService.API.Contollers
             var result = await _mediator.Send(new GetGenreByIdQuery(id));
 
             return Ok(ApiResponse<GenreDto>.Ok(result));
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetAllGenres([FromQuery] GetGenresQuery query)
+        {
+            var result = await _mediator.Send(query);
+
+            return Ok(ApiResponse<IReadOnlyList<GenreDto>>.Ok(result));
         }
     }
 }

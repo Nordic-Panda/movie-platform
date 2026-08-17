@@ -48,5 +48,16 @@ namespace MovieService.Infrastructure.Persistence.Genres
         {
             _context.Genres.Update(genre);
         }
+
+        public IQueryable<Genre> Query()
+        {
+            return _context.Genres.AsQueryable();
+        }
+
+        public async Task<Genre?> GetByNameAsync(string name)
+        {
+            return await _context.Genres
+                .FirstOrDefaultAsync(x => x.Name == name);
+        }
     }
 }

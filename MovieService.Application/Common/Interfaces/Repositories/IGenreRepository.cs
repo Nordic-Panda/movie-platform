@@ -20,5 +20,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task Delete(Guid id);
 
         Task<Genre?> GetByNameAsync(string name);
+
+        IQueryable<Genre> Query();
     }
 }
