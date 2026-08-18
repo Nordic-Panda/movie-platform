@@ -1,6 +1,6 @@
 ﻿using MovieService.Domain.Common.Exceptions;
 
-namespace MovieService.Domain.Language
+namespace MovieService.Domain.Languages
 {
     public static class LanguageFactory
     {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MovieService.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddLanguage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,21 +38,17 @@ namespace MovieService.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Movies",
+                name: "Languages",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Details_Language = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Details_Synopsis = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    Details_Budget_Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
-                    Details_Budget_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.PrimaryKey("PK_Languages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,6 +63,30 @@ namespace MovieService.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
+                    LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Details_Synopsis = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Details_Budget_Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
+                    Details_Budget_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movies_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -140,6 +160,18 @@ namespace MovieService.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Languages_Code",
+                table: "Languages",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Languages_Name",
+                table: "Languages",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MovieActor_MovieId_ActorId_CharacterName",
                 table: "MovieActor",
                 columns: new[] { "MovieId", "ActorId", "CharacterName" },
@@ -149,6 +181,11 @@ namespace MovieService.Infrastructure.Migrations
                 name: "IX_MovieGenres_MovieId",
                 table: "MovieGenres",
                 column: "MovieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_LanguageId",
+                table: "Movies",
+                column: "LanguageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_MovieId",
@@ -185,6 +222,9 @@ namespace MovieService.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Movies");
+
+            migrationBuilder.DropTable(
+                name: "Languages");
         }
     }
 }

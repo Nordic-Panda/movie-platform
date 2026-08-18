@@ -13,7 +13,6 @@ namespace MovieService.Application.Common.Mappers
                 (int)movie.Duration.TotalMinutes,
                 movie.Year,
                 movie.Genres.Select(genre => new GenreDto(genre.Id, genre.Name)).ToList(),
-                movie.Details.Language,
                 movie.Details.Synopsis,
                 movie.Details.Budget?.Amount,
                 movie.Details.Budget?.Currency

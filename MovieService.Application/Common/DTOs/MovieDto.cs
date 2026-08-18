@@ -6,7 +6,6 @@ public record MovieDto(
     int DurationMinutes,
     int Year,
     IReadOnlyList<GenreDto> Genres,
-    string Language,
     string? Synopsis,
     decimal? BudgetAmount,
     string? CurrencyCode

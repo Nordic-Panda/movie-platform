@@ -1,4 +1,5 @@
 ﻿using MovieService.Domain.Genres;
+using MovieService.Domain.Languages;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
@@ -12,6 +13,8 @@ namespace MovieService.Domain.Movies
 
         private readonly List<Genre> _genres = new();
         public IReadOnlyCollection<Genre> Genres => _genres;
+
+        public Language Language { get; private set; } = null!;
 
         public MovieDetail Details { get; private set; } = null!;
 

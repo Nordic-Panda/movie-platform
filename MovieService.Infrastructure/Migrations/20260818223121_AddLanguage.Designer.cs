@@ -12,8 +12,8 @@ using MovieService.Infrastructure.Data;
 namespace MovieService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260817180839_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260818223121_AddLanguage")]
+    partial class AddLanguage
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,6 +105,36 @@ namespace MovieService.Infrastructure.Migrations
                     b.ToTable("Genres");
                 });
 
+            modelBuilder.Entity("MovieService.Domain.Languages.Language", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Languages");
+                });
+
             modelBuilder.Entity("MovieService.Domain.Movies.Movie", b =>
                 {
                     b.Property<Guid>("Id")
@@ -113,6 +143,9 @@ namespace MovieService.Infrastructure.Migrations
 
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
+
+                    b.Property<Guid>("LanguageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -123,6 +156,8 @@ namespace MovieService.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
 
                     b.ToTable("Movies");
                 });
@@ -201,15 +236,16 @@ namespace MovieService.Infrastructure.Migrations
 
             modelBuilder.Entity("MovieService.Domain.Movies.Movie", b =>
                 {
-                    b.OwnsOne("MovieService.Domain.ValueObjects.MovieDetails", "Details", b1 =>
+                    b.HasOne("MovieService.Domain.Languages.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("MovieService.Domain.ValueObjects.MovieDetail", "Details", b1 =>
                         {
                             b1.Property<Guid>("MovieId")
                                 .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Language")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
 
                             b1.Property<string>("Synopsis")
                                 .HasMaxLength(1000)
@@ -224,7 +260,7 @@ namespace MovieService.Infrastructure.Migrations
 
                             b1.OwnsOne("MovieService.Domain.ValueObjects.Money", "Budget", b2 =>
                                 {
-                                    b2.Property<Guid>("MovieDetailsMovieId")
+                                    b2.Property<Guid>("MovieDetailMovieId")
                                         .HasColumnType("uniqueidentifier");
 
                                     b2.Property<decimal>("Amount")
@@ -236,12 +272,12 @@ namespace MovieService.Infrastructure.Migrations
                                         .HasMaxLength(3)
                                         .HasColumnType("nvarchar(3)");
 
-                                    b2.HasKey("MovieDetailsMovieId");
+                                    b2.HasKey("MovieDetailMovieId");
 
                                     b2.ToTable("Movies");
 
                                     b2.WithOwner()
-                                        .HasForeignKey("MovieDetailsMovieId");
+                                        .HasForeignKey("MovieDetailMovieId");
                                 });
 
                             b1.Navigation("Budget");
@@ -249,6 +285,8 @@ namespace MovieService.Infrastructure.Migrations
 
                     b.Navigation("Details")
                         .IsRequired();
+
+                    b.Navigation("Language");
                 });
 
             modelBuilder.Entity("MovieService.Domain.Reviews.Review", b =>

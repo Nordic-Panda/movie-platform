@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieService.Domain.Genres;
 using MovieService.Domain.Money;
 using MovieService.Domain.Movie.Details;
 using MovieService.Domain.Movies;
@@ -685,7 +686,7 @@ namespace MovieService.Infrastructure.Data
             string title,
             int durationMinutes,
             int year,
-            IEnumerable<MovieService.Domain.Genres.Genre> genres,
+            IEnumerable<Genre> genres,
             string language,
             string synopsis,
             decimal budget,
@@ -693,7 +694,6 @@ namespace MovieService.Infrastructure.Data
         )
         {
             var details = MovieDetailFactory.Create(
-                language,
                 synopsis,
                 MoneyFactory.Create(budget, currency)
             );

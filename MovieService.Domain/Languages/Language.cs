@@ -1,4 +1,4 @@
-﻿namespace MovieService.Domain.Language
+﻿namespace MovieService.Domain.Languages
 {
     public class Language
     {
