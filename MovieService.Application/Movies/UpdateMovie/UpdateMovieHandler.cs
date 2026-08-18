@@ -61,7 +61,7 @@ namespace MovieService.Application.Movies.UpdateMovie
                 money = MoneyFactory.Create(request.BudgetAmount.Value, request.CurrencyCode);
             }
 
-            var details = MovieDetailsFactory.Create(request.Language, request.Synopsis, money);
+            var details = MovieDetailFactory.Create(request.Language, request.Synopsis, money);
 
             movie.Update(request.Title, request.Year, duration, genres, details);
 

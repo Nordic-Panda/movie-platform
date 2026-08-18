@@ -11,7 +11,7 @@ namespace MovieService.Domain.Movies
             int year,
             TimeSpan duration,
             IReadOnlyCollection<Genre> genres,
-            MovieDetails details
+            MovieDetail details
         )
         {
             if (string.IsNullOrWhiteSpace(title))

@@ -13,7 +13,7 @@ namespace MovieService.Domain.Movies
         private readonly List<Genre> _genres = new();
         public IReadOnlyCollection<Genre> Genres => _genres;
 
-        public MovieDetails Details { get; private set; } = null!;
+        public MovieDetail Details { get; private set; } = null!;
 
         private Movie() { }
 
@@ -23,7 +23,7 @@ namespace MovieService.Domain.Movies
             int year,
             TimeSpan duration,
             IEnumerable<Genre> genres,
-            MovieDetails details
+            MovieDetail details
         )
         {
             Id = id;
@@ -39,7 +39,7 @@ namespace MovieService.Domain.Movies
             int year,
             TimeSpan duration,
             IEnumerable<Genre> genres,
-            MovieDetails details
+            MovieDetail details
         )
         {
             Title = title;

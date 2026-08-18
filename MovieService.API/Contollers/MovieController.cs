@@ -85,8 +85,8 @@ public class MovieController : ControllerBase
     }
 
     // Must fullfill BOTH policy, not OR
-    [Authorize(Policy = Policies.MovieDelete)]
-    [Authorize(Policy = Policies.AdminOnly)]
+    //[Authorize(Policy = Policies.MovieDelete)]
+    //[Authorize(Policy = Policies.AdminOnly)]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteMovie([FromRoute] Guid id)
     {

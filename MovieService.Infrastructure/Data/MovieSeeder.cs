@@ -692,7 +692,7 @@ namespace MovieService.Infrastructure.Data
             string currency
         )
         {
-            var details = MovieDetailsFactory.Create(
+            var details = MovieDetailFactory.Create(
                 language,
                 synopsis,
                 MoneyFactory.Create(budget, currency)
