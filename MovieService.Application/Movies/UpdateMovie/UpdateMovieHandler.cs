@@ -88,7 +88,9 @@ namespace MovieService.Application.Movies.UpdateMovie
 
             var details = MovieDetailFactory.Create(synopsis, money);
 
-            movie.Update(title, year, duration, genres, details, language);
+            var posterUrl = request.PosterUrl ?? movie.PosterUrl;
+
+            movie.Update(title, year, duration, genres, details, language, posterUrl);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

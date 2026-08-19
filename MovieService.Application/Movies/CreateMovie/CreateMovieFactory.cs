@@ -26,13 +26,16 @@ namespace MovieService.Application.Movies.CreateMovie
 
             var details = MovieDetailFactory.Create(request.Synopsis, money);
 
+            var posterUrl = string.IsNullOrWhiteSpace(request.PosterUrl) ? null : request.PosterUrl;
+
             return MovieFactory.Create(
                 request.Title,
                 request.Year,
                 duration,
                 genres,
                 details,
-                language
+                language,
+                posterUrl
             );
         }
     }

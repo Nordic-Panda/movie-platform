@@ -12,6 +12,7 @@ namespace MovieService.Application.Movies.UpdateMovie
         int? Year,
         string? Synopsis,
         decimal? BudgetAmount,
-        string? CurrencyCode
+        string? CurrencyCode,
+        string? PosterUrl
     ) : IRequest<MovieDto>;
 }

@@ -11,11 +11,19 @@ namespace MovieService.Domain.Movies
         public int Year { get; private set; }
         public TimeSpan Duration { get; private set; }
 
+        public string? PosterUrl { get; private set; }
+
         private readonly List<Genre> _genres = new();
         public IReadOnlyCollection<Genre> Genres => _genres;
 
         public MovieDetail Details { get; private set; } = null!;
         public Language Language { get; private set; } = null!;
+
+        public bool IsActive { get; private set; }
+
+        public void Disable() => IsActive = false;
+
+        public void Enable() => IsActive = true;
 
         private Movie() { }
 
@@ -25,7 +33,8 @@ namespace MovieService.Domain.Movies
             TimeSpan duration,
             IEnumerable<Genre> genres,
             MovieDetail details,
-            Language language
+            Language language,
+            string? posterUrl
         )
         {
             Id = Guid.NewGuid();
@@ -35,6 +44,8 @@ namespace MovieService.Domain.Movies
             UpdateGenres(genres);
             Details = details;
             Language = language;
+            PosterUrl = posterUrl;
+            IsActive = true;
         }
 
         public void Update(
@@ -43,7 +54,8 @@ namespace MovieService.Domain.Movies
             TimeSpan duration,
             IEnumerable<Genre> genres,
             MovieDetail details,
-            Language language
+            Language language,
+            string? posterUrl
         )
         {
             Title = title;
@@ -52,6 +64,7 @@ namespace MovieService.Domain.Movies
             UpdateGenres(genres);
             Details = details;
             Language = language;
+            PosterUrl = posterUrl;
         }
 
         public void UpdateGenres(IEnumerable<Genre> genres)

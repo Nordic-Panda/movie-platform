@@ -35,12 +35,8 @@ namespace MovieService.Infrastructure.Persistence.Movies
         {
             return await _context
                 .Movies.Include(x => x.Genres)
+                .Include(x => x.Language)
                 .FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
         }
 
         public IQueryable<Movie> Query()

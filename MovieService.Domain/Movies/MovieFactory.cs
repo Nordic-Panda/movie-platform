@@ -13,7 +13,8 @@ namespace MovieService.Domain.Movies
             TimeSpan duration,
             IReadOnlyCollection<Genre> genres,
             MovieDetail details,
-            Language language
+            Language language,
+            string? posterUrl
         )
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -52,7 +53,7 @@ namespace MovieService.Domain.Movies
                     MovieErrors.DurationTooLongMessage((int)MovieRules.MaxDuration.TotalMinutes)
                 );
 
-            return new Movie(title, year, duration, genres, details, language);
+            return new Movie(title, year, duration, genres, details, language, posterUrl);
         }
     }
 }
