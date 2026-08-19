@@ -12,8 +12,8 @@ using MovieService.Infrastructure.Data;
 namespace MovieService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260818223121_AddLanguage")]
-    partial class AddLanguage
+    [Migration("20260819102449_AddLanguageAndMovieLanguage")]
+    partial class AddLanguageAndMovieLanguage
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,8 +144,14 @@ namespace MovieService.Infrastructure.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("LanguageId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PosterUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()

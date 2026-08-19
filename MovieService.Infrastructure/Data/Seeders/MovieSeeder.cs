@@ -42,11 +42,11 @@ public static class MovieSeeder
         var scienceFiction = genres["Science Fiction"];
         var thriller = genres["Thriller"];
 
-        var english = languages["en"];
-        var chinese = languages["zh"];
-        var swedish = languages["sv"];
-        var danish = languages["da"];
-        var japanese = languages["ja"];
+        var english = languages["EN"];
+        var chinese = languages["ZH"];
+        var swedish = languages["SV"];
+        var danish = languages["DA"];
+        var japanese = languages["JA"];
 
         var movies = new[]
         {
@@ -741,7 +741,7 @@ public static class MovieSeeder
             ),
             Movie(
                 "The Guilty",
-                2018,
+                120,
                 2018,
                 new[] { thriller, crime, drama },
                 danish,

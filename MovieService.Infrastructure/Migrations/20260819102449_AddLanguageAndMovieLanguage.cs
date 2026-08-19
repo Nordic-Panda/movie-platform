@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MovieService.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddLanguage : Migration
+    public partial class AddLanguageAndMovieLanguage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,10 +73,12 @@ namespace MovieService.Infrastructure.Migrations
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Duration = table.Column<TimeSpan>(type: "time", nullable: false),
-                    LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PosterUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Details_Synopsis = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     Details_Budget_Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
-                    Details_Budget_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true)
+                    Details_Budget_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
+                    LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -141,8 +141,14 @@ namespace MovieService.Infrastructure.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("LanguageId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PosterUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
