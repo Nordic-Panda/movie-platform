@@ -25,5 +25,15 @@
 
         public const string LanguageNotFoundCode = "LANGUAGE_NOT_FOUND";
         public const string LanguageNotFoundMessage = "Language not found";
+
+        public const string LanguageAlreadyExistsCode = "LANGUAGE_ALREADY_EXISTS";
+
+        public static string LanguageAlreadyExistsMessage(string languageName) =>
+            $"Language - '{languageName}' already exists";
+
+        public const string LanguageCodeAlreadyExistsCode = "LANGUAGE_CODE_ALREADY_EXISTS";
+
+        public static string LanguageCodeAlreadyExistsMessage(string languageCode) =>
+            $"Language ISO code - '{languageCode}' already exists";
     }
 }

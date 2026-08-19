@@ -7,6 +7,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task<IReadOnlyList<Language>> GetAllLanguagesAsync();
         Task<Language?> GetByIdAsync(Guid id);
         Task<Language?> GetByNameAsync(string name);
+        Task<Language?> GetByCodeAsync(string code);
         Task<Language> AddAsync(Language language);
     }
 }
