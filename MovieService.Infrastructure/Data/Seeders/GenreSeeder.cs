@@ -1,8 +1,8 @@
-﻿using MovieService.Domain.Genres;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieService.Domain.Genres;
 using MovieService.Infrastructure.Data.SeedData;
-using Microsoft.EntityFrameworkCore;
 
-namespace MovieService.Infrastructure.Data
+namespace MovieService.Infrastructure.Data.Seeders
 {
     public class GenreSeeder
     {
@@ -22,7 +22,7 @@ namespace MovieService.Infrastructure.Data
                 GenreFactory.Create(GenreSeedData.Horror),
                 GenreFactory.Create(GenreSeedData.Romance),
                 GenreFactory.Create(GenreSeedData.ScienceFiction),
-                GenreFactory.Create(GenreSeedData.Thriller)
+                GenreFactory.Create(GenreSeedData.Thriller),
             };
 
             db.Genres.AddRange(genres);

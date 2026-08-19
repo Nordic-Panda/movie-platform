@@ -4,7 +4,7 @@ using MovieService.Domain.Money;
 using MovieService.Domain.Movie.Details;
 using MovieService.Domain.Movies;
 
-namespace MovieService.Infrastructure.Data
+namespace MovieService.Infrastructure.Data.Seeders
 {
     public static class MovieSeeder
     {
