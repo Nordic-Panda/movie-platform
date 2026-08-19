@@ -21,7 +21,6 @@ namespace MovieService.Application.Languages.GetLanguages
         )
         {
             var languages = await _languageRepository.GetAllLanguagesAsync();
-            languages.OrderBy(l => l.Name);
 
             return languages.Select(LanguageMapper.ToDto).ToList();
         }

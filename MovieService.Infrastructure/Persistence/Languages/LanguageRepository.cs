@@ -22,7 +22,7 @@ namespace MovieService.Infrastructure.Persistence.Languages
 
         public async Task<IReadOnlyList<Language>> GetAllLanguagesAsync()
         {
-            return (await _appDbContext.Languages.ToListAsync()).AsReadOnly();
+            return await _appDbContext.Languages.AsNoTracking().ToListAsync();
         }
 
         public async Task<Language?> GetByIdAsync(Guid id)
