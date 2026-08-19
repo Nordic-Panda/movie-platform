@@ -4,6 +4,7 @@ using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
 using MovieService.Domain.Genres;
+using MovieService.Domain.Languages;
 using MovieService.Domain.Money;
 using MovieService.Domain.Movie.Details;
 using MovieService.Domain.Movies;
@@ -16,16 +17,19 @@ namespace MovieService.Application.Movies.UpdateMovie
         private readonly IMovieRepository _movieRepository;
         private readonly IGenreRepository _genreRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILanguageRepository _languageRepository;
 
         public UpdateMovieHandler(
             IMovieRepository movieRepository,
             IGenreRepository genreRepository,
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            ILanguageRepository languageRepository
         )
         {
             _movieRepository = movieRepository;
             _genreRepository = genreRepository;
             _unitOfWork = unitOfWork;
+            _languageRepository = languageRepository;
         }
 
         public async Task<MovieDto> Handle(
@@ -41,9 +45,12 @@ namespace MovieService.Application.Movies.UpdateMovie
                     MovieErrors.MovieNotFoundMessage
                 );
 
-            var genres = await _genreRepository.GetByIdsAsync(request.GenreIds);
+            var genres =
+                request.GenreIds == null
+                    ? movie.Genres
+                    : await _genreRepository.GetByIdsAsync(request.GenreIds);
 
-            if (genres.Count != request.GenreIds.Distinct().Count())
+            if (request.GenreIds != null && genres.Count != request.GenreIds.Distinct().Count())
             {
                 throw new NotFoundException(
                     GenreErrors.OneOrMoreGenresNotFoundCode,
@@ -51,19 +58,37 @@ namespace MovieService.Application.Movies.UpdateMovie
                 );
             }
 
-            // FluentValidation will be checking if this has value
-            TimeSpan duration = TimeSpan.FromMinutes(request.DurationMinutes);
+            var language = movie.Language;
 
-            Money? money = null;
-
-            if (request.BudgetAmount.HasValue && !string.IsNullOrWhiteSpace(request.CurrencyCode))
+            if (request.LanguageId is Guid languageId)
             {
-                money = MoneyFactory.Create(request.BudgetAmount.Value, request.CurrencyCode);
+                language = await _languageRepository.GetByIdAsync(languageId);
+
+                if (language == null)
+                {
+                    throw new NotFoundException(
+                        LanguageErrors.LanguageNotFoundCode,
+                        LanguageErrors.LanguageNotFoundMessage
+                    );
+                }
             }
 
-            var details = MovieDetailFactory.Create(request.Synopsis, money);
+            var duration = !request.DurationMinutes.HasValue
+                ? movie.Duration
+                : TimeSpan.FromMinutes(request.DurationMinutes.Value);
 
-            movie.Update(request.Title, request.Year, duration, genres, details);
+            var title = request.Title ?? movie.Title;
+            var year = request.Year ?? movie.Year;
+
+            Money? money = !request.BudgetAmount.HasValue
+                ? movie.Details.Budget
+                : MoneyFactory.Create(request.BudgetAmount.Value, request.CurrencyCode!);
+
+            var synopsis = request.Synopsis ?? movie.Details.Synopsis;
+
+            var details = MovieDetailFactory.Create(synopsis, money);
+
+            movie.Update(title, year, duration, genres, details, language);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

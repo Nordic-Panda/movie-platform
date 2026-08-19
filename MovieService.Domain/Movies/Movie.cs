@@ -14,27 +14,27 @@ namespace MovieService.Domain.Movies
         private readonly List<Genre> _genres = new();
         public IReadOnlyCollection<Genre> Genres => _genres;
 
-        public Language Language { get; private set; } = null!;
-
         public MovieDetail Details { get; private set; } = null!;
+        public Language Language { get; private set; } = null!;
 
         private Movie() { }
 
         internal Movie(
-            Guid id,
             string title,
             int year,
             TimeSpan duration,
             IEnumerable<Genre> genres,
-            MovieDetail details
+            MovieDetail details,
+            Language language
         )
         {
-            Id = id;
+            Id = Guid.NewGuid();
             Title = title;
             Year = year;
             Duration = duration;
             UpdateGenres(genres);
             Details = details;
+            Language = language;
         }
 
         public void Update(
@@ -42,7 +42,8 @@ namespace MovieService.Domain.Movies
             int year,
             TimeSpan duration,
             IEnumerable<Genre> genres,
-            MovieDetail details
+            MovieDetail details,
+            Language language
         )
         {
             Title = title;
@@ -50,6 +51,7 @@ namespace MovieService.Domain.Movies
             Duration = duration;
             UpdateGenres(genres);
             Details = details;
+            Language = language;
         }
 
         public void UpdateGenres(IEnumerable<Genre> genres)

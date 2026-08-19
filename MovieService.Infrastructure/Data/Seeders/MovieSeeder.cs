@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieService.Domain.Genres;
+using MovieService.Domain.Languages;
 using MovieService.Domain.Money;
 using MovieService.Domain.Movie.Details;
 using MovieService.Domain.Movies;
@@ -687,7 +688,7 @@ namespace MovieService.Infrastructure.Data.Seeders
             int durationMinutes,
             int year,
             IEnumerable<Genre> genres,
-            string language,
+            Language language,
             string synopsis,
             decimal budget,
             string currency
@@ -703,7 +704,8 @@ namespace MovieService.Infrastructure.Data.Seeders
                 year,
                 TimeSpan.FromMinutes(durationMinutes),
                 genres.ToArray(),
-                details
+                details,
+                language
             );
         }
     }

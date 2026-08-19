@@ -22,5 +22,8 @@
 
         public static string ISOInvalidLengthMessage(int expectedLength) =>
             $"Language ISO code must be exactly {expectedLength} characters long";
+
+        public const string LanguageNotFoundCode = "LANGUAGE_NOT_FOUND";
+        public const string LanguageNotFoundMessage = "Language not found";
     }
 }
