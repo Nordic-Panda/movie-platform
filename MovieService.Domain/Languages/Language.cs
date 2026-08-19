@@ -11,7 +11,7 @@
 
         internal Language(string name, string code)
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
             Name = name;
             Code = code;
             IsActive = true;

@@ -24,6 +24,7 @@ namespace MovieService.Infrastructure.Persistence.Movies
             await _context.Movies.Where(m => m.Id == id).ExecuteDeleteAsync();
         }
 
+        // THIS WAS NOT USED
         public async Task<IReadOnlyList<Movie>> GetAllMoviesAsync()
         {
             return (

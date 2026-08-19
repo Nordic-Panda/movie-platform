@@ -47,6 +47,7 @@ namespace MovieService.Application.Movies.GetMovies
             // ApplyGenreFilter only affects which movies are returned.
             var query = movies
                 .Include(m => m.Genres)
+                .Include(m => m.Language)
                 .ApplyGenreFilter(request.GenreIds)
                 .ApplyTitleFilter(request.Title)
                 .ApplyDurationFilter(request.Duration)
