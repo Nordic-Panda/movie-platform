@@ -20,15 +20,16 @@ namespace MovieService.Infrastructure.Persistence.Movies
 
             entity.Property(x => x.Year).IsRequired();
 
+            entity
+                .HasOne(x => x.Language)
+                .WithMany()
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
             entity.OwnsOne(
                 x => x.Details,
                 details =>
                 {
-                    details
-                        .Property(d => d.Language)
-                        .IsRequired()
-                        .HasMaxLength(DbMovieRules.LanguageMaxLength);
-
                     details.Property(d => d.Synopsis).HasMaxLength(DbMovieRules.SynopsisMaxLength);
 
                     details.OwnsOne(

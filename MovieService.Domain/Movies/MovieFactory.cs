@@ -1,5 +1,6 @@
 ﻿using MovieService.Domain.Common.Exceptions;
 using MovieService.Domain.Genres;
+using MovieService.Domain.Languages;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
@@ -11,7 +12,9 @@ namespace MovieService.Domain.Movies
             int year,
             TimeSpan duration,
             IReadOnlyCollection<Genre> genres,
-            MovieDetails details
+            MovieDetail details,
+            Language language,
+            string? posterUrl
         )
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -50,7 +53,7 @@ namespace MovieService.Domain.Movies
                     MovieErrors.DurationTooLongMessage((int)MovieRules.MaxDuration.TotalMinutes)
                 );
 
-            return new Movie(Guid.NewGuid(), title, year, duration, genres, details);
+            return new Movie(title, year, duration, genres, details, language, posterUrl);
         }
     }
 }

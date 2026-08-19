@@ -18,7 +18,7 @@ namespace MovieService.Application.Movies.CreateMovie
                 .GreaterThanOrEqualTo((int)MovieRules.MinDuration.TotalMinutes)
                 .LessThanOrEqualTo((int)MovieRules.MaxDuration.TotalMinutes);
 
-            RuleFor(x => x.Language).NotEmpty();
+            RuleFor(x => x.LanguageId).NotEmpty();
 
             RuleFor(x => x.CurrencyCode)
                 .Length(CurrencyRules.IsoCodeLength)

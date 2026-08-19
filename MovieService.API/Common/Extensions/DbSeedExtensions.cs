@@ -1,4 +1,5 @@
 ﻿using MovieService.Infrastructure.Data;
+using MovieService.Infrastructure.Data.Seeders;
 
 namespace MovieService.API.Common.Extensions
 {
@@ -8,10 +9,10 @@ namespace MovieService.API.Common.Extensions
         {
             using var scope = app.Services.CreateScope();
 
-            var db = scope.ServiceProvider
-                .GetRequiredService<AppDbContext>();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             await UserSeeder.SeedUser(db);
+            await LanguageSeeder.SeedLanguages(db);
             await GenreSeeder.SeedGenres(db);
             await MovieSeeder.SeedMovies(db);
         }

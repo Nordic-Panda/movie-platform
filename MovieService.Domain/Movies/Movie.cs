@@ -1,4 +1,5 @@
 ﻿using MovieService.Domain.Genres;
+using MovieService.Domain.Languages;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
@@ -10,28 +11,41 @@ namespace MovieService.Domain.Movies
         public int Year { get; private set; }
         public TimeSpan Duration { get; private set; }
 
+        public string? PosterUrl { get; private set; }
+
         private readonly List<Genre> _genres = new();
         public IReadOnlyCollection<Genre> Genres => _genres;
 
-        public MovieDetails Details { get; private set; } = null!;
+        public MovieDetail Details { get; private set; } = null!;
+        public Language Language { get; private set; } = null!;
+
+        public bool IsActive { get; private set; }
+
+        public void Disable() => IsActive = false;
+
+        public void Enable() => IsActive = true;
 
         private Movie() { }
 
         internal Movie(
-            Guid id,
             string title,
             int year,
             TimeSpan duration,
             IEnumerable<Genre> genres,
-            MovieDetails details
+            MovieDetail details,
+            Language language,
+            string? posterUrl
         )
         {
-            Id = id;
+            Id = Guid.NewGuid();
             Title = title;
             Year = year;
             Duration = duration;
             UpdateGenres(genres);
             Details = details;
+            Language = language;
+            PosterUrl = posterUrl;
+            IsActive = true;
         }
 
         public void Update(
@@ -39,7 +53,9 @@ namespace MovieService.Domain.Movies
             int year,
             TimeSpan duration,
             IEnumerable<Genre> genres,
-            MovieDetails details
+            MovieDetail details,
+            Language language,
+            string? posterUrl
         )
         {
             Title = title;
@@ -47,6 +63,8 @@ namespace MovieService.Domain.Movies
             Duration = duration;
             UpdateGenres(genres);
             Details = details;
+            Language = language;
+            PosterUrl = posterUrl;
         }
 
         public void UpdateGenres(IEnumerable<Genre> genres)

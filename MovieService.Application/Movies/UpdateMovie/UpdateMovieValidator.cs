@@ -19,7 +19,7 @@ namespace MovieService.Application.Movies.UpdateMovie
 
             RuleFor(x => x.Year).InclusiveBetween(MovieRules.MinYear, DateTime.UtcNow.Year);
 
-            RuleFor(x => x.Language).NotEmpty();
+            RuleFor(x => x.LanguageId).NotEmpty();
 
             RuleFor(x => x.CurrencyCode)
                 .Length(CurrencyRules.IsoCodeLength)

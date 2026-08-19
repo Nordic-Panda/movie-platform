@@ -26,19 +26,17 @@ namespace MovieService.Infrastructure.Persistence.Movies
 
         public async Task<IReadOnlyList<Movie>> GetAllMoviesAsync()
         {
-            return (await _context.Movies.Include(x => x.Genres).ToListAsync()).AsReadOnly();
+            return (
+                await _context.Movies.Include(x => x.Genres).Include(m => m.Language).ToListAsync()
+            ).AsReadOnly();
         }
 
         public async Task<Movie?> GetByIdAsync(Guid id)
         {
             return await _context
                 .Movies.Include(x => x.Genres)
+                .Include(x => x.Language)
                 .FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
         }
 
         public IQueryable<Movie> Query()

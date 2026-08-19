@@ -7,9 +7,10 @@ public record CreateMovieCommand(
     string Title,
     int DurationMinutes,
     ICollection<Guid> GenreIds,
-    string Language,
+    Guid LanguageId,
     int Year,
     string? Synopsis,
     decimal? BudgetAmount,
-    string? CurrencyCode
+    string? CurrencyCode,
+    string? PosterUrl
 ) : IRequest<MovieDto>;

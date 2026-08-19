@@ -1,6 +1,7 @@
 ﻿using MovieService.Domain.Common.Exceptions;
+using MovieService.Domain.Currency;
 
-namespace MovieService.Domain.Currency
+namespace MovieService.Domain.Currencies
 {
     public class Currency
     {
@@ -17,28 +18,32 @@ namespace MovieService.Domain.Currency
             if (string.IsNullOrWhiteSpace(code))
                 throw new DomainException(
                     CurrencyErrors.CodeEmptyCode,
-                    CurrencyErrors.CodeEmptyMessage);
+                    CurrencyErrors.CodeEmptyMessage
+                );
 
             if (code.Trim().Length != CurrencyRules.IsoCodeLength)
                 throw new DomainException(
                     CurrencyErrors.CodeInvalidLengthCode,
-                    CurrencyErrors.CodeInvalidLengthMessage(CurrencyRules.IsoCodeLength));
+                    CurrencyErrors.CodeInvalidLengthMessage(CurrencyRules.IsoCodeLength)
+                );
 
             if (string.IsNullOrWhiteSpace(name))
                 throw new DomainException(
                     CurrencyErrors.NameEmptyCode,
-                    CurrencyErrors.NameEmptyMessage);
+                    CurrencyErrors.NameEmptyMessage
+                );
 
             if (numberOfDecimal < CurrencyRules.MinDecimal)
                 throw new DomainException(
                     CurrencyErrors.DecimalTooSmallCode,
-                    CurrencyErrors.DecimalTooSmallMessage(CurrencyRules.MinDecimal));
+                    CurrencyErrors.DecimalTooSmallMessage(CurrencyRules.MinDecimal)
+                );
 
             if (numberOfDecimal > CurrencyRules.MaxDecimal)
                 throw new DomainException(
                     CurrencyErrors.DecimalTooBigCode,
-                    CurrencyErrors.DecimalTooBigMessage(CurrencyRules.MaxDecimal));
-
+                    CurrencyErrors.DecimalTooBigMessage(CurrencyRules.MaxDecimal)
+                );
 
             Code = code.Trim().ToUpper();
             Name = name.Trim();
@@ -47,6 +52,7 @@ namespace MovieService.Domain.Currency
         }
 
         public void Disable() => IsActive = false;
+
         public void Enable() => IsActive = true;
     }
 }
