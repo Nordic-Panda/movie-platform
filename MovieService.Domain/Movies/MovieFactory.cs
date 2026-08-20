@@ -1,4 +1,5 @@
-﻿using MovieService.Domain.Genres;
+﻿using MovieService.Domain.Common.Normalizers;
+using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
 using MovieService.Domain.ValueObjects;
 
@@ -17,10 +18,14 @@ namespace MovieService.Domain.Movies
         )
         {
             MovieRules.ValidateTitle(title);
+
+            var normalizedTitle = StringNormalizer.NormalizeTitle(title);
+
+            MovieRules.ValidateTitleLength(normalizedTitle);
             MovieRules.ValidatePublishYear(year);
             MovieRules.ValidateDuration(duration);
 
-            return new Movie(title, year, duration, genres, details, language, posterUrl);
+            return new Movie(normalizedTitle, year, duration, genres, details, language, posterUrl);
         }
     }
 }

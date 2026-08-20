@@ -21,7 +21,10 @@ public static class MovieRules
     {
         if (string.IsNullOrWhiteSpace(title))
             throw new DomainException(MovieErrors.TitleEmptyCode, MovieErrors.TitleEmptyMessage);
+    }
 
+    public static void ValidateTitleLength(string title)
+    {
         if (title.Length < TitleMinLength)
             throw new DomainException(
                 MovieErrors.TitleTooShortCode,

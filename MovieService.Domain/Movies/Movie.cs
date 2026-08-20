@@ -1,4 +1,5 @@
-﻿using MovieService.Domain.Genres;
+﻿using MovieService.Domain.Common.Normalizers;
+using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
 using MovieService.Domain.MovieActors;
 using MovieService.Domain.Reviews;
@@ -64,10 +65,14 @@ namespace MovieService.Domain.Movies
         )
         {
             MovieRules.ValidateTitle(title);
+
+            var normalizedTitle = StringNormalizer.NormalizeTitle(title);
+
+            MovieRules.ValidateTitleLength(normalizedTitle);
             MovieRules.ValidatePublishYear(year);
             MovieRules.ValidateDuration(duration);
 
-            Title = title;
+            Title = normalizedTitle;
             Year = year;
             Duration = duration;
             UpdateGenres(genres);
