@@ -1,8 +1,6 @@
 ﻿using MovieService.Domain.Common.Normalizers;
 using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
-using MovieService.Domain.MovieActors;
-using MovieService.Domain.Reviews;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
