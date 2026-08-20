@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieService.Domain.Actors;
+using MovieService.Domain.Currencies;
 using MovieService.Domain.Entities;
 using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
@@ -21,6 +22,7 @@ public class AppDbContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Genre> Genres => Set<Genre>();
     public DbSet<Language> Languages => Set<Language>();
+    public DbSet<Currency> Currencies => Set<Currency>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

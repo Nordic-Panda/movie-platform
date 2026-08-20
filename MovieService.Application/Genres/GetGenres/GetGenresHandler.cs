@@ -6,8 +6,7 @@ using MovieService.Application.Common.Mappers;
 
 namespace MovieService.Application.Genres.GetGenres
 {
-    public class GetGenresHandler
-        : IRequestHandler<GetGenresQuery, IReadOnlyList<GenreDto>>
+    public class GetGenresHandler : IRequestHandler<GetGenresQuery, IReadOnlyList<GenreDto>>
     {
         private readonly IGenreRepository _genreRepository;
 
@@ -20,16 +19,17 @@ namespace MovieService.Application.Genres.GetGenres
         // but rather in a dropdown or similar UI element. So no need to paginate it.
         public async Task<IReadOnlyList<GenreDto>> Handle(
             GetGenresQuery request,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken
+        )
         {
-            var genres = await _genreRepository
-                .Query()
-                .OrderBy(g => g.Name)
-                .ToListAsync(cancellationToken);
+            //var genres = await _genreRepository
+            //    .Query()
+            //    .OrderBy(g => g.Name)
+            //    .ToListAsync(cancellationToken);
 
-            return genres
-                .Select(GenreMapper.ToDto)
-                .ToList();
+            var genres = await _genreRepository.GetAllGenresAsync();
+
+            return genres.Select(GenreMapper.ToDto).ToList();
         }
     }
 }

@@ -29,7 +29,8 @@ namespace MovieService.API.Contollers
             return CreatedAtAction(
                 nameof(GetById),
                 new { id = genreDto.Id },
-                ApiResponse<GenreDto>.Ok(genreDto));
+                ApiResponse<GenreDto>.Ok(genreDto)
+            );
         }
 
         [AllowAnonymous]

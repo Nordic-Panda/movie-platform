@@ -28,7 +28,13 @@ namespace MovieService.Infrastructure.Persistence.Movies
         public async Task<IReadOnlyList<Movie>> GetAllMoviesAsync()
         {
             return (
-                await _context.Movies.Include(x => x.Genres).Include(m => m.Language).ToListAsync()
+                await _context
+                    .Movies.Include(x => x.Genres)
+                    .Include(m => m.Language)
+                    .Include(x => x.Details)
+                        .ThenInclude(x => x.Budget)
+                            .ThenInclude(x => x.Currency)
+                    .ToListAsync()
             ).AsReadOnly();
         }
 
@@ -37,6 +43,9 @@ namespace MovieService.Infrastructure.Persistence.Movies
             return await _context
                 .Movies.Include(x => x.Genres)
                 .Include(x => x.Language)
+                .Include(x => x.Details)
+                    .ThenInclude(x => x.Budget)
+                        .ThenInclude(x => x.Currency)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 

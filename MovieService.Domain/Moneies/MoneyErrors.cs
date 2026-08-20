@@ -1,4 +1,4 @@
-﻿namespace MovieService.Domain.Money
+﻿namespace MovieService.Domain.Moneies
 {
     public static class MoneyErrors
     {

@@ -1,4 +1,5 @@
 ﻿using MovieService.Domain.Common.Exceptions;
+using MovieService.Domain.Common.Normalizers;
 
 namespace MovieService.Domain.Languages
 {
@@ -6,6 +7,10 @@ namespace MovieService.Domain.Languages
     {
         public static Language Create(string name, string code)
         {
+            // 2nd check, due to request might come from internally, skipping handler
+            name = StringNormalizer.ToTitleCase(name);
+            code = StringNormalizer.ToUpper(code);
+
             if (string.IsNullOrWhiteSpace(name))
                 throw new DomainException(
                     LanguageErrors.NameEmptyCode,
