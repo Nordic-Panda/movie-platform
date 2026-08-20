@@ -10,6 +10,15 @@ namespace MovieService.Domain.Languages
 
         public static void ValidateName(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new DomainException(
+                    LanguageErrors.NameEmptyCode,
+                    LanguageErrors.NameEmptyMessage
+                );
+        }
+
+        public static void ValidateNameLength(string name)
+        {
             if (name.Length < NameMinLength)
                 throw new DomainException(
                     LanguageErrors.NameTooShortCode,
@@ -24,6 +33,15 @@ namespace MovieService.Domain.Languages
         }
 
         public static void ValidateISOCode(string isoCode)
+        {
+            if (string.IsNullOrWhiteSpace(isoCode))
+                throw new DomainException(
+                    LanguageErrors.ISOEmptyCode,
+                    LanguageErrors.ISOEmptyMessage
+                );
+        }
+
+        public static void ValidateISOCodeLength(string isoCode)
         {
             if (isoCode.Length != ISO6391Length)
                 throw new DomainException(

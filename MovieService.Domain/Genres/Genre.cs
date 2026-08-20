@@ -26,6 +26,8 @@ namespace MovieService.Domain.Genres
             GenreRules.ValidateName(name);
             var normalizedName = StringNormalizer.NormalizeName(name);
             GenreRules.ValidateLength(normalizedName);
+
+            Name = normalizedName;
         }
     }
 }
