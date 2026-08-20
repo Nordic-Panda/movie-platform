@@ -7,6 +7,12 @@
         public string LastName { get; private set; }
         public int BirthYear { get; private set; }
 
+        public bool IsActive { get; private set; }
+
+        public void Disable() => IsActive = false;
+
+        public void Enable() => IsActive = true;
+
         private Actor() { }
 
         internal Actor(string fName, string lName, int birthYear)
@@ -15,10 +21,14 @@
             FirstName = fName;
             LastName = lName;
             BirthYear = birthYear;
+            IsActive = true;
         }
 
         public void Update(string fName, string lName, int birthYear)
         {
+            ActorRules.ValidateName(fName, lName);
+            ActorRules.ValidateBirthYear(birthYear);
+
             FirstName = fName;
             LastName = lName;
             BirthYear = birthYear;
