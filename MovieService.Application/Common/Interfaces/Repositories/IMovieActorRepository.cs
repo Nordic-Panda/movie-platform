@@ -1,4 +1,4 @@
-﻿using MovieService.Domain.Entities;
+﻿using MovieService.Domain.MovieActors;
 
 namespace MovieService.Application.Common.Interfaces.Repositories
 {

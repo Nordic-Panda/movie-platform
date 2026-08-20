@@ -1,4 +1,6 @@
-﻿namespace MovieService.Domain.Reviews
+﻿using MovieService.Domain.Movies;
+
+namespace MovieService.Domain.Reviews
 {
     public class Review
     {
@@ -7,6 +9,7 @@
 
         public string Comment { get; private set; }
         public int Rating { get; private set; }
+        public Movie Movie { get; private set; } = null!;
 
         private Review() { }
 

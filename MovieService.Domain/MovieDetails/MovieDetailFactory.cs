@@ -1,6 +1,6 @@
 ﻿using MovieService.Domain.ValueObjects;
 
-namespace MovieService.Domain.Movie.Details
+namespace MovieService.Domain.MovieDetails
 {
     public class MovieDetailFactory
     {

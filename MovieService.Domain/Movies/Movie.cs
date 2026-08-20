@@ -1,5 +1,7 @@
 ﻿using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
+using MovieService.Domain.MovieActors;
+using MovieService.Domain.Reviews;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
@@ -13,10 +15,13 @@ namespace MovieService.Domain.Movies
 
         public string? PosterUrl { get; private set; }
 
+        // Strict DDD should not include this, aggregate should not own an other aggregate just to navigate
         private readonly List<Genre> _genres = new();
         public IReadOnlyCollection<Genre> Genres => _genres;
 
         public MovieDetail Details { get; private set; } = null!;
+
+        // Strict DDD should not include this, aggregate should not own an other aggregate just to navigate
         public Language Language { get; private set; } = null!;
 
         public bool IsActive { get; private set; }
@@ -58,6 +63,10 @@ namespace MovieService.Domain.Movies
             string? posterUrl
         )
         {
+            MovieRules.ValidateTitle(title);
+            MovieRules.ValidatePublishYear(year);
+            MovieRules.ValidateDuration(duration);
+
             Title = title;
             Year = year;
             Duration = duration;

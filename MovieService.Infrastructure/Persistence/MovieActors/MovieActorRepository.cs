@@ -1,6 +1,7 @@
 ﻿using MovieService.Application.Common.Interfaces.Repositories;
-using MovieService.Domain.Entities;
+using MovieService.Domain.MovieActors;
 using MovieService.Infrastructure.Data;
+
 namespace MovieService.Infrastructure.Persistence.MovieActors
 {
     public class MovieActorRepository : IMovieActorRepository

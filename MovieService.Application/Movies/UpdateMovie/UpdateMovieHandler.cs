@@ -6,7 +6,7 @@ using MovieService.Application.Common.Mappers;
 using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
 using MovieService.Domain.Moneies;
-using MovieService.Domain.Movie.Details;
+using MovieService.Domain.MovieDetails;
 using MovieService.Domain.Movies;
 using MovieService.Domain.ValueObjects;
 

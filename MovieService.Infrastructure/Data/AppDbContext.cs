@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieService.Domain.Actors;
 using MovieService.Domain.Currencies;
-using MovieService.Domain.Entities;
 using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
+using MovieService.Domain.MovieActors;
 using MovieService.Domain.Movies;
 using MovieService.Domain.Reviews;
 using MovieService.Domain.Users;

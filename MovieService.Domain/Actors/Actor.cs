@@ -9,9 +9,9 @@
 
         private Actor() { }
 
-        internal Actor(Guid id, string fName, string lName, int birthYear)
+        internal Actor(string fName, string lName, int birthYear)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             FirstName = fName;
             LastName = lName;
             BirthYear = birthYear;
