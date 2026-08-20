@@ -7,6 +7,11 @@
             return NormalizeWhitespace(value);
         }
 
+        public static string NormalizeTitle(string value)
+        {
+            return NormalizeWhitespace(value);
+        }
+
         public static string ToTitleCase(string value)
         {
             value = value.Trim();
