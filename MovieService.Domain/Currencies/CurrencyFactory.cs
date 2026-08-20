@@ -1,5 +1,4 @@
-﻿using MovieService.Domain.Common.Exceptions;
-using MovieService.Domain.Common.Normalizers;
+﻿using MovieService.Domain.Common.Normalizers;
 
 namespace MovieService.Domain.Currencies
 {
@@ -12,6 +11,8 @@ namespace MovieService.Domain.Currencies
 
             var normalizedName = StringNormalizer.NormalizeName(name);
             var normalizedCode = StringNormalizer.ToUpper(code);
+
+            CurrencyRules.ValidateLength(normalizedName, normalizedCode);
 
             return new Currency(normalizedName, normalizedCode);
         }

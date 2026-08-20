@@ -1,4 +1,6 @@
-﻿namespace MovieService.Domain.Currencies
+﻿using MovieService.Domain.Common.Normalizers;
+
+namespace MovieService.Domain.Currencies
 {
     public class Currency
     {
@@ -20,6 +22,20 @@
             Name = name;
             Code = code;
             IsActive = true;
+        }
+
+        public void Update(string name, string code)
+        {
+            CurrencyRules.ValidateName(name);
+            CurrencyRules.ValidateCode(code);
+
+            var normalizedName = StringNormalizer.NormalizeName(name);
+            var normalizedCode = StringNormalizer.ToUpper(code);
+
+            CurrencyRules.ValidateLength(normalizedName, normalizedCode);
+
+            Name = normalizedName;
+            Code = normalizedCode;
         }
     }
 }
