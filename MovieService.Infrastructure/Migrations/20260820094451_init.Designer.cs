@@ -12,8 +12,8 @@ using MovieService.Infrastructure.Data;
 namespace MovieService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260819102449_AddLanguageAndMovieLanguage")]
-    partial class AddLanguageAndMovieLanguage
+    [Migration("20260820094451_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,36 @@ namespace MovieService.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Actors");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Currencies.Currency", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("MovieService.Domain.Entities.MovieActor", b =>
@@ -273,17 +303,25 @@ namespace MovieService.Infrastructure.Migrations
                                         .HasPrecision(18, 2)
                                         .HasColumnType("decimal(18,2)");
 
-                                    b2.Property<string>("Currency")
-                                        .IsRequired()
-                                        .HasMaxLength(3)
-                                        .HasColumnType("nvarchar(3)");
+                                    b2.Property<Guid>("CurrencyId")
+                                        .HasColumnType("uniqueidentifier");
 
                                     b2.HasKey("MovieDetailMovieId");
 
+                                    b2.HasIndex("CurrencyId");
+
                                     b2.ToTable("Movies");
+
+                                    b2.HasOne("MovieService.Domain.Currencies.Currency", "Currency")
+                                        .WithMany()
+                                        .HasForeignKey("CurrencyId")
+                                        .OnDelete(DeleteBehavior.Restrict)
+                                        .IsRequired();
 
                                     b2.WithOwner()
                                         .HasForeignKey("MovieDetailMovieId");
+
+                                    b2.Navigation("Currency");
                                 });
 
                             b1.Navigation("Budget");

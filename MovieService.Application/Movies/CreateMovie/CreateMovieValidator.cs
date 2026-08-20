@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using MovieService.Domain.Currency;
+using MovieService.Domain.Currencies;
 using MovieService.Domain.Movies;
 
 namespace MovieService.Application.Movies.CreateMovie

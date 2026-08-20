@@ -18,18 +18,21 @@ namespace MovieService.Application.Movies.UpdateMovie
         private readonly IGenreRepository _genreRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILanguageRepository _languageRepository;
+        private readonly ICurrencyRepository _currencyRepository;
 
         public UpdateMovieHandler(
             IMovieRepository movieRepository,
             IGenreRepository genreRepository,
             IUnitOfWork unitOfWork,
-            ILanguageRepository languageRepository
+            ILanguageRepository languageRepository,
+            ICurrencyRepository currencyRepository
         )
         {
             _movieRepository = movieRepository;
             _genreRepository = genreRepository;
             _unitOfWork = unitOfWork;
             _languageRepository = languageRepository;
+            _currencyRepository = currencyRepository;
         }
 
         public async Task<MovieDto> Handle(
@@ -80,9 +83,14 @@ namespace MovieService.Application.Movies.UpdateMovie
             var title = request.Title ?? movie.Title;
             var year = request.Year ?? movie.Year;
 
-            Money? money = !request.BudgetAmount.HasValue
-                ? movie.Details.Budget
-                : MoneyFactory.Create(request.BudgetAmount.Value, request.CurrencyCode!);
+            var currency = string.IsNullOrWhiteSpace(request.CurrencyCode)
+                ? null
+                : await _currencyRepository.GetCurrencyByCode(request.CurrencyCode);
+
+            Money? money =
+                !request.BudgetAmount.HasValue || currency is null
+                    ? movie.Details.Budget
+                    : MoneyFactory.Create(request.BudgetAmount.Value, currency);
 
             var synopsis = request.Synopsis ?? movie.Details.Synopsis;
 

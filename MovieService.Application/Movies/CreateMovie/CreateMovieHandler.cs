@@ -13,19 +13,22 @@ public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
     private readonly IGenreRepository _genreRepository;
 
     private readonly ILanguageRepository _languageRepository;
+    private readonly ICurrencyRepository _currencyRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateMovieHandler(
         IMovieRepository movieRepository,
         IGenreRepository genreRepository,
         IUnitOfWork unitOfWork,
-        ILanguageRepository languageRepository
+        ILanguageRepository languageRepository,
+        ICurrencyRepository currencyRepository
     )
     {
         _movieRepository = movieRepository;
         _genreRepository = genreRepository;
         _unitOfWork = unitOfWork;
         _languageRepository = languageRepository;
+        _currencyRepository = currencyRepository;
     }
 
     public async Task<MovieDto> Handle(CreateMovieCommand request, CancellationToken ct)
@@ -50,7 +53,11 @@ public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
             );
         }
 
-        var movie = CreateMovieFactory.Create(request, genres, language);
+        var currency = string.IsNullOrWhiteSpace(request.CurrencyCode)
+            ? null
+            : await _currencyRepository.GetCurrencyByCode(request.CurrencyCode);
+
+        var movie = CreateMovieFactory.Create(request, genres, language, currency);
 
         await _movieRepository.AddAsync(movie);
         await _unitOfWork.SaveChangesAsync(ct);

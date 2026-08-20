@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MovieService.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddLanguageAndMovieLanguage : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,6 +23,20 @@ namespace MovieService.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Actors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Currencies",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,13 +90,19 @@ namespace MovieService.Infrastructure.Migrations
                     PosterUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Details_Synopsis = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     Details_Budget_Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
-                    Details_Budget_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
+                    Details_Budget_CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movies_Currencies_Details_Budget_CurrencyId",
+                        column: x => x.Details_Budget_CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Movies_Languages_LanguageId",
                         column: x => x.LanguageId,
@@ -156,6 +176,18 @@ namespace MovieService.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Currencies_Code",
+                table: "Currencies",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Currencies_Name",
+                table: "Currencies",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Genres_Name",
                 table: "Genres",
                 column: "Name",
@@ -183,6 +215,11 @@ namespace MovieService.Infrastructure.Migrations
                 name: "IX_MovieGenres_MovieId",
                 table: "MovieGenres",
                 column: "MovieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_Details_Budget_CurrencyId",
+                table: "Movies",
+                column: "Details_Budget_CurrencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_LanguageId",
@@ -224,6 +261,9 @@ namespace MovieService.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Movies");
+
+            migrationBuilder.DropTable(
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "Languages");
