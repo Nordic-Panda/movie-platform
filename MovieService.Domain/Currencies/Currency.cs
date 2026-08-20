@@ -7,6 +7,10 @@
         public string Code { get; private set; } = null!;
         public bool IsActive { get; private set; }
 
+        public void Disable() => IsActive = false;
+
+        public void Enable() => IsActive = true;
+
         // This is for EF Core to produce the object, it needs a paramless Constructor
         private Currency() { }
 
@@ -17,9 +21,5 @@
             Code = code;
             IsActive = true;
         }
-
-        public void Disable() => IsActive = false;
-
-        public void Enable() => IsActive = true;
     }
 }
