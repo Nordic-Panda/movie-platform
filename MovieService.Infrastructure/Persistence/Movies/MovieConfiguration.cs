@@ -54,6 +54,8 @@ namespace MovieService.Infrastructure.Persistence.Movies
                     );
                 }
             );
+
+            entity.Property(x => x.IsActive).IsRequired();
         }
     }
 }

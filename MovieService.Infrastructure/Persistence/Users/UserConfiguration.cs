@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MovieService.Domain.Users;
 
 namespace MovieService.Infrastructure.Persistence.Users
 {
@@ -10,17 +9,15 @@ namespace MovieService.Infrastructure.Persistence.Users
         {
             entity.HasKey(x => x.Id);
 
-            entity.Property(x => x.Email)
-                .IsRequired();
+            entity.Property(x => x.Email).IsRequired();
 
-            entity.HasIndex(x => x.Email)
-                .IsUnique();
+            entity.HasIndex(x => x.Email).IsUnique();
 
-            entity.Property(x => x.PasswordHash)
-                .IsRequired();
+            entity.Property(x => x.PasswordHash).IsRequired();
 
-            entity.Property(x => x.Role)
-                .HasConversion<int>();
+            entity.Property(x => x.RoleId).IsRequired();
+
+            entity.Property(x => x.IsActive).IsRequired();
         }
     }
 }

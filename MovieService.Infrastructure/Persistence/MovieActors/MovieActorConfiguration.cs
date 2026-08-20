@@ -10,8 +10,6 @@ namespace MovieService.Infrastructure.Persistence.MovieActors
     {
         void IEntityTypeConfiguration<MovieActor>.Configure(EntityTypeBuilder<MovieActor> entity)
         {
-            entity.HasKey(x => x.Id);
-
             entity.Property(x => x.MovieId).IsRequired();
 
             entity.Property(x => x.ActorId).IsRequired();
