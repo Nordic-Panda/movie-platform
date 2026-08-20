@@ -3,7 +3,7 @@ using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
-using MovieService.Application.Common.Normalizers;
+using MovieService.Domain.Common.Normalizers;
 using MovieService.Domain.Languages;
 
 namespace MovieService.Application.Languages.CreateLanguage

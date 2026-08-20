@@ -1,12 +1,15 @@
-﻿namespace MovieService.Domain.ValueObjects
+﻿using MovieService.Domain.Currencies;
+
+namespace MovieService.Domain.ValueObjects
 {
     public class Money
     {
         public decimal Amount { get; }
-        public string Currency { get; }
+        public Currency Currency { get; }
 
         private Money() { }
-        internal Money(decimal amount, string currency)
+
+        internal Money(decimal amount, Currency currency)
         {
             Amount = amount;
             Currency = currency;

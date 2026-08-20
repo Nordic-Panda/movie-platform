@@ -41,9 +41,15 @@ namespace MovieService.Infrastructure.Persistence.Movies
                                 // 18 = total digits
                                 // 2 = digits after the decimal point
                                 .HasPrecision(18, 2);
+
+                            // EFcore would create relation by itself, so this has ForeignKey is not need
+                            // but this indicates we want the "shadow FK" to be called this string.
                             money
-                                .Property(m => m.Currency)
-                                .HasMaxLength(DbMovieRules.CurrencyLength);
+                                .HasOne(m => m.Currency)
+                                .WithMany()
+                                .HasForeignKey("CurrencyId")
+                                .IsRequired()
+                                .OnDelete(DeleteBehavior.Restrict);
                         }
                     );
                 }
