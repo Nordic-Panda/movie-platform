@@ -5,10 +5,10 @@ public record MovieDto(
     string Title,
     int DurationMinutes,
     IReadOnlyList<GenreDto> Genres,
-    string LanguageName,
-    string LanguageCode,
+    LanguageDto Language,
     int Year,
     string? Synopsis,
     decimal? BudgetAmount,
-    string? CurrencyCode
+    string? CurrencyCode,
+    string? PosterUrl
 );

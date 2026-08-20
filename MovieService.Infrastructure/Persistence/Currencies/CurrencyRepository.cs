@@ -16,7 +16,7 @@ namespace MovieService.Infrastructure.Persistence.Currencies
 
         public async Task<IReadOnlyList<Currency>> GetCurrenciesAsync()
         {
-            return await _context.Currencies.AsNoTracking().ToListAsync();
+            return await _context.Currencies.Where(c => c.IsActive).AsNoTracking().ToListAsync();
         }
 
         public async Task<Currency?> GetCurrencyByCode(string code)

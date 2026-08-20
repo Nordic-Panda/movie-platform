@@ -11,13 +11,13 @@ namespace MovieService.Application.Common.Mappers
                 movie.Id,
                 movie.Title,
                 (int)movie.Duration.TotalMinutes,
-                movie.Genres.Select(genre => new GenreDto(genre.Id, genre.Name)).ToList(),
-                movie.Language.Name,
-                movie.Language.Code,
+                movie.Genres.Select(GenreMapper.ToDto).ToList(),
+                LanguageMapper.ToDto(movie.Language),
                 movie.Year,
                 movie.Details.Synopsis,
                 movie.Details.Budget?.Amount,
-                movie.Details.Budget?.Currency.Code
+                movie.Details.Budget?.Currency.Code,
+                movie.PosterUrl
             );
         }
     }
