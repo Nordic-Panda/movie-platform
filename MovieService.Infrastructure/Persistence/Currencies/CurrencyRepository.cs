@@ -14,7 +14,17 @@ namespace MovieService.Infrastructure.Persistence.Currencies
             _context = context;
         }
 
-        public async Task<IReadOnlyList<Currency>> GetCurrenciesAsync()
+        public async Task AddAsync(Currency currency)
+        {
+            await _context.Currencies.AddAsync(currency);
+        }
+
+        public async Task<IReadOnlyList<Currency>> GetAllCurrenciesAsync()
+        {
+            return await _context.Currencies.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<IReadOnlyList<Currency>> GetAllActiveCurrenciesAsync()
         {
             return await _context.Currencies.Where(c => c.IsActive).AsNoTracking().ToListAsync();
         }
@@ -22,6 +32,11 @@ namespace MovieService.Infrastructure.Persistence.Currencies
         public async Task<Currency?> GetCurrencyByCode(string code)
         {
             return await _context.Currencies.FirstOrDefaultAsync(c => c.Code == code);
+        }
+
+        public async Task<Currency?> GetActiveCurrencyByCode(string code)
+        {
+            return await _context.Currencies.FirstOrDefaultAsync(c => c.Code == code && c.IsActive);
         }
     }
 }

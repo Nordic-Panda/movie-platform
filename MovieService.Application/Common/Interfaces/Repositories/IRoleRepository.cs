@@ -5,6 +5,9 @@ namespace MovieService.Application.Common.Interfaces.Repositories
     public interface IRoleRepository
     {
         Task<IReadOnlyList<Role>> GetAllRolesAsync();
-        Task<Role?> GetRoleByIdAsync(Guid roleId);
+        Task<IReadOnlyList<Role>> GetAllActiveRolesAsync();
+
+        Task<Role?> GetRoleByIdAsync(Guid id);
+        Task<Role?> GetActiveRoleByIdAsync(Guid id);
     }
 }

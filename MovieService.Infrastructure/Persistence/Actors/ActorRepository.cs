@@ -21,12 +21,22 @@ namespace MovieService.Infrastructure.Persistence.Actors
 
         public async Task<IReadOnlyList<Actor>> GetAllActorsAsync()
         {
-            return (await _context.Actors.ToListAsync()).AsReadOnly();
+            return await _context.Actors.AsNoTracking().ToListAsync();
         }
 
-        public async Task<Actor?> GetByIdAsync(Guid id)
+        public async Task<IReadOnlyList<Actor>> GetAllActiveActorsAsync()
         {
-            return await _context.Actors.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Actors.Where(a => a.IsActive).AsNoTracking().ToListAsync();
+        }
+
+        public async Task<Actor?> GetActorByIdAsync(Guid id)
+        {
+            return await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task<Actor?> GetActiveActorByIdAsync(Guid id)
+        {
+            return await _context.Actors.FirstOrDefaultAsync(a => a.Id == id && a.IsActive);
         }
 
         public IQueryable<Actor> Query()
