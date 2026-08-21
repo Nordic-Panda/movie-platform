@@ -50,6 +50,9 @@ namespace MovieService.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -89,35 +92,14 @@ namespace MovieService.Infrastructure.Migrations
                     b.ToTable("Currencies");
                 });
 
-            modelBuilder.Entity("MovieService.Domain.Entities.MovieActor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ActorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CharacterName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId", "ActorId", "CharacterName")
-                        .IsUnique();
-
-                    b.ToTable("MovieActor");
-                });
-
             modelBuilder.Entity("MovieService.Domain.Genres.Genre", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -160,6 +142,28 @@ namespace MovieService.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Languages");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.MovieActors.MovieActor", b =>
+                {
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CharacterName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("MovieId", "ActorId");
+
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("MovieId", "ActorId", "CharacterName")
+                        .IsUnique();
+
+                    b.ToTable("MovieActor");
                 });
 
             modelBuilder.Entity("MovieService.Domain.Movies.Movie", b =>
@@ -205,6 +209,9 @@ namespace MovieService.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("MovieId")
                         .HasColumnType("uniqueidentifier");
 
@@ -218,7 +225,37 @@ namespace MovieService.Infrastructure.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("MovieService.Domain.Users.User", b =>
+            modelBuilder.Entity("MovieService.Domain.Roles.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -228,17 +265,22 @@ namespace MovieService.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -258,8 +300,14 @@ namespace MovieService.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieService.Domain.Entities.MovieActor", b =>
+            modelBuilder.Entity("MovieService.Domain.MovieActors.MovieActor", b =>
                 {
+                    b.HasOne("MovieService.Domain.Actors.Actor", null)
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MovieService.Domain.Movies.Movie", null)
                         .WithMany()
                         .HasForeignKey("MovieId")
@@ -336,6 +384,15 @@ namespace MovieService.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.HasOne("MovieService.Domain.Roles.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

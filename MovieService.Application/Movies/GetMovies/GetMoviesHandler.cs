@@ -46,6 +46,7 @@ namespace MovieService.Application.Movies.GetMovies
             // Include Genres because filtering by movie.Genres does not load the related entities.
             // ApplyGenreFilter only affects which movies are returned.
             var query = movies
+                .Where(m => m.IsActive)
                 .Include(m => m.Genres)
                 .Include(m => m.Language)
                 .Include(m => m.Details)

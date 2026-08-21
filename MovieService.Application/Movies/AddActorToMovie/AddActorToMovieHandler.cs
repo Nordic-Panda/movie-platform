@@ -34,7 +34,7 @@ namespace MovieService.Application.Movies.AddActorToMovie
             CancellationToken cancellationToken
         )
         {
-            var existingMovie = await _movieRepository.GetByIdAsync(command.MovieId);
+            var existingMovie = await _movieRepository.GetActiveMovieByIdAsync(command.MovieId);
 
             if (existingMovie is null)
                 throw new NotFoundException(

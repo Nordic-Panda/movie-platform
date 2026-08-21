@@ -18,7 +18,7 @@ namespace MovieService.Application.Movies.DeleteMovieById
 
         public async Task Handle(DeleteMovieCommand request, CancellationToken cancellationToken)
         {
-            var movie = await _movieRepository.GetByIdAsync(request.Id);
+            var movie = await _movieRepository.GetActiveMovieByIdAsync(request.Id);
 
             if (movie is null)
                 throw new NotFoundException(
