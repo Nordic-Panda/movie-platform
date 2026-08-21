@@ -1,4 +1,6 @@
-﻿namespace MovieService.Domain.Actors
+﻿using MovieService.Domain.Common.Normalizers;
+
+namespace MovieService.Domain.Actors
 {
     public class Actor
     {
@@ -29,8 +31,11 @@
             ActorRules.ValidateName(fName, lName);
             ActorRules.ValidateBirthYear(birthYear);
 
-            FirstName = fName;
-            LastName = lName;
+            var normalizedFirstName = StringNormalizer.NormalizeName(fName);
+            var normalizedLastName = StringNormalizer.NormalizeName(lName);
+
+            FirstName = normalizedFirstName;
+            LastName = normalizedLastName;
             BirthYear = birthYear;
         }
     }

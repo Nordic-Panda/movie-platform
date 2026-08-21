@@ -22,7 +22,10 @@ namespace MovieService.Application.Actors.CreateActor
             CancellationToken cancellationToken
         )
         {
+            // not checking uniqueness, needs more data than name and birthyear
+
             var actor = ActorFactory.Create(command.FirstName, command.LastName, command.BirthYear);
+
             await _actorRepository.AddAsync(actor);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return ActorMapper.ToDto(actor);
