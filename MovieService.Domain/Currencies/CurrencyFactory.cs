@@ -1,5 +1,4 @@
-﻿using MovieService.Domain.Common.Exceptions;
-using MovieService.Domain.Common.Normalizers;
+﻿using MovieService.Domain.Common.Normalizers;
 
 namespace MovieService.Domain.Currencies
 {
@@ -7,36 +6,15 @@ namespace MovieService.Domain.Currencies
     {
         public static Currency Create(string name, string code)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new DomainException(
-                    CurrencyErrors.NameEmptyCode,
-                    CurrencyErrors.NameEmptyMessage
-                );
+            CurrencyRules.ValidateName(name);
+            CurrencyRules.ValidateCode(code);
 
-            if (string.IsNullOrWhiteSpace(code))
-                throw new DomainException(
-                    CurrencyErrors.CodeEmptyCode,
-                    CurrencyErrors.CodeEmptyMessage
-                );
+            var normalizedName = StringNormalizer.NormalizeName(name);
+            var normalizedCode = StringNormalizer.ToUpper(code);
 
-            name = StringNormalizer.NormalizeName(name);
+            CurrencyRules.ValidateLength(normalizedName, normalizedCode);
 
-            if (name.Length > CurrencyRules.NameMaxLength)
-            {
-                throw new DomainException(
-                    CurrencyErrors.NameTooLongCode,
-                    CurrencyErrors.NameTooLongMessage(CurrencyRules.NameMaxLength)
-                );
-            }
-
-            code = StringNormalizer.ToUpper(code);
-
-            if (code.Length != CurrencyRules.IsoCodeLength)
-                throw new DomainException(
-                    CurrencyErrors.CodeInvalidLengthCode,
-                    CurrencyErrors.CodeInvalidLengthMessage(CurrencyRules.IsoCodeLength)
-                );
-            return new Currency(name, code);
+            return new Currency(normalizedName, normalizedCode);
         }
     }
 }

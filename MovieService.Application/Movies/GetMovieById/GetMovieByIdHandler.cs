@@ -7,8 +7,7 @@ using MovieService.Domain.Movies;
 
 namespace MovieService.Application.Movies.GetMovieById
 {
-    public class GetMovieByIdHandler
-        : IRequestHandler<GetMovieByIdQuery, MovieDto>
+    public class GetMovieByIdHandler : IRequestHandler<GetMovieByIdQuery, MovieDto>
     {
         private readonly IMovieRepository _movieRepository;
 
@@ -19,10 +18,13 @@ namespace MovieService.Application.Movies.GetMovieById
 
         public async Task<MovieDto> Handle(GetMovieByIdQuery request, CancellationToken ct)
         {
-            var movie = await _movieRepository.GetByIdAsync(request.Id);
+            var movie = await _movieRepository.GetActiveMovieByIdAsync(request.Id);
 
-            if (movie == null)
-                throw new NotFoundException(MovieErrors.MovieNotFoundCode, MovieErrors.MovieNotFoundMessage);
+            if (movie is null)
+                throw new NotFoundException(
+                    MovieErrors.MovieNotFoundCode,
+                    MovieErrors.MovieNotFoundMessage
+                );
 
             return MovieMapper.ToDto(movie);
         }

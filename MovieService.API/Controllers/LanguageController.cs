@@ -28,19 +28,9 @@ namespace MovieService.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetLanguageById(Guid id)
+        public async Task<IActionResult> GetLanguageById([FromRoute] Guid id)
         {
             var language = await _mediator.Send(new GetLanguageByIdQuery(id));
-
-            if (language is null)
-            {
-                return NotFound(
-                    ApiResponse<LanguageDto>.Fail(
-                        LanguageErrors.LanguageNotFoundCode,
-                        LanguageErrors.LanguageNotFoundMessage
-                    )
-                );
-            }
 
             return Ok(ApiResponse<LanguageDto>.Ok(language));
         }

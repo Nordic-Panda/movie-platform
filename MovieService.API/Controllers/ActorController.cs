@@ -9,8 +9,7 @@ using MovieService.Application.Actors.GetActors;
 using MovieService.Application.Actors.UpdateActor;
 using MovieService.Application.Common.DTOs;
 
-
-namespace MovieService.API.Contollers
+namespace MovieService.API.Controllers
 {
     [Route("api/actors")]
     [ApiController]
@@ -45,7 +44,8 @@ namespace MovieService.API.Contollers
             return CreatedAtAction(
                 nameof(GetById),
                 new { id = actorDto.Id },
-                ApiResponse<ActorDto>.Ok(actorDto));
+                ApiResponse<ActorDto>.Ok(actorDto)
+            );
         }
 
         [Authorize(Policy = Policies.AdminOnly)]

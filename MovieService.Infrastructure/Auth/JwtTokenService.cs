@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Settings;
-using MovieService.Domain.Users;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using MovieService.Domain.Roles;
 
 namespace MovieService.Infrastructure.Auth
 {
@@ -18,11 +18,9 @@ namespace MovieService.Infrastructure.Auth
             _settings = options.Value;
         }
 
-        public string CreateToken(User user)
+        public string CreateToken(User user, Role role)
         {
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_settings.Key)
-            );
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -30,7 +28,7 @@ namespace MovieService.Infrastructure.Auth
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim(ClaimTypes.Role, role.Name),
             };
 
             var expires = DateTime.UtcNow.AddMinutes(_settings.ExpiresInMinutes);

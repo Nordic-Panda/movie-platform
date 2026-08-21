@@ -22,7 +22,11 @@ namespace MovieService.Application.Movies.CreateMovie
 
             RuleFor(x => x.CurrencyCode)
                 .Length(CurrencyRules.IsoCodeLength)
-                .When(x => x.CurrencyCode != null);
+                .When(x => !string.IsNullOrWhiteSpace(x.CurrencyCode));
+
+            // if got budget, there must be currencycode
+            RuleFor(x => x)
+                .Must(x => x.BudgetAmount.HasValue == !string.IsNullOrWhiteSpace(x.CurrencyCode));
 
             RuleFor(x => x.Year).InclusiveBetween(MovieRules.MinYear, DateTime.UtcNow.Year);
         }

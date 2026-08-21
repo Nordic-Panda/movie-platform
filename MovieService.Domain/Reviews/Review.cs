@@ -8,14 +8,21 @@
         public string Comment { get; private set; }
         public int Rating { get; private set; }
 
+        public bool IsActive { get; private set; }
+
+        public void Hide() => IsActive = false;
+
+        public void Restore() => IsActive = true;
+
         private Review() { }
 
-        public Review(Guid id, Guid movieId, string comment, int rating)
+        internal Review(Guid movieId, string comment, int rating)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             MovieId = movieId;
             Comment = comment;
             Rating = rating;
+            IsActive = true;
         }
     }
 }

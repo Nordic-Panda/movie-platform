@@ -15,28 +15,60 @@ namespace MovieService.Application.Users.Login
         private readonly IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
         private readonly JwtSettings _jwtSettings;
+        private readonly IRoleRepository _roleRepository;
 
-        public LoginHandler(IUserRepository userRepository, ITokenService tokenService, IOptions<JwtSettings> options)
+        public LoginHandler(
+            IUserRepository userRepository,
+            ITokenService tokenService,
+            IOptions<JwtSettings> options,
+            IRoleRepository roleRepository
+        )
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
             _jwtSettings = options.Value;
+            _roleRepository = roleRepository;
         }
 
-        public async Task<LoginResponseDto> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<LoginResponseDto> Handle(
+            LoginCommand request,
+            CancellationToken cancellationToken
+        )
         {
             var user = await _userRepository.GetUserByEmailAsync(request.Email);
 
-            if (user == null)
-                throw new UnauthorizedException(UserErrors.CredentialInvalidCode, UserErrors.CredentialInvalidMessage);
+            if (user is null)
+                throw new UnauthorizedException(
+                    UserErrors.CredentialInvalidCode,
+                    UserErrors.CredentialInvalidMessage
+                );
 
-            var passwordDoesMatch = BCrypt.Net.BCrypt.Verify(request.Password, user?.PasswordHash);
+            if (!user.IsActive)
+                throw new UnauthorizedException(
+                    UserErrors.AccountNotAvailableCode,
+                    UserErrors.AccountNotAvailableMessage
+                );
+
+            var passwordDoesMatch = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
 
             if (!passwordDoesMatch)
-                throw new UnauthorizedException(UserErrors.CredentialInvalidCode, UserErrors.CredentialInvalidMessage);
+                throw new UnauthorizedException(
+                    UserErrors.CredentialInvalidCode,
+                    UserErrors.CredentialInvalidMessage
+                );
+
+            var role = await _roleRepository.GetRoleByIdAsync(user.RoleId);
+
+            if (role is null || !role.IsActive)
+            {
+                throw new UnauthorizedException(
+                    UserErrors.AccountNotAvailableCode,
+                    UserErrors.AccountNotAvailableMessage
+                );
+            }
 
             // JWT is CPU work, no need await
-            var token = _tokenService.CreateToken(user);
+            var token = _tokenService.CreateToken(user, role);
             var expiresInMinutes = _jwtSettings.ExpiresInMinutes;
 
             var dto = UserMapper.ToDto(user);

@@ -7,7 +7,7 @@ namespace MovieService.Application.Genres.CreateGenre
     {
         public CreateGenreValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().MaximumLength(GenreRules.TitleMaxLength);
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(GenreRules.NameMaxLength);
         }
     }
 }

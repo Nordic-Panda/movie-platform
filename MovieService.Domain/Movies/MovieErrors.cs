@@ -38,5 +38,8 @@
 
         public static string YearInvalidMessage(int earliestYear, int latestYear) =>
             $"Movie year must be between {earliestYear} and {latestYear}.";
+
+        public const string MovieAlreadyExistsCode = "MOVIE_EXISTS";
+        public const string MovieAlreadyExistsMessage = "Movie already exists";
     }
 }

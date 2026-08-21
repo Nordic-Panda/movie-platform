@@ -1,4 +1,6 @@
-﻿namespace MovieService.Domain.Currencies
+﻿using MovieService.Domain.Common.Normalizers;
+
+namespace MovieService.Domain.Currencies
 {
     public class Currency
     {
@@ -6,6 +8,10 @@
         public string Name { get; private set; } = null!;
         public string Code { get; private set; } = null!;
         public bool IsActive { get; private set; }
+
+        public void Disable() => IsActive = false;
+
+        public void Enable() => IsActive = true;
 
         // This is for EF Core to produce the object, it needs a paramless Constructor
         private Currency() { }
@@ -18,8 +24,18 @@
             IsActive = true;
         }
 
-        public void Disable() => IsActive = false;
+        public void Update(string name, string code)
+        {
+            CurrencyRules.ValidateName(name);
+            CurrencyRules.ValidateCode(code);
 
-        public void Enable() => IsActive = true;
+            var normalizedName = StringNormalizer.NormalizeName(name);
+            var normalizedCode = StringNormalizer.ToUpper(code);
+
+            CurrencyRules.ValidateLength(normalizedName, normalizedCode);
+
+            Name = normalizedName;
+            Code = normalizedCode;
+        }
     }
 }

@@ -16,14 +16,19 @@ namespace MovieService.Application.Actors.GetActorById
             _actorRepository = actorRepository;
         }
 
-        public async Task<ActorDto> Handle(GetActorByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ActorDto> Handle(
+            GetActorByIdQuery request,
+            CancellationToken cancellationToken
+        )
         {
-            var actor = await _actorRepository.GetByIdAsync(request.Id);
+            var actor = await _actorRepository.GetActiveActorByIdAsync(request.Id);
 
-            if (actor == null)
-                throw new NotFoundException(ActorErrors.ActorNotFoundCode, ActorErrors.ActorNotFoundMessage);
-
-            return ActorMapper.ToDto(actor);
+            return actor is null
+                ? throw new NotFoundException(
+                    ActorErrors.ActorNotFoundCode,
+                    ActorErrors.ActorNotFoundMessage
+                )
+                : ActorMapper.ToDto(actor);
         }
     }
 }

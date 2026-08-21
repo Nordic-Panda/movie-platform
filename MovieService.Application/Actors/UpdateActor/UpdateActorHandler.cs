@@ -17,18 +17,25 @@ namespace MovieService.Application.Actors.UpdateActor
             _actorRepository = actorRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<ActorDto> Handle(UpdateActorCommand request, CancellationToken cancellationToken)
+
+        public async Task<ActorDto> Handle(
+            UpdateActorCommand request,
+            CancellationToken cancellationToken
+        )
         {
-            var actor = await _actorRepository.GetByIdAsync(request.Id);
+            var existingActor = await _actorRepository.GetActiveActorByIdAsync(request.Id);
 
-            if (actor == null)
-                throw new NotFoundException(ActorErrors.ActorNotFoundCode, ActorErrors.ActorNotFoundMessage);
+            if (existingActor is null)
+                throw new NotFoundException(
+                    ActorErrors.ActorNotFoundCode,
+                    ActorErrors.ActorNotFoundMessage
+                );
 
-            actor.Update(request.FirstName, request.LastName, request.BirthYear);
+            existingActor.Update(request.FirstName, request.LastName, request.BirthYear);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return ActorMapper.ToDto(actor);
+            return ActorMapper.ToDto(existingActor);
         }
     }
 }

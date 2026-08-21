@@ -27,5 +27,8 @@
 
         public static string DecimalTooBigMessage(int maxLength) =>
             $"Crrency decimal must be smaller than {maxLength}.";
+
+        public const string CurrencyNotFoundCode = "CURRENCY_NOT_FOUND";
+        public const string CurrencyNotFoundMessage = "Currency does not exist";
     }
 }

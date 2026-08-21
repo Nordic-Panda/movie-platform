@@ -1,4 +1,4 @@
-﻿namespace MovieService.Domain.MovieActor
+﻿namespace MovieService.Domain.MovieActors
 {
     public static class MovieActorErrors
     {

@@ -24,33 +24,24 @@ namespace MovieService.Application.Languages.CreateLanguage
             CancellationToken cancellationToken
         )
         {
-            var name = StringNormalizer.ToTitleCase(request.Name);
-            var code = StringNormalizer.ToUpper(request.Code);
+            var normalizedName = StringNormalizer.ToTitleCase(request.Name);
+            var normalizedCode = StringNormalizer.ToUpper(request.Code);
 
-            var existingLanguage = await _languageRepository.GetByNameAsync(name);
+            var existingLanguage = await _languageRepository.GetLanguageByNameOrCodeAsync(
+                normalizedName,
+                normalizedCode
+            );
 
             if (existingLanguage is not null)
-            {
                 throw new ConflictException(
                     LanguageErrors.LanguageAlreadyExistsCode,
-                    LanguageErrors.LanguageAlreadyExistsMessage(name)
+                    LanguageErrors.LanguageAlreadyExistsMessage(normalizedName)
                 );
-            }
 
-            var existingLanguageCode = await _languageRepository.GetByCodeAsync(code);
-
-            if (existingLanguageCode is not null)
-            {
-                throw new ConflictException(
-                    LanguageErrors.LanguageCodeAlreadyExistsCode,
-                    LanguageErrors.LanguageCodeAlreadyExistsMessage(code)
-                );
-            }
-
-            var language = LanguageFactory.Create(name, code);
+            var language = LanguageFactory.Create(normalizedName, normalizedCode);
 
             await _languageRepository.AddAsync(language);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return LanguageMapper.ToDto(language);
         }

@@ -17,9 +17,15 @@ namespace MovieService.Application.Actors.CreateActor
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ActorDto> Handle(CreateActorCommand command, CancellationToken cancellationToken)
+        public async Task<ActorDto> Handle(
+            CreateActorCommand command,
+            CancellationToken cancellationToken
+        )
         {
+            // not checking uniqueness, needs more data than name and birthyear
+
             var actor = ActorFactory.Create(command.FirstName, command.LastName, command.BirthYear);
+
             await _actorRepository.AddAsync(actor);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return ActorMapper.ToDto(actor);

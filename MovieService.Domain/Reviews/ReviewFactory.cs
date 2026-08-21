@@ -1,21 +1,17 @@
-﻿using MovieService.Domain.Common.Exceptions;
+﻿using MovieService.Domain.Common.Normalizers;
 
 namespace MovieService.Domain.Reviews
 {
     public static class ReviewFactory
     {
-        public static Review Create(Guid movieId, string comment, int rating) 
+        public static Review Create(Guid movieId, string comment, int rating)
         {
+            ReviewRules.ValidateRating(rating);
+            ReviewRules.ValidateComment(comment);
 
-            if (rating < ReviewRules.MinRating ||
-                rating > ReviewRules.MaxRating)
-            {
-                throw new DomainException(
-                    ReviewErrors.InvalidRatingCode,
-                    ReviewErrors.InvalidRatingMessage(ReviewRules.MinRating, ReviewRules.MaxRating));
-            }
+            var normalizedComment = StringNormalizer.NormalizeDescription(comment);
 
-            return new Review(Guid.NewGuid(), movieId, comment, rating);
+            return new Review(movieId, normalizedComment, rating);
         }
     }
 }

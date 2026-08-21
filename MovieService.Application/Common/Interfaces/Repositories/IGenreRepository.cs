@@ -4,22 +4,23 @@ namespace MovieService.Application.Common.Interfaces.Repositories
 {
     public interface IGenreRepository
     {
-        Task<Genre?> GetByIdAsync(
-            Guid id);
+        Task AddAsync(Genre genre);
+
+        Task DeleteAsync(Guid id);
 
         Task<IReadOnlyList<Genre>> GetAllGenresAsync();
+        Task<IReadOnlyList<Genre>> GetAllActiveGenresAsync();
 
-        Task<IReadOnlyList<Genre>> GetByIdsAsync(
-            ICollection<Guid> ids);
+        Task<Genre?> GetGenreByIdAsync(Guid id);
+        Task<Genre?> GetActiveGenreByIdAsync(Guid id);
 
-        Task AddAsync(
-            Genre genre);
+        Task<Genre?> GetGenreByNameAsync(string name);
+        Task<Genre?> GetActiveGenreByNameAsync(string name);
+
+        Task<IReadOnlyList<Genre>> GetGenresByIdsAsync(ICollection<Guid> ids);
+        Task<IReadOnlyList<Genre>> GetActiveGenresByIdsAsync(ICollection<Guid> ids);
 
         void Update(Genre genre);
-
-        Task Delete(Guid id);
-
-        Task<Genre?> GetByNameAsync(string name);
 
         IQueryable<Genre> Query();
     }

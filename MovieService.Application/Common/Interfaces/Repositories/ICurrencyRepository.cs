@@ -4,7 +4,12 @@ namespace MovieService.Application.Common.Interfaces.Repositories
 {
     public interface ICurrencyRepository
     {
-        Task<IReadOnlyList<Currency>> GetCurrenciesAsync();
-        Task<Currency?> GetCurrencyByCode(string code);
+        Task AddAsync(Currency currency);
+
+        Task<IReadOnlyList<Currency>> GetAllCurrenciesAsync();
+        Task<IReadOnlyList<Currency>> GetAllActiveCurrenciesAsync();
+
+        Task<Currency?> GetCurrencyByCodeAsync(string code);
+        Task<Currency?> GetActiveCurrencyByCodeAsync(string code);
     }
 }

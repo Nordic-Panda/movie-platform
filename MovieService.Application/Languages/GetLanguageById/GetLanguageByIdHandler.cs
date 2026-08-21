@@ -1,11 +1,13 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
+using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
+using MovieService.Domain.Languages;
 
 namespace MovieService.Application.Languages.GetLanguageById
 {
-    public class GetLanguageByIdHandler : IRequestHandler<GetLanguageByIdQuery, LanguageDto?>
+    public class GetLanguageByIdHandler : IRequestHandler<GetLanguageByIdQuery, LanguageDto>
     {
         private readonly ILanguageRepository _languageRepository;
 
@@ -14,14 +16,19 @@ namespace MovieService.Application.Languages.GetLanguageById
             _languageRepository = languageRepository;
         }
 
-        public async Task<LanguageDto?> Handle(
+        public async Task<LanguageDto> Handle(
             GetLanguageByIdQuery request,
             CancellationToken cancellationToken
         )
         {
-            var language = await _languageRepository.GetByIdAsync(request.Id);
+            var existingLanguage = await _languageRepository.GetActiveLanguageByIdAsync(request.Id);
 
-            return language is null ? null : LanguageMapper.ToDto(language);
+            return existingLanguage is null
+                ? throw new NotFoundException(
+                    LanguageErrors.LanguageNotFoundCode,
+                    LanguageErrors.LanguageNotFoundMessage
+                )
+                : LanguageMapper.ToDto(existingLanguage);
         }
     }
 }

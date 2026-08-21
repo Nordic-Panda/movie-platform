@@ -1,22 +1,18 @@
-﻿using MovieService.Domain.Common.Exceptions;
+﻿using MovieService.Domain.Common.Normalizers;
 
 namespace MovieService.Domain.Genres
 {
     public static class GenreFactory
     {
-        public static Genre Create(string name)
+        public static Genre Create(string title)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new DomainException(
-                    GenreErrors.GenreNameEmptyCode,
-                    GenreErrors.GenreNameEmptyMessage);
+            GenreRules.ValidateName(title);
 
-            if (name.Length > GenreRules.TitleMaxLength)
-                throw new DomainException(
-                    GenreErrors.GenreNameTooLongCode,
-                    GenreErrors.GenreNameTooLongMessage(GenreRules.TitleMaxLength));
+            var normalizedName = StringNormalizer.NormalizeName(title);
 
-            return new Genre(Guid.NewGuid(), name.Trim());
+            GenreRules.ValidateLength(normalizedName);
+
+            return new Genre(normalizedName);
         }
     }
 }

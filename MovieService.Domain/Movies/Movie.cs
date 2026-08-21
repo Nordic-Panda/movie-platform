@@ -1,4 +1,5 @@
-﻿using MovieService.Domain.Genres;
+﻿using MovieService.Domain.Common.Normalizers;
+using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
 using MovieService.Domain.ValueObjects;
 
@@ -13,10 +14,13 @@ namespace MovieService.Domain.Movies
 
         public string? PosterUrl { get; private set; }
 
+        // Strict DDD should not include this, aggregate should not own an other aggregate just to navigate
         private readonly List<Genre> _genres = new();
         public IReadOnlyCollection<Genre> Genres => _genres;
 
         public MovieDetail Details { get; private set; } = null!;
+
+        // Strict DDD should not include this, aggregate should not own an other aggregate just to navigate
         public Language Language { get; private set; } = null!;
 
         public bool IsActive { get; private set; }
@@ -58,7 +62,19 @@ namespace MovieService.Domain.Movies
             string? posterUrl
         )
         {
-            Title = title;
+            MovieRules.ValidateTitle(title);
+
+            var normalizedTitle = StringNormalizer.NormalizeTitle(title);
+
+            MovieRules.ValidateTitleLength(normalizedTitle);
+            MovieRules.ValidatePublishYear(year);
+            MovieRules.ValidateDuration(duration);
+
+            posterUrl = string.IsNullOrWhiteSpace(posterUrl)
+                ? posterUrl
+                : StringNormalizer.NormalizeDescription(posterUrl);
+
+            Title = normalizedTitle;
             Year = year;
             Duration = duration;
             UpdateGenres(genres);

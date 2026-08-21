@@ -10,12 +10,11 @@ namespace MovieService.Infrastructure.Persistence.Genres
         {
             entity.HasKey(x => x.Id);
 
-            entity.Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(100);
+            entity.Property(x => x.Name).IsRequired().HasMaxLength(GenreRules.NameMaxLength);
 
-            entity.HasIndex(x => x.Name)
-                .IsUnique();
+            entity.HasIndex(x => x.Name).IsUnique();
+
+            entity.Property(x => x.IsActive).IsRequired();
         }
     }
 }

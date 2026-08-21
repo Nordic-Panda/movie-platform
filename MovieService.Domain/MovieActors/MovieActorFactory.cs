@@ -1,32 +1,17 @@
-﻿using MovieService.Domain.Common.Exceptions;
+﻿using MovieService.Domain.Common.Normalizers;
 
-namespace MovieService.Domain.MovieActor
+namespace MovieService.Domain.MovieActors
 {
     public static class MovieActorFactory
     {
-        public static Entities.MovieActor Create(Guid movieId, Guid actorId, string characterName) {
+        public static MovieActor Create(Guid movieId, Guid actorId, string characterName)
+        {
+            MovieActorRules.ValidateGuid(movieId, actorId);
+            MovieActorRules.ValidateName(characterName);
 
-            if (movieId == Guid.Empty)
-                throw new DomainException(
-                    MovieActorErrors.MovieIdEmptyCode,
-                    MovieActorErrors.MovieIdEmptyMessage);
+            var normalizedCharacterName = StringNormalizer.NormalizeName(characterName);
 
-            if (actorId == Guid.Empty)
-                throw new DomainException(
-                    MovieActorErrors.ActorIdEmptyCode,
-                    MovieActorErrors.ActorIdEmptyMessage);
-
-            if (string.IsNullOrWhiteSpace(characterName))
-                throw new DomainException(
-                    MovieActorErrors.CharacterNameEmptyCode,
-                    MovieActorErrors.CharacterNameEmptyMessage);
-
-            return new Entities.MovieActor(
-                    Guid.NewGuid(),
-                    movieId,
-                    actorId,
-                    characterName.Trim()
-                );
+            return new MovieActor(movieId, actorId, normalizedCharacterName);
         }
     }
 }

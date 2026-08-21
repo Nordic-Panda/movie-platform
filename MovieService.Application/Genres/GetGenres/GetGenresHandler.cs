@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
@@ -22,12 +21,7 @@ namespace MovieService.Application.Genres.GetGenres
             CancellationToken cancellationToken
         )
         {
-            //var genres = await _genreRepository
-            //    .Query()
-            //    .OrderBy(g => g.Name)
-            //    .ToListAsync(cancellationToken);
-
-            var genres = await _genreRepository.GetAllGenresAsync();
+            var genres = await _genreRepository.GetAllActiveGenresAsync();
 
             return genres.Select(GenreMapper.ToDto).ToList();
         }

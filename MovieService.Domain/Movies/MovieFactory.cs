@@ -1,4 +1,4 @@
-﻿using MovieService.Domain.Common.Exceptions;
+﻿using MovieService.Domain.Common.Normalizers;
 using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
 using MovieService.Domain.ValueObjects;
@@ -17,43 +17,19 @@ namespace MovieService.Domain.Movies
             string? posterUrl
         )
         {
-            if (string.IsNullOrWhiteSpace(title))
-                throw new DomainException(
-                    MovieErrors.TitleEmptyCode,
-                    MovieErrors.TitleEmptyMessage
-                );
+            MovieRules.ValidateTitle(title);
 
-            if (title.Length < MovieRules.TitleMinLength)
-                throw new DomainException(
-                    MovieErrors.TitleTooShortCode,
-                    MovieErrors.TitleTooShortMessage(MovieRules.TitleMinLength)
-                );
+            var normalizedTitle = StringNormalizer.NormalizeTitle(title);
 
-            if (title.Length > MovieRules.TitleMaxLength)
-                throw new DomainException(
-                    MovieErrors.TitleTooLongCode,
-                    MovieErrors.TitleTooLongMessage(MovieRules.TitleMaxLength)
-                );
+            MovieRules.ValidateTitleLength(normalizedTitle);
+            MovieRules.ValidatePublishYear(year);
+            MovieRules.ValidateDuration(duration);
 
-            if (!MovieRules.IsValidYear(year, DateTime.UtcNow.Year))
-                throw new DomainException(
-                    MovieErrors.YearInvalidCode,
-                    MovieErrors.YearInvalidMessage(MovieRules.MinYear, DateTime.UtcNow.Year)
-                );
+            posterUrl = string.IsNullOrWhiteSpace(posterUrl)
+                ? posterUrl
+                : StringNormalizer.NormalizeDescription(posterUrl);
 
-            if (duration < MovieRules.MinDuration)
-                throw new DomainException(
-                    MovieErrors.DurationTooShortCode,
-                    MovieErrors.DurationTooShortMessage((int)MovieRules.MinDuration.TotalMinutes)
-                );
-
-            if (duration > MovieRules.MaxDuration)
-                throw new DomainException(
-                    MovieErrors.DurationTooLongCode,
-                    MovieErrors.DurationTooLongMessage((int)MovieRules.MaxDuration.TotalMinutes)
-                );
-
-            return new Movie(title, year, duration, genres, details, language, posterUrl);
+            return new Movie(normalizedTitle, year, duration, genres, details, language, posterUrl);
         }
     }
 }

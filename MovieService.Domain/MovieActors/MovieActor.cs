@@ -1,18 +1,15 @@
-﻿namespace MovieService.Domain.Entities
+﻿namespace MovieService.Domain.MovieActors
 {
     public class MovieActor
     {
-        public Guid Id { get; private set; }
         public Guid MovieId { get; private set; }
         public Guid ActorId { get; private set; }
-
         public string CharacterName { get; private set; } = string.Empty;
 
         private MovieActor() { }
 
-        public MovieActor(Guid id, Guid movieId, Guid actorId, string characterName)
+        internal MovieActor(Guid movieId, Guid actorId, string characterName)
         {
-            Id = id;
             MovieId = movieId;
             ActorId = actorId;
             CharacterName = characterName;
