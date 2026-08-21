@@ -4,9 +4,11 @@ public record MovieDto(
     Guid Id,
     string Title,
     int DurationMinutes,
-    string Genre,
-    string Language,
+    IReadOnlyList<GenreDto> Genres,
+    LanguageDto Language,
+    int Year,
     string? Synopsis,
     decimal? BudgetAmount,
-    string? CurrencyCode
+    string? CurrencyCode,
+    string? PosterUrl
 );

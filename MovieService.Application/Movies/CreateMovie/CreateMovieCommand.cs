@@ -1,15 +1,16 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
-using MovieService.Domain.Common.Enums;
 
 namespace MovieService.Application.Movies.CreateMovie;
 
 public record CreateMovieCommand(
     string Title,
     int DurationMinutes,
-    Genre Genre,
-    string Language,
+    ICollection<Guid> GenreIds,
+    Guid LanguageId,
+    int Year,
     string? Synopsis,
     decimal? BudgetAmount,
-    string? CurrencyCode
+    string? CurrencyCode,
+    string? PosterUrl
 ) : IRequest<MovieDto>;

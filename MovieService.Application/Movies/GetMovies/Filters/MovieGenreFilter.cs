@@ -1,6 +1,4 @@
-﻿using MovieService.Application.Common.Exceptions;
-using MovieService.Domain.Common.Enums;
-using MovieService.Domain.Movies;
+﻿using MovieService.Domain.Movies;
 
 namespace MovieService.Application.Movies.GetMovies.Filters
 {
@@ -9,35 +7,46 @@ namespace MovieService.Application.Movies.GetMovies.Filters
     {
         public static IQueryable<Movie> ApplyGenreFilter(
             this IQueryable<Movie> query,
-            string? genre)
+            ICollection<Guid>? genreIds)
         {
-            
+
             // Do nothing if genre is null or whitespace
-            if (string.IsNullOrWhiteSpace(genre))
+            if (genreIds == null || genreIds.Count == 0)
                 return query;
 
+            // Filter movies that have one of the specified genres
+            return query.Where(movie =>
+                movie.Genres.Any(genre =>
+                    genreIds.Contains(genre.Id)));
 
-            // Throw custom exception if genre is not in Enum
-            if (!Enum.TryParse<Genre>(genre, true, out var parsed))
-            {
-                throw new ValidationException(new Dictionary<string, string[]>
-                {
-                    {
-                        "Genre",
-                        new[] { $"Invalid genre: {genre}" }
-                    }
-                });
-            }
+            // IF movies must match ALL specified genres:
+            //return query.Where(movie =>
+            //    genreIds.All(id =>
+            //        movie.Genres.Any(genre => genre.Id == id)));
 
-            // Here it hides what is invalid by failling all condition.
-            // Could also throw exception, it's less forgiving but tells user what input is wrong
-            // ?genre=NotRealGenre is not a No Movies Found, but rather a Invalid Input
+            // No longer using enum for Genre, below is for self note for educational purposes. 
+
+            //// Throw custom exception if genre is not in Enum
             //if (!Enum.TryParse<Genre>(genre, true, out var parsed))
-            //    return query.Where(m => false);
+            //{
+            //    throw new ValidationException(new Dictionary<string, string[]>
+            //    {
+            //        {
+            //            "Genre",
+            //            new[] { $"Invalid genre: {genre}" }
+            //        }
+            //    });
+            //}
+
+            //// Here it hides what is invalid by failling all condition.
+            //// Could also throw exception, it's less forgiving but tells user what input is wrong
+            //// ?genre=NotRealGenre is not a No Movies Found, but rather a Invalid Input
+            ////if (!Enum.TryParse<Genre>(genre, true, out var parsed))
+            ////    return query.Where(m => false);
 
 
-            // Filter
-            return query.Where(m => m.Genre == parsed);
+            //// Filter
+            //return query.Where(m => m.Genre == parsed);
         }
     }
 }

@@ -14,13 +14,14 @@ namespace MovieService.Application.Actors.GetActors
             _actorRepository = actorRepository;
         }
 
-        public async Task<IReadOnlyList<ActorDto>> Handle(GetActorsQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<ActorDto>> Handle(
+            GetActorsQuery request,
+            CancellationToken cancellationToken
+        )
         {
-            var actors = await _actorRepository.GetAllActorsAsync();
-            return actors
-                .Select(ActorMapper.ToDto)
-                .ToList()
-                .AsReadOnly();
+            var actors = await _actorRepository.GetAllActiveActorsAsync();
+
+            return actors.Select(ActorMapper.ToDto).ToList();
         }
     }
 }

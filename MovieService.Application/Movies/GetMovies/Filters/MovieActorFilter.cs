@@ -1,5 +1,5 @@
 ﻿using MovieService.Domain.Actors;
-using MovieService.Domain.Entities;
+using MovieService.Domain.MovieActors;
 using MovieService.Domain.Movies;
 
 namespace MovieService.Application.Movies.GetMovies.Filters
@@ -11,10 +11,10 @@ namespace MovieService.Application.Movies.GetMovies.Filters
             string? firstName,
             string? lastName,
             IQueryable<MovieActor> movieActors,
-            IQueryable<Actor> actors)
+            IQueryable<Actor> actors
+        )
         {
-            if (string.IsNullOrWhiteSpace(firstName) &&
-                string.IsNullOrWhiteSpace(lastName))
+            if (string.IsNullOrWhiteSpace(firstName) && string.IsNullOrWhiteSpace(lastName))
                 return query;
 
             var actorQuery = actors;
@@ -27,7 +27,6 @@ namespace MovieService.Application.Movies.GetMovies.Filters
 
             var actorIds = actorQuery.Select(a => a.Id);
 
-
             // Many to many template
             //query.Where(main =>
             //    joinSet.Any(j =>
@@ -35,9 +34,8 @@ namespace MovieService.Application.Movies.GetMovies.Filters
             //        condition))
 
             return query.Where(m =>
-                movieActors.Any(ma =>
-                    ma.MovieId == m.Id &&
-                    actorIds.Contains(ma.ActorId)));
+                movieActors.Any(ma => ma.MovieId == m.Id && actorIds.Contains(ma.ActorId))
+            );
         }
     }
 }

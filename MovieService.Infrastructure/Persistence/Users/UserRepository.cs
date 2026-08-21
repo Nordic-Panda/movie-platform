@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieService.Application.Common.Interfaces.Repositories;
-using MovieService.Domain.Users;
 using MovieService.Infrastructure.Data;
 
 namespace MovieService.Infrastructure.Persistence.Users
@@ -17,6 +16,13 @@ namespace MovieService.Infrastructure.Persistence.Users
         public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _appDbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
+
+        public async Task<User?> GetActiveUserByEmailAsync(string email)
+        {
+            return await _appDbContext.Users.FirstOrDefaultAsync(x =>
+                x.Email == email && x.IsActive
+            );
         }
     }
 }

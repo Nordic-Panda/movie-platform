@@ -7,11 +7,9 @@ namespace MovieService.Application.Actors.CreateActor
     {
         public CreateActorValidator()
         {
-            RuleFor(x => x.FirstName)
-                .NotEmpty();
+            RuleFor(x => x.FirstName).NotEmpty();
 
-            RuleFor(x => x.LastName)
-                .NotEmpty();
+            RuleFor(x => x.LastName).NotEmpty();
 
             RuleFor(x => x.BirthYear)
                 .GreaterThanOrEqualTo(ActorRules.EarliestYear)

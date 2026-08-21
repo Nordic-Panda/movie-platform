@@ -1,6 +1,6 @@
-﻿using MovieService.Domain.Common.Enums;
-using MovieService.Domain.Entities;
-using MovieService.Domain.Reviews;
+﻿using MovieService.Domain.Common.Normalizers;
+using MovieService.Domain.Genres;
+using MovieService.Domain.Languages;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
@@ -8,34 +8,85 @@ namespace MovieService.Domain.Movies
     public class Movie
     {
         public Guid Id { get; private set; }
-        public string Title { get; private set; }
+        public string Title { get; private set; } = string.Empty;
+        public int Year { get; private set; }
         public TimeSpan Duration { get; private set; }
-        public Genre Genre { get; private set; }
-        public MovieDetails Details { get; private set; }
 
-        //// DDD style, AddReview, AddMovieActor, as they all depend on Movie
-        //public ICollection<Entities.MovieActor> MovieActors { get; private set; } = new List<Entities.MovieActor>();
+        public string? PosterUrl { get; private set; }
 
-        //public ICollection<Review> Reviews { get; private set; } = new List<Review>();
+        // Strict DDD should not include this, aggregate should not own an other aggregate just to navigate
+        private readonly List<Genre> _genres = new();
+        public IReadOnlyCollection<Genre> Genres => _genres;
+
+        public MovieDetail Details { get; private set; } = null!;
+
+        // Strict DDD should not include this, aggregate should not own an other aggregate just to navigate
+        public Language Language { get; private set; } = null!;
+
+        public bool IsActive { get; private set; }
+
+        public void Disable() => IsActive = false;
+
+        public void Enable() => IsActive = true;
 
         private Movie() { }
 
-        // no validation here because factory did it
-        internal Movie(Guid id, string title, TimeSpan duration, Genre genre, MovieDetails details)
+        internal Movie(
+            string title,
+            int year,
+            TimeSpan duration,
+            IEnumerable<Genre> genres,
+            MovieDetail details,
+            Language language,
+            string? posterUrl
+        )
         {
-            Id = id;
+            Id = Guid.NewGuid();
             Title = title;
+            Year = year;
             Duration = duration;
-            Genre = genre;
+            UpdateGenres(genres);
             Details = details;
+            Language = language;
+            PosterUrl = posterUrl;
+            IsActive = true;
         }
 
-        public void Update(string title, TimeSpan duration, Genre genre, MovieDetails details)
-        { 
-            Title = title;
+        public void Update(
+            string title,
+            int year,
+            TimeSpan duration,
+            IEnumerable<Genre> genres,
+            MovieDetail details,
+            Language language,
+            string? posterUrl
+        )
+        {
+            MovieRules.ValidateTitle(title);
+
+            var normalizedTitle = StringNormalizer.NormalizeTitle(title);
+
+            MovieRules.ValidateTitleLength(normalizedTitle);
+            MovieRules.ValidatePublishYear(year);
+            MovieRules.ValidateDuration(duration);
+
+            posterUrl = string.IsNullOrWhiteSpace(posterUrl)
+                ? posterUrl
+                : StringNormalizer.NormalizeDescription(posterUrl);
+
+            Title = normalizedTitle;
+            Year = year;
             Duration = duration;
-            Genre = genre;
+            UpdateGenres(genres);
             Details = details;
+            Language = language;
+            PosterUrl = posterUrl;
+        }
+
+        public void UpdateGenres(IEnumerable<Genre> genres)
+        {
+            _genres.Clear();
+            _genres.AddRange(genres);
         }
     }
 }

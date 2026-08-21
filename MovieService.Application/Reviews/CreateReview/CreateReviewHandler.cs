@@ -12,26 +12,37 @@ namespace MovieService.Application.Reviews.CreateReview
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IMovieRepository _movieRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateReviewHandler(IReviewRepository reviewRepository, IMovieRepository movieRepository)
+        public CreateReviewHandler(
+            IReviewRepository reviewRepository,
+            IMovieRepository movieRepository,
+            IUnitOfWork unitOfWork
+        )
         {
             _reviewRepository = reviewRepository;
             _movieRepository = movieRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<ReviewDto> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
+        public async Task<ReviewDto> Handle(
+            CreateReviewCommand request,
+            CancellationToken cancellationToken
+        )
         {
-            var movie = await _movieRepository.GetByIdAsync(request.MovieId);
+            var existingMovie = await _movieRepository.GetActiveMovieByIdAsync(request.MovieId);
 
-            if (movie == null)
-                throw new NotFoundException(MovieErrors.MovieNotFoundCode, MovieErrors.MovieNotFoundMessage);
-
+            if (existingMovie is null)
+                throw new NotFoundException(
+                    MovieErrors.MovieNotFoundCode,
+                    MovieErrors.MovieNotFoundMessage
+                );
 
             var review = ReviewFactory.Create(request.MovieId, request.Comment, request.Rating);
 
             await _reviewRepository.AddReviewAsync(review);
 
-            await _reviewRepository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return ReviewMapper.ToDto(review);
         }

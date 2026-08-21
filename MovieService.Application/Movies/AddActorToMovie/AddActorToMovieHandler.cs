@@ -4,8 +4,9 @@ using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
 using MovieService.Domain.Actors;
-using MovieService.Domain.MovieActor;
+using MovieService.Domain.MovieActors;
 using MovieService.Domain.Movies;
+
 namespace MovieService.Application.Movies.AddActorToMovie
 {
     public class AddActorToMovieHandler : IRequestHandler<AddActorToMovieCommand, MovieActorDto>
@@ -13,30 +14,50 @@ namespace MovieService.Application.Movies.AddActorToMovie
         private readonly IMovieActorRepository _movieActorRepository;
         private readonly IMovieRepository _movieRepository;
         private readonly IActorRepository _actorRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AddActorToMovieHandler(IMovieActorRepository movieActorRepository, IMovieRepository movieRepository, IActorRepository actorRepository)
+        public AddActorToMovieHandler(
+            IMovieActorRepository movieActorRepository,
+            IMovieRepository movieRepository,
+            IActorRepository actorRepository,
+            IUnitOfWork unitOfWork
+        )
         {
             _movieActorRepository = movieActorRepository;
             _movieRepository = movieRepository;
             _actorRepository = actorRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<MovieActorDto> Handle(AddActorToMovieCommand command, CancellationToken cancellationToken)
+        public async Task<MovieActorDto> Handle(
+            AddActorToMovieCommand command,
+            CancellationToken cancellationToken
+        )
         {
-            var movie = await _movieRepository.GetByIdAsync(command.MovieId);
+            var existingMovie = await _movieRepository.GetActiveMovieByIdAsync(command.MovieId);
 
-            if (movie == null)
-                throw new NotFoundException(MovieErrors.MovieNotFoundCode, MovieErrors.MovieNotFoundMessage);
+            if (existingMovie is null)
+                throw new NotFoundException(
+                    MovieErrors.MovieNotFoundCode,
+                    MovieErrors.MovieNotFoundMessage
+                );
 
-            var actor = await _actorRepository.GetByIdAsync(command.ActorId);
+            var existingActor = await _actorRepository.GetActorByIdAsync(command.ActorId);
 
-            if (actor == null)
-                throw new NotFoundException(ActorErrors.ActorNotFoundCode, ActorErrors.ActorNotFoundMessage);
+            if (existingActor is null)
+                throw new NotFoundException(
+                    ActorErrors.ActorNotFoundCode,
+                    ActorErrors.ActorNotFoundMessage
+                );
 
-            var movieActor = MovieActorFactory.Create(command.MovieId, command.ActorId, command.CharacterName);
+            var movieActor = MovieActorFactory.Create(
+                command.MovieId,
+                command.ActorId,
+                command.CharacterName
+            );
 
             await _movieActorRepository.AddActorToMovieAsync(movieActor);
-            await _movieActorRepository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return MovieActorMapper.ToDto(movieActor);
         }

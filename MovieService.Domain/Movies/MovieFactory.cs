@@ -1,5 +1,6 @@
-﻿using MovieService.Domain.Common.Enums;
-using MovieService.Domain.Common.Exceptions;
+﻿using MovieService.Domain.Common.Normalizers;
+using MovieService.Domain.Genres;
+using MovieService.Domain.Languages;
 using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Domain.Movies
@@ -8,46 +9,27 @@ namespace MovieService.Domain.Movies
     {
         public static Movie Create(
             string title,
+            int year,
             TimeSpan duration,
-            Genre genre,
-            MovieDetails details)
+            IReadOnlyCollection<Genre> genres,
+            MovieDetail details,
+            Language language,
+            string? posterUrl
+        )
         {
-            if (string.IsNullOrWhiteSpace(title))
-                throw new DomainException(
-                    MovieErrors.TitleEmptyCode,
-                    MovieErrors.TitleEmptyMessage);
+            MovieRules.ValidateTitle(title);
 
-            if (title.Length < MovieRules.TitleMinLength)
-                throw new DomainException(
-                    MovieErrors.TitleTooShortCode,
-                    MovieErrors.TitleTooShortMessage(MovieRules.TitleMinLength));
+            var normalizedTitle = StringNormalizer.NormalizeTitle(title);
 
-            if (title.Length > MovieRules.TitleMaxLength)
-                throw new DomainException(
-                    MovieErrors.TitleTooLongCode,
-                    MovieErrors.TitleTooLongMessage(MovieRules.TitleMaxLength));
+            MovieRules.ValidateTitleLength(normalizedTitle);
+            MovieRules.ValidatePublishYear(year);
+            MovieRules.ValidateDuration(duration);
 
-            if (duration < MovieRules.MinDuration)
-                throw new DomainException(
-                    MovieErrors.DurationTooShortCode,
-                    MovieErrors.DurationTooShortMessage((int)MovieRules.MinDuration.TotalMinutes));
+            posterUrl = string.IsNullOrWhiteSpace(posterUrl)
+                ? posterUrl
+                : StringNormalizer.NormalizeDescription(posterUrl);
 
-            if (duration > MovieRules.MaxDuration)
-                throw new DomainException(
-                    MovieErrors.DurationTooLongCode,
-                    MovieErrors.DurationTooLongMessage((int)MovieRules.MinDuration.TotalMinutes));
-
-            if (!Enum.IsDefined(genre))
-                throw new DomainException(
-                    MovieErrors.GenreInvalidCode,
-                    MovieErrors.GenreInvalidMessage);
-
-            return new Movie(
-                Guid.NewGuid(),
-                title,
-                duration,
-                genre,
-                details);
+            return new Movie(normalizedTitle, year, duration, genres, details, language, posterUrl);
         }
     }
 }

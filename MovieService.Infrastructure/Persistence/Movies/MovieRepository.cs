@@ -11,7 +11,7 @@ namespace MovieService.Infrastructure.Persistence.Movies
 
         public MovieRepository(AppDbContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         public async Task AddAsync(Movie movie)
@@ -19,26 +19,55 @@ namespace MovieService.Infrastructure.Persistence.Movies
             await _context.Movies.AddAsync(movie);
         }
 
-        public async Task DeleteAsync(Guid id)
-        {
-            await _context.Movies.Where(m => m.Id == id).ExecuteDeleteAsync();
-        }
-
+        // THIS IS NOT USED, get all handler is now using query
         public async Task<IReadOnlyList<Movie>> GetAllMoviesAsync()
         {
-            return (await _context.Movies.ToListAsync())
-                .AsReadOnly();
+            return await _context
+                .Movies.Include(m => m.Genres)
+                .Include(m => m.Language)
+                .Include(m => m.Details)
+                    .ThenInclude(d => d.Budget)
+                        .ThenInclude(b => b.Currency)
+                .ToListAsync();
         }
 
-        public async Task<Movie?> GetByIdAsync(Guid id)
+        public async Task<Movie?> GetMovieByIdAsync(Guid id)
         {
-            return await _context.Movies
+            return await _context
+                .Movies.Include(m => m.Genres)
+                .Include(m => m.Language)
+                .Include(m => m.Details)
+                    .ThenInclude(d => d.Budget)
+                        .ThenInclude(b => b.Currency)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<Movie?> GetActiveMovieByIdAsync(Guid id)
         {
-            await _context.SaveChangesAsync();
+            return await _context
+                .Movies.Include(m => m.Genres)
+                .Include(m => m.Language)
+                .Include(m => m.Details)
+                    .ThenInclude(d => d.Budget)
+                        .ThenInclude(b => b.Currency)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        // Don't need include here because this is for checking movie dup
+        public async Task<Movie?> GetActiveMovieByTitleAndYearAndDurationAsync(
+            string title,
+            int year,
+            TimeSpan duration
+        )
+        {
+            return await _context.Movies.FirstOrDefaultAsync(m =>
+                m.Title == title && m.Year == year && m.Duration == duration && m.IsActive
+            );
+        }
+
+        public async Task DeleteMovieAsync(Guid id)
+        {
+            await _context.Movies.Where(m => m.Id == id).ExecuteDeleteAsync();
         }
 
         public IQueryable<Movie> Query()

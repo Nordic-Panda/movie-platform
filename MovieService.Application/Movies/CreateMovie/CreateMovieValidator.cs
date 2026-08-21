@@ -1,31 +1,34 @@
 ﻿using FluentValidation;
-using MovieService.Application.Common.DTOs;
-using MovieService.Application.Movies.CreateMovie;
-using MovieService.Domain.Currency;
+using MovieService.Domain.Currencies;
 using MovieService.Domain.Movies;
 
-public class CreateMovieValidator : AbstractValidator<CreateMovieCommand>
+namespace MovieService.Application.Movies.CreateMovie
 {
-    public CreateMovieValidator()
+    public class CreateMovieValidator : AbstractValidator<CreateMovieCommand>
     {
-        // This is mixed business logic validation and input validation
-        RuleFor(x => x.Title)
-            .NotEmpty()
-            .MinimumLength(MovieRules.TitleMinLength)
-            .MaximumLength(MovieRules.TitleMaxLength);
+        public CreateMovieValidator()
+        {
+            // This is mixed business logic validation and input validation
+            RuleFor(x => x.Title)
+                .NotEmpty()
+                .MinimumLength(MovieRules.TitleMinLength)
+                .MaximumLength(MovieRules.TitleMaxLength);
 
-        RuleFor(x => x.DurationMinutes)
-            .GreaterThanOrEqualTo((int)MovieRules.MinDuration.TotalMinutes)
-            .LessThanOrEqualTo((int)MovieRules.MaxDuration.TotalMinutes);
+            RuleFor(x => x.DurationMinutes)
+                .GreaterThanOrEqualTo((int)MovieRules.MinDuration.TotalMinutes)
+                .LessThanOrEqualTo((int)MovieRules.MaxDuration.TotalMinutes);
 
-        RuleFor(x => x.Genre)
-            .IsInEnum();
+            RuleFor(x => x.LanguageId).NotEmpty();
 
-        RuleFor(x => x.Language)
-            .NotEmpty();
+            RuleFor(x => x.CurrencyCode)
+                .Length(CurrencyRules.IsoCodeLength)
+                .When(x => !string.IsNullOrWhiteSpace(x.CurrencyCode));
 
-        RuleFor(x => x.CurrencyCode)
-            .Length(CurrencyRules.IsoCodeLength)
-            .When(x => x.CurrencyCode != null);
+            // if got budget, there must be currencycode
+            RuleFor(x => x)
+                .Must(x => x.BudgetAmount.HasValue == !string.IsNullOrWhiteSpace(x.CurrencyCode));
+
+            RuleFor(x => x.Year).InclusiveBetween(MovieRules.MinYear, DateTime.UtcNow.Year);
+        }
     }
 }

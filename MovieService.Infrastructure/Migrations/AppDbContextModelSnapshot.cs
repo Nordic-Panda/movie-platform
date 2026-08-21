@@ -22,6 +22,21 @@ namespace MovieService.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MovieGenres", b =>
+                {
+                    b.Property<Guid>("GenresId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("GenresId", "MovieId");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("MovieGenres");
+                });
+
             modelBuilder.Entity("MovieService.Domain.Actors.Actor", b =>
                 {
                     b.Property<Guid>("Id")
@@ -35,6 +50,9 @@ namespace MovieService.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -44,10 +62,91 @@ namespace MovieService.Infrastructure.Migrations
                     b.ToTable("Actors");
                 });
 
-            modelBuilder.Entity("MovieService.Domain.Entities.MovieActor", b =>
+            modelBuilder.Entity("MovieService.Domain.Currencies.Currency", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Currencies");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Genres.Genre", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.Languages.Language", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Languages");
+                });
+
+            modelBuilder.Entity("MovieService.Domain.MovieActors.MovieActor", b =>
+                {
+                    b.Property<Guid>("MovieId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ActorId")
@@ -57,10 +156,9 @@ namespace MovieService.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasKey("MovieId", "ActorId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("ActorId");
 
                     b.HasIndex("MovieId", "ActorId", "CharacterName")
                         .IsUnique();
@@ -77,15 +175,26 @@ namespace MovieService.Infrastructure.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
-                    b.Property<int>("Genre")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("LanguageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PosterUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
 
                     b.ToTable("Movies");
                 });
@@ -100,6 +209,9 @@ namespace MovieService.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("MovieId")
                         .HasColumnType("uniqueidentifier");
 
@@ -113,7 +225,37 @@ namespace MovieService.Infrastructure.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("MovieService.Domain.Users.User", b =>
+            modelBuilder.Entity("MovieService.Domain.Roles.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,23 +265,49 @@ namespace MovieService.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MovieService.Domain.Entities.MovieActor", b =>
+            modelBuilder.Entity("MovieGenres", b =>
                 {
+                    b.HasOne("MovieService.Domain.Genres.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MovieService.Domain.Movies.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieService.Domain.MovieActors.MovieActor", b =>
+                {
+                    b.HasOne("MovieService.Domain.Actors.Actor", null)
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MovieService.Domain.Movies.Movie", null)
                         .WithMany()
                         .HasForeignKey("MovieId")
@@ -149,15 +317,16 @@ namespace MovieService.Infrastructure.Migrations
 
             modelBuilder.Entity("MovieService.Domain.Movies.Movie", b =>
                 {
-                    b.OwnsOne("MovieService.Domain.ValueObjects.MovieDetails", "Details", b1 =>
+                    b.HasOne("MovieService.Domain.Languages.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("MovieService.Domain.ValueObjects.MovieDetail", "Details", b1 =>
                         {
                             b1.Property<Guid>("MovieId")
                                 .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Language")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
 
                             b1.Property<string>("Synopsis")
                                 .HasMaxLength(1000)
@@ -172,23 +341,32 @@ namespace MovieService.Infrastructure.Migrations
 
                             b1.OwnsOne("MovieService.Domain.ValueObjects.Money", "Budget", b2 =>
                                 {
-                                    b2.Property<Guid>("MovieDetailsMovieId")
+                                    b2.Property<Guid>("MovieDetailMovieId")
                                         .HasColumnType("uniqueidentifier");
 
                                     b2.Property<decimal>("Amount")
+                                        .HasPrecision(18, 2)
                                         .HasColumnType("decimal(18,2)");
 
-                                    b2.Property<string>("Currency")
-                                        .IsRequired()
-                                        .HasMaxLength(3)
-                                        .HasColumnType("nvarchar(3)");
+                                    b2.Property<Guid>("CurrencyId")
+                                        .HasColumnType("uniqueidentifier");
 
-                                    b2.HasKey("MovieDetailsMovieId");
+                                    b2.HasKey("MovieDetailMovieId");
+
+                                    b2.HasIndex("CurrencyId");
 
                                     b2.ToTable("Movies");
 
+                                    b2.HasOne("MovieService.Domain.Currencies.Currency", "Currency")
+                                        .WithMany()
+                                        .HasForeignKey("CurrencyId")
+                                        .OnDelete(DeleteBehavior.Restrict)
+                                        .IsRequired();
+
                                     b2.WithOwner()
-                                        .HasForeignKey("MovieDetailsMovieId");
+                                        .HasForeignKey("MovieDetailMovieId");
+
+                                    b2.Navigation("Currency");
                                 });
 
                             b1.Navigation("Budget");
@@ -196,6 +374,8 @@ namespace MovieService.Infrastructure.Migrations
 
                     b.Navigation("Details")
                         .IsRequired();
+
+                    b.Navigation("Language");
                 });
 
             modelBuilder.Entity("MovieService.Domain.Reviews.Review", b =>
@@ -204,6 +384,15 @@ namespace MovieService.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.HasOne("MovieService.Domain.Roles.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

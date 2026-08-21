@@ -1,8 +1,8 @@
-﻿using MovieService.Application.Common.DTOs;
-using MovieService.Domain.Movies;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MovieService.Application.Common.DTOs;
+using MovieService.Domain.Movies;
 
 namespace MovieService.Application.Common.Mappers
 {
@@ -12,11 +12,7 @@ namespace MovieService.Application.Common.Mappers
         {
             var money = MoneyMapper.ToDto(movie);
 
-            return new MovieDetailsDto(
-                movie.Details.Language,
-                movie.Details.Synopsis,
-                money
-            );
+            return new MovieDetailsDto(movie.Details.Synopsis, money);
         }
     }
 }

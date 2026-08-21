@@ -1,0 +1,21 @@
+﻿namespace MovieService.Domain.Roles
+{
+    public static class RoleErrors
+    {
+        public const string NameEmptyCode = "ROLE_NAME_EMPTY";
+        public const string NameEmptyMessage = "Role name can not be empty";
+
+        public const string NameTooLongCode = "ROLE_NAME_TOO_LONG";
+
+        public static string NameTooLongMessage(int length) =>
+            $"Role name can not be longer than {length} characters.";
+
+        public const string CodeEmptyCode = "ROLE_CODE_EMPTY";
+        public const string CodeEmptyMessage = "Role code can not be empty";
+
+        public const string CodeTooLongCode = "ROLE_CODE_TOO_LONG";
+
+        public static string CodeTooLongMessage(int length) =>
+            $"Role code can not be longer than {length} characters.";
+    }
+}

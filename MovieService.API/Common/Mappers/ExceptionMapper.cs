@@ -31,6 +31,13 @@ namespace MovieService.API.Common.Mappers
                     null
                 ),
 
+                ConflictException e => (
+                    e.Code,
+                    e.Message,
+                    StatusCodes.Status409Conflict,
+                    null
+                ),
+
                 UnauthorizedException e => (
                     e.Code,
                     e.Message,
