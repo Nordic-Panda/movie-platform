@@ -12,6 +12,7 @@ using MovieService.Infrastructure.Persistence.Languages;
 using MovieService.Infrastructure.Persistence.MovieActors;
 using MovieService.Infrastructure.Persistence.Movies;
 using MovieService.Infrastructure.Persistence.Reviews;
+using MovieService.Infrastructure.Persistence.Roles;
 using MovieService.Infrastructure.Persistence.Users;
 
 namespace MovieService.API.Common.Extensions
@@ -35,6 +36,7 @@ namespace MovieService.API.Common.Extensions
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
