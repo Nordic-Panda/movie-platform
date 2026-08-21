@@ -3,6 +3,7 @@ using MovieService.Application.Common.DTOs;
 using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
+using MovieService.Domain.Common.Normalizers;
 using MovieService.Domain.Genres;
 
 namespace MovieService.Application.Genres.CreateGenre
@@ -18,15 +19,19 @@ namespace MovieService.Application.Genres.CreateGenre
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<GenreDto> Handle(CreateGenreCommand request, CancellationToken cancellationToken)
+        public async Task<GenreDto> Handle(
+            CreateGenreCommand request,
+            CancellationToken cancellationToken
+        )
         {
+            var normalizedName = StringNormalizer.NormalizeName(request.Name);
+            var existingGenre = await _genreRepository.GetGenreByNameAsync(normalizedName);
 
-            var existingGenre = await _genreRepository.GetByNameAsync(request.Name);
-
-            if (existingGenre != null)
-            {
-                throw new ConflictException(GenreErrors.GenreNameAlreadyExistsCode, GenreErrors.GenreNameAlreadyExistsMessage);
-            }
+            if (existingGenre is not null)
+                throw new ConflictException(
+                    GenreErrors.GenreNameAlreadyExistsCode,
+                    GenreErrors.GenreNameAlreadyExistsMessage
+                );
 
             var genre = CreateGenreFactory.Create(request);
 

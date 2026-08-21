@@ -20,7 +20,7 @@ namespace MovieService.Application.Currencies.GetCurrencies
             CancellationToken cancellationToken
         )
         {
-            var currencies = await _currencyRepository.GetCurrenciesAsync();
+            var currencies = await _currencyRepository.GetAllActiveCurrenciesAsync();
 
             return currencies.Select(CurrencyMapper.ToDto).ToList();
         }

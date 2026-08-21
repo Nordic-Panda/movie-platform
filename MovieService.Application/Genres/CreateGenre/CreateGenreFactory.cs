@@ -1,4 +1,5 @@
-﻿using MovieService.Domain.Genres;
+﻿using MovieService.Domain.Common.Normalizers;
+using MovieService.Domain.Genres;
 
 namespace MovieService.Application.Genres.CreateGenre
 {
@@ -6,7 +7,11 @@ namespace MovieService.Application.Genres.CreateGenre
     {
         public static Genre Create(CreateGenreCommand command)
         {
-            return GenreFactory.Create(command.Name);
+            GenreRules.ValidateName(command.Name);
+            var normalizedName = StringNormalizer.NormalizeName(command.Name);
+            GenreRules.ValidateLength(normalizedName);
+
+            return GenreFactory.Create(normalizedName);
         }
     }
 }
