@@ -12,16 +12,15 @@ namespace MovieService.Infrastructure.Persistence.Reviews
             entity.HasKey(x => x.Id);
 
             entity.Property(x => x.MovieId).IsRequired();
-
-            entity.Property(x => x.Comment).IsRequired();
-
-            entity.Property(x => x.Rating).IsRequired().HasMaxLength(ReviewRules.MaxRating);
-
             entity
                 .HasOne<Movie>()
                 .WithMany()
                 .HasForeignKey(x => x.MovieId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            entity.Property(x => x.Comment).IsRequired();
+
+            entity.Property(x => x.Rating).IsRequired();
 
             entity.Property(x => x.IsActive).IsRequired();
         }
