@@ -20,7 +20,7 @@ namespace MovieService.Application.Languages.GetLanguages
             CancellationToken cancellationToken
         )
         {
-            var languages = await _languageRepository.GetAllLanguagesAsync();
+            var languages = await _languageRepository.GetAllActiveLanguagesAsync();
 
             return languages.Select(LanguageMapper.ToDto).ToList();
         }

@@ -69,5 +69,12 @@ namespace MovieService.Infrastructure.Persistence.Languages
                 l.Code == code && l.IsActive
             );
         }
+
+        public async Task<Language?> GetLanguageByNameOrCodeAsync(string name, string code)
+        {
+            return await _appDbContext.Languages.FirstOrDefaultAsync(l =>
+                l.Name == name || l.Code == code
+            );
+        }
     }
 }

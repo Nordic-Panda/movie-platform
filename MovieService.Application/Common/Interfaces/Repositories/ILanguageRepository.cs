@@ -17,5 +17,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
 
         Task<Language?> GetLanguageByCodeAsync(string code);
         Task<Language?> GetActiveLanguageByCodeAsync(string code);
+
+        Task<Language?> GetLanguageByNameOrCodeAsync(string name, string code);
     }
 }
