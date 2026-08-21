@@ -24,15 +24,9 @@ namespace MovieService.Infrastructure.Persistence.Reviews
             return await _context.Reviews.FirstOrDefaultAsync(review => review.Id == id);
         }
 
-        public async Task<IReadOnlyList<Review>?> GetReviewsByMovieId(Guid id)
+        public async Task<IReadOnlyList<Review>> GetReviewsByMovieId(Guid id)
         {
-            return (await _context.Reviews.Where(r => r.MovieId == id).ToListAsync())
-                .AsReadOnly();
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
+            return (await _context.Reviews.Where(r => r.MovieId == id).ToListAsync()).AsReadOnly();
         }
     }
 }

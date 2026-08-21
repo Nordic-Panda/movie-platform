@@ -6,6 +6,6 @@ namespace MovieService.Application.Common.Interfaces.Repositories
     {
         Task AddReviewAsync(Review review);
         Task<Review?> GetReviewById(Guid id);
-        Task<IReadOnlyList<Review>?> GetReviewsByMovieId(Guid id);
+        Task<IReadOnlyList<Review>> GetReviewsByMovieId(Guid id);
     }
 }

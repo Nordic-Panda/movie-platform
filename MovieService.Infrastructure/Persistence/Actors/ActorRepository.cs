@@ -33,10 +33,5 @@ namespace MovieService.Infrastructure.Persistence.Actors
         {
             return _context.Actors.AsQueryable();
         }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }

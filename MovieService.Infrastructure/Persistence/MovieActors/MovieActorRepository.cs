@@ -18,11 +18,6 @@ namespace MovieService.Infrastructure.Persistence.MovieActors
             await _appDbContext.MovieActor.AddAsync(movieActor);
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await _appDbContext.SaveChangesAsync();
-        }
-
         public IQueryable<MovieActor> Query()
         {
             return _appDbContext.MovieActor.AsQueryable();

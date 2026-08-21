@@ -12,21 +12,9 @@ namespace MovieService.Infrastructure.Data.Seeders
 
             var password = "pass";
             var hashedPass = BCrypt.Net.BCrypt.HashPassword(password);
+            db.Users.Add(new User("test@user.com", hashedPass, Domain.Common.Enums.UserRole.User));
             db.Users.Add(
-                new User(
-                    Guid.NewGuid(),
-                    "test@user.com",
-                    hashedPass,
-                    Domain.Common.Enums.UserRole.User
-                )
-            );
-            db.Users.Add(
-                new User(
-                    Guid.NewGuid(),
-                    "test@admin.com",
-                    hashedPass,
-                    Domain.Common.Enums.UserRole.Admin
-                )
+                new User("test@admin.com", hashedPass, Domain.Common.Enums.UserRole.Admin)
             );
             await db.SaveChangesAsync();
         }
