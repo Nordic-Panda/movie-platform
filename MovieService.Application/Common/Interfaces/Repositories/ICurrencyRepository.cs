@@ -9,7 +9,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task<IReadOnlyList<Currency>> GetAllCurrenciesAsync();
         Task<IReadOnlyList<Currency>> GetAllActiveCurrenciesAsync();
 
-        Task<Currency?> GetCurrencyByCode(string code);
-        Task<Currency?> GetActiveCurrencyByCode(string code);
+        Task<Currency?> GetCurrencyByCodeAsync(string code);
+        Task<Currency?> GetActiveCurrencyByCodeAsync(string code);
     }
 }

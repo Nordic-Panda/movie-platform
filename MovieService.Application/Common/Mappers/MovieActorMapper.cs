@@ -18,7 +18,6 @@ namespace MovieService.Application.Common.Mappers
         public static MovieActorDto ToDto(MovieActor movieActor)
         {
             return new MovieActorDto(
-                movieActor.Id,
                 movieActor.MovieId,
                 movieActor.ActorId,
                 movieActor.CharacterName

@@ -70,6 +70,10 @@ namespace MovieService.Domain.Movies
             MovieRules.ValidatePublishYear(year);
             MovieRules.ValidateDuration(duration);
 
+            posterUrl = string.IsNullOrWhiteSpace(posterUrl)
+                ? posterUrl
+                : StringNormalizer.NormalizeDescription(posterUrl);
+
             Title = normalizedTitle;
             Year = year;
             Duration = duration;

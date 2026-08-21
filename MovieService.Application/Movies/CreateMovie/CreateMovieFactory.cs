@@ -28,8 +28,6 @@ namespace MovieService.Application.Movies.CreateMovie
 
             var details = MovieDetailFactory.Create(request.Synopsis, money);
 
-            var posterUrl = string.IsNullOrWhiteSpace(request.PosterUrl) ? null : request.PosterUrl;
-
             return MovieFactory.Create(
                 request.Title,
                 request.Year,
@@ -37,7 +35,7 @@ namespace MovieService.Application.Movies.CreateMovie
                 genres,
                 details,
                 language,
-                posterUrl
+                request.PosterUrl
             );
         }
     }

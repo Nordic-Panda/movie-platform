@@ -29,12 +29,12 @@ namespace MovieService.Infrastructure.Persistence.Currencies
             return await _context.Currencies.Where(c => c.IsActive).AsNoTracking().ToListAsync();
         }
 
-        public async Task<Currency?> GetCurrencyByCode(string code)
+        public async Task<Currency?> GetCurrencyByCodeAsync(string code)
         {
             return await _context.Currencies.FirstOrDefaultAsync(c => c.Code == code);
         }
 
-        public async Task<Currency?> GetActiveCurrencyByCode(string code)
+        public async Task<Currency?> GetActiveCurrencyByCodeAsync(string code)
         {
             return await _context.Currencies.FirstOrDefaultAsync(c => c.Code == code && c.IsActive);
         }

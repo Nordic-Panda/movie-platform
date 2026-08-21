@@ -25,6 +25,10 @@ namespace MovieService.Domain.Movies
             MovieRules.ValidatePublishYear(year);
             MovieRules.ValidateDuration(duration);
 
+            posterUrl = string.IsNullOrWhiteSpace(posterUrl)
+                ? posterUrl
+                : StringNormalizer.NormalizeDescription(posterUrl);
+
             return new Movie(normalizedTitle, year, duration, genres, details, language, posterUrl);
         }
     }

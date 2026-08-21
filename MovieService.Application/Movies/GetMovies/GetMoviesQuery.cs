@@ -9,6 +9,7 @@ namespace MovieService.Application.Movies.GetMovies
         int? Duration,
         string? ActorFirstName,
         string? ActorLastName,
-        int? Page
+        int? Page,
+        int? PageSize
     ) : IRequest<PagedResult<MovieDto>>;
 }

@@ -4,8 +4,12 @@ using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
 using MovieService.Application.Movies.CreateMovie;
+using MovieService.Domain.Common.Exceptions;
+using MovieService.Domain.Common.Normalizers;
+using MovieService.Domain.Currencies;
 using MovieService.Domain.Genres;
 using MovieService.Domain.Languages;
+using MovieService.Domain.Movies;
 
 public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
 {
@@ -33,31 +37,57 @@ public class CreateMovieHandler : IRequestHandler<CreateMovieCommand, MovieDto>
 
     public async Task<MovieDto> Handle(CreateMovieCommand request, CancellationToken ct)
     {
-        var genres = await _genreRepository.GetByIdsAsync(request.GenreIds);
+        var normalizedTitle = StringNormalizer.NormalizeTitle(request.Title);
+        var duration = TimeSpan.FromMinutes(request.DurationMinutes);
 
-        if (genres.Count != request.GenreIds.Distinct().Count())
+        var existingMovie = await _movieRepository.GetActiveMovieByTitleAndYearAndDurationAsync(
+            normalizedTitle,
+            request.Year,
+            duration
+        );
+
+        if (existingMovie is not null)
         {
+            throw new ConflictException(
+                MovieErrors.MovieAlreadyExistsCode,
+                MovieErrors.MovieAlreadyExistsMessage
+            );
+        }
+
+        var existingGenres = await _genreRepository.GetActiveGenresByIdsAsync(request.GenreIds);
+
+        if (existingGenres.Count != request.GenreIds.Distinct().Count())
             throw new NotFoundException(
                 GenreErrors.OneOrMoreGenresNotFoundCode,
                 GenreErrors.OneOrMoreGenresNotFoundMessage
             );
-        }
 
-        var language = await _languageRepository.GetByIdAsync(request.LanguageId);
+        var existingLanguage = await _languageRepository.GetActiveLanguageByIdAsync(
+            request.LanguageId
+        );
 
-        if (language == null)
-        {
+        if (existingLanguage is null)
             throw new NotFoundException(
                 LanguageErrors.LanguageNotFoundCode,
                 LanguageErrors.LanguageNotFoundMessage
             );
+
+        Currency? currency = null;
+
+        if (request.BudgetAmount.HasValue)
+        {
+            currency = string.IsNullOrWhiteSpace(request.CurrencyCode)
+                ? currency
+                : await _currencyRepository.GetActiveCurrencyByCodeAsync(request.CurrencyCode);
+
+            if (currency is null)
+                throw new NotFoundException(
+                    CurrencyErrors.CurrencyNotFoundCode,
+                    CurrencyErrors.CurrencyNotFoundMessage
+                );
         }
 
-        var currency = string.IsNullOrWhiteSpace(request.CurrencyCode)
-            ? null
-            : await _currencyRepository.GetCurrencyByCode(request.CurrencyCode);
-
-        var movie = CreateMovieFactory.Create(request, genres, language, currency);
+        var movie = CreateMovieFactory.Create(request, existingGenres, existingLanguage, currency);
 
         await _movieRepository.AddAsync(movie);
         await _unitOfWork.SaveChangesAsync(ct);

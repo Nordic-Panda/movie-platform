@@ -35,7 +35,7 @@ namespace MovieService.Application.Movies.GetMovies
         )
         {
             var page = request.Page ?? _settings.DefaultPage;
-            var pageSize = _settings.DefaultPageSize;
+            var pageSize = request.PageSize ?? _settings.DefaultPageSize;
 
             var movies = _movieRepository.Query();
             var movieActors = _movieActorRepository.Query();
