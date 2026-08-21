@@ -16,14 +16,20 @@ namespace MovieService.Application.Reviews.GetReviewById
             _reviewRepository = reviewRepository;
         }
 
-        public async Task<ReviewDto> Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ReviewDto> Handle(
+            GetReviewByIdQuery request,
+            CancellationToken cancellationToken
+        )
         {
-            var review = await _reviewRepository.GetReviewById(request.Id);
+            var existingReview = await _reviewRepository.GetActiveReviewById(request.Id);
 
-            if (review == null)
-                throw new NotFoundException(ReviewErrors.ReviewNotFoundCode, ReviewErrors.ReviewNotFoundMessage);
+            if (existingReview is null)
+                throw new NotFoundException(
+                    ReviewErrors.ReviewNotFoundCode,
+                    ReviewErrors.ReviewNotFoundMessage
+                );
 
-            return ReviewMapper.ToDto(review);
+            return ReviewMapper.ToDto(existingReview);
         }
     }
 }

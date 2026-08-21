@@ -5,18 +5,15 @@ namespace MovieService.Application.Reviews.CreateReview
 {
     public class CreateReviewValidator : AbstractValidator<CreateReviewCommand>
     {
-        public CreateReviewValidator() 
+        public CreateReviewValidator()
         {
-            RuleFor(x => x.MovieId)
-                .NotEmpty();
+            RuleFor(x => x.MovieId).NotEmpty();
 
-            RuleFor(x => x.Comment)
-                .NotEmpty();
+            RuleFor(x => x.Comment).NotEmpty();
 
             RuleFor(x => x.Rating)
                 .GreaterThanOrEqualTo(ReviewRules.MinRating)
                 .LessThanOrEqualTo(ReviewRules.MaxRating);
-        
         }
     }
 }
