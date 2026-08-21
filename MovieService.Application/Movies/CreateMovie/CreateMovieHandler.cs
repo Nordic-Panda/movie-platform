@@ -4,7 +4,6 @@ using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
 using MovieService.Application.Movies.CreateMovie;
-using MovieService.Domain.Common.Exceptions;
 using MovieService.Domain.Common.Normalizers;
 using MovieService.Domain.Currencies;
 using MovieService.Domain.Genres;

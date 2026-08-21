@@ -18,7 +18,7 @@ namespace MovieService.Application.Movies.GetMovieById
 
         public async Task<MovieDto> Handle(GetMovieByIdQuery request, CancellationToken ct)
         {
-            var movie = await _movieRepository.GetByIdAsync(request.Id);
+            var movie = await _movieRepository.GetActiveMovieByIdAsync(request.Id);
 
             if (movie is null)
                 throw new NotFoundException(

@@ -5,16 +5,21 @@ namespace MovieService.Infrastructure.Data.Seeders
 {
     public class UserSeeder
     {
-        public static async Task SeedUser(AppDbContext db)
+        public static async Task SeedUsers(AppDbContext db)
         {
             if (await db.Users.AnyAsync())
                 return;
 
+            var userRole = await db.Roles.FirstAsync(r => r.Code == "USER");
+
+            var adminRole = await db.Roles.FirstAsync(r => r.Code == "ADMIN");
+
             var password = "pass";
-            var hashedPass = BCrypt.Net.BCrypt.HashPassword(password);
-            db.Users.Add(new User("test@user.com", hashedPass, Domain.Common.Enums.UserRole.User));
-            db.Users.Add(
-                new User("test@admin.com", hashedPass, Domain.Common.Enums.UserRole.Admin)
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
+            db.Users.AddRange(
+                UserFactory.Create("y@admin.com", hashedPassword, adminRole.Id),
+                UserFactory.Create("y@user.com", hashedPassword, userRole.Id)
             );
             await db.SaveChangesAsync();
         }
