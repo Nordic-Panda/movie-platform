@@ -50,7 +50,7 @@ namespace MovieService.Infrastructure.Persistence.Movies
                 .Include(m => m.Details)
                     .ThenInclude(d => d.Budget)
                         .ThenInclude(b => b.Currency)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
         }
 
         // Don't need include here because this is for checking movie dup

@@ -59,7 +59,7 @@ public class MovieController : ControllerBase
         return Ok(ApiResponse<PagedResult<MovieDto>>.Ok(result));
     }
 
-    [HttpGet("details/{id:guid}")]
+    [HttpGet("{id:guid}/details")]
     public async Task<IActionResult> GetDetailsById([FromRoute] Guid id)
     {
         var result = await _mediator.Send(new GetMovieDetailsByIdQuery(id));

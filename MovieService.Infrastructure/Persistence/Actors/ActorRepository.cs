@@ -39,6 +39,11 @@ namespace MovieService.Infrastructure.Persistence.Actors
             return await _context.Actors.FirstOrDefaultAsync(a => a.Id == id && a.IsActive);
         }
 
+        public async Task<IReadOnlyList<Actor>> GetActorsByIdsAsync(IReadOnlyList<Guid> ids)
+        {
+            return await _context.Actors.Where(a => ids.Contains(a.Id)).ToListAsync();
+        }
+
         public IQueryable<Actor> Query()
         {
             return _context.Actors.AsQueryable();
