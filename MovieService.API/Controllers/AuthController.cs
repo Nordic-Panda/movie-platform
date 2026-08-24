@@ -22,7 +22,7 @@ namespace MovieService.API.Controllers
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(
-            LocalRegisterCommand command,
+            RegisterCommand command,
             CancellationToken cancellationToken
         )
         {

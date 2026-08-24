@@ -1,48 +1,61 @@
-﻿using MediatR;
-using MovieService.Application.Common.DTOs;
+﻿using MovieService.Application.Auth.Register;
 using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Interfaces.Repositories;
-using MovieService.Application.Common.Mappers;
-using MovieService.Domain.Common.Enums;
+using MovieService.Domain.Auth;
+using MovieService.Domain.Common.Exceptions;
 using MovieService.Domain.Roles;
 using MovieService.Domain.UserIdentities;
 using MovieService.Domain.Users;
 
-namespace MovieService.Application.Auth.Register
+namespace MovieService.Infrastructure.Auth
 {
-    public class LocalRegisterHandler : IRequestHandler<LocalRegisterCommand, UserDto>
+    public class LocalRegisterProvider : IRegisterProvider
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserIdentityRepository _userIdentityRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public LocalRegisterHandler(
+        public string Provider => IdentityProviders.Local;
+
+        public LocalRegisterProvider(
             IUserRepository userRepository,
             IRoleRepository roleRepository,
-            IUserIdentityRepository userIdentityRepository,
-            IUnitOfWork unitOfWork
+            IUserIdentityRepository userIdentityRepository
         )
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _userIdentityRepository = userIdentityRepository;
-            _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserDto> Handle(
-            LocalRegisterCommand request,
+        public async Task<User> RegisterAsync(
+            RegisterCommand request,
             CancellationToken cancellationToken
         )
         {
+            if (
+                string.IsNullOrWhiteSpace(request.Email)
+                || string.IsNullOrWhiteSpace(request.Username)
+                || string.IsNullOrWhiteSpace(request.DisplayName)
+                || string.IsNullOrWhiteSpace(request.Password)
+            )
+            {
+                throw new DomainException(
+                    UserErrors.CredentialInvalidCode,
+                    UserErrors.CredentialInvalidMessage
+                );
+            }
+
             var existingEmail = await _userRepository.GetUserByEmailAsync(request.Email);
 
             if (existingEmail is not null)
+            {
                 throw new ConflictException(
                     UserErrors.EmailExistsCode,
                     UserErrors.EmailExistsMessage
                 );
+            }
 
             var existingUsername = await _userRepository.GetUserByUsernameAsync(request.Username);
 
@@ -78,9 +91,7 @@ namespace MovieService.Application.Auth.Register
             await _userRepository.AddAsync(user);
             await _userIdentityRepository.AddAsync(identity);
 
-            await _unitOfWork.SaveChangesAsync();
-
-            return UserMapper.ToDto(user);
+            return user;
         }
     }
 }

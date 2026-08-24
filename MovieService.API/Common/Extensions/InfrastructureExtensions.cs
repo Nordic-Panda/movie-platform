@@ -45,6 +45,9 @@ namespace MovieService.API.Common.Extensions
             services.AddScoped<ICurrentUser, CurrentUser>();
             services.AddScoped<ILoginProvider, LocalLoginProvider>();
             services.AddScoped<ILoginProviderResolver, LoginProviderResolver>();
+            services.AddScoped<IRegisterProvider, LocalRegisterProvider>();
+            services.AddScoped<IRegisterProviderResolver, RegisterProviderResolver>();
+            //services.AddScoped<IRegisterProvider, MicrosoftRegisterProvider>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
