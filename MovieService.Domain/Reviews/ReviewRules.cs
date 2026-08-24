@@ -33,5 +33,14 @@ namespace MovieService.Domain.Reviews
                     ReviewErrors.MovieIdEmptyMessage
                 );
         }
+
+        public static void ValidateUserId(Guid userId)
+        {
+            if (userId == Guid.Empty)
+                throw new DomainException(
+                    ReviewErrors.UserIdEmptyCode,
+                    ReviewErrors.UserIdEmptyMessage
+                );
+        }
     }
 }

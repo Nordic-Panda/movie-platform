@@ -5,6 +5,7 @@ using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Application.Common.Mappers;
 using MovieService.Domain.Movies;
 using MovieService.Domain.Reviews;
+using MovieService.Domain.Users;
 
 namespace MovieService.Application.Reviews.CreateReview
 {
@@ -12,17 +13,20 @@ namespace MovieService.Application.Reviews.CreateReview
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IMovieRepository _movieRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateReviewHandler(
             IReviewRepository reviewRepository,
             IMovieRepository movieRepository,
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            IUserRepository userRepository
         )
         {
             _reviewRepository = reviewRepository;
             _movieRepository = movieRepository;
             _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
         }
 
         public async Task<ReviewDto> Handle(
@@ -38,13 +42,26 @@ namespace MovieService.Application.Reviews.CreateReview
                     MovieErrors.MovieNotFoundMessage
                 );
 
-            var review = ReviewFactory.Create(request.MovieId, request.Comment, request.Rating);
+            // TEMP SOLUTION, in reality we do not trust userID from request, but rather from authentication
+            var currentUserId = request.UserId;
+
+            var review = ReviewFactory.Create(
+                request.MovieId,
+                request.UserId,
+                request.Comment,
+                request.Rating
+            );
 
             await _reviewRepository.AddReviewAsync(review);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return ReviewMapper.ToDto(review);
+            var existingUser = await _userRepository.GetActiveUserByIdAsync(currentUserId);
+
+            if (existingUser is null)
+                throw new NotFoundException(UserErrors.NotFoundCode, UserErrors.NotFoundMessage);
+
+            return ReviewMapper.ToDto(review, existingUser);
         }
     }
 }

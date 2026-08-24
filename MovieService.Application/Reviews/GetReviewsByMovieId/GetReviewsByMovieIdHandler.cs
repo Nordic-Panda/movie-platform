@@ -12,14 +12,17 @@ namespace MovieService.Application.Reviews.GetReviewsByMovieId
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IMovieRepository _movieRepository;
+        private readonly IUserRepository _userRepository;
 
         public GetReviewsByMovieIdHandler(
             IReviewRepository reviewRepository,
-            IMovieRepository movieRepository
+            IMovieRepository movieRepository,
+            IUserRepository userRepository
         )
         {
             _reviewRepository = reviewRepository;
             _movieRepository = movieRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<IReadOnlyList<ReviewDto>> Handle(
@@ -35,9 +38,33 @@ namespace MovieService.Application.Reviews.GetReviewsByMovieId
                     MovieErrors.MovieNotFoundMessage
                 );
 
-            var reviews = await _reviewRepository.GetReviewsByMovieId(request.MovieId);
+            var reviews = await _reviewRepository.GetActiveReviewsByMovieId(request.MovieId);
 
-            return reviews.Select(ReviewMapper.ToDto).ToList().AsReadOnly();
+            var userIds = reviews.Select(x => x.UserId).Distinct().ToList();
+
+            var users = userIds.Count == 0 ? [] : await _userRepository.GetUsersByIdsAsync(userIds);
+
+            var result = reviews
+                .Join(
+                    users,
+                    review => review.UserId,
+                    user => user.Id,
+                    (review, user) =>
+                        new ReviewDto(
+                            review.Id,
+                            review.MovieId,
+                            review.UserId,
+                            user.Username,
+                            user.DisplayName,
+                            review.Comment,
+                            review.Rating
+                        )
+                )
+                .ToList()
+                .AsReadOnly();
+
+            //return reviews.Select(ReviewMapper.ToDto).ToList().AsReadOnly();
+            return result;
         }
     }
 }

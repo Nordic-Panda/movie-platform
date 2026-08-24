@@ -5,9 +5,11 @@
         public Guid Id { get; private set; }
 
         public Guid MovieId { get; private set; }
+
         public Guid UserId { get; private set; }
 
-        public string Comment { get; private set; }
+        public string Comment { get; private set; } = string.Empty;
+
         public int Rating { get; private set; }
 
         public bool IsActive { get; private set; }

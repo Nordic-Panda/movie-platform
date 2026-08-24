@@ -14,18 +14,21 @@ namespace MovieService.Application.Movies.GetMovieDetailsById
         private readonly IMovieActorRepository _movieActorRepository;
         private readonly IActorRepository _actorRepository;
         private readonly IReviewRepository _reviewRepository;
+        private readonly IUserRepository _userRepository;
 
         public GetMovieDetailsByIdHandler(
             IMovieRepository movieRepository,
             IMovieActorRepository movieActorRepository,
             IActorRepository actorRepository,
-            IReviewRepository reviewRepository
+            IReviewRepository reviewRepository,
+            IUserRepository userRepository
         )
         {
             _movieRepository = movieRepository;
             _movieActorRepository = movieActorRepository;
             _actorRepository = actorRepository;
             _reviewRepository = reviewRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<MovieDetailsDto> Handle(
@@ -42,13 +45,22 @@ namespace MovieService.Application.Movies.GetMovieDetailsById
                 );
 
             var movieActors = await _movieActorRepository.GetMovieActorsByMovieIdAsync(request.Id);
-
             var actorIds = movieActors.Select(x => x.ActorId).ToList();
-
             var actors =
                 actorIds.Count == 0 ? [] : await _actorRepository.GetActorsByIdsAsync(actorIds);
 
             var reviews = await _reviewRepository.GetActiveReviewsByMovieId(request.Id);
+            var userIds = reviews.Select(r => r.UserId).Distinct().ToList();
+            var users = userIds.Count == 0 ? [] : await _userRepository.GetUsersByIdsAsync(userIds);
+
+            var reviewDtos = reviews
+                .Join(
+                    users,
+                    review => review.UserId,
+                    user => user.Id,
+                    (review, user) => ReviewMapper.ToDto(review, user)
+                )
+                .ToList();
 
             /*
                 1st collection.Join(
@@ -87,7 +99,7 @@ namespace MovieService.Application.Movies.GetMovieDetailsById
                 movie.Details.Budget is not null ? MoneyMapper.ToDto(movie.Details.Budget) : null,
                 LanguageMapper.ToDto(movie.Language),
                 cast,
-                reviews.Select(ReviewMapper.ToDto).ToList(),
+                reviewDtos,
                 movie.PosterUrl
             );
         }

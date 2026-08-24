@@ -2,6 +2,7 @@
 {
     public static class UserErrors
     {
+        public const string InActiveUser = "Inactive User";
         public const string NotFoundCode = "USER_NOT_FOUND";
         public const string NotFoundMessage = "User not found";
 

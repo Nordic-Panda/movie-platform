@@ -15,5 +15,8 @@
 
         public const string MovieIdEmptyCode = "MOVIE_ID_EMPTY";
         public const string MovieIdEmptyMessage = "Please select a movie";
+
+        public const string UserIdEmptyCode = "USER_ID_EMPTY";
+        public const string UserIdEmptyMessage = "User is missing";
     }
 }
