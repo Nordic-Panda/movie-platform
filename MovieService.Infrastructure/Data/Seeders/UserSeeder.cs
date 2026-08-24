@@ -44,7 +44,7 @@ namespace MovieService.Infrastructure.Data.Seeders
                 UserFactory.Create(
                     "test@movie.com",
                     "testUserName",
-                    "Test account displayname - i'm just keep spamming since i need to be long desu",
+                    "Test - I spam since i need to be long desu",
                     hashedPassword,
                     userRole.Id
                 ),
