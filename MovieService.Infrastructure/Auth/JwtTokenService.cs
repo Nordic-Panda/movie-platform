@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Settings;
 using MovieService.Domain.Roles;
+using MovieService.Domain.Users;
 
 namespace MovieService.Infrastructure.Auth
 {

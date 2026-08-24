@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace MovieService.Application.Users.Login
+namespace MovieService.Application.Auth.Login
 {
     public class LogInValidator : AbstractValidator<LoginCommand>
     {

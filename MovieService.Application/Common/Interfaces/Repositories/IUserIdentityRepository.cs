@@ -9,5 +9,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task<IReadOnlyList<UserIdentity>> GetByUserIdAsync(Guid userId);
 
         Task AddAsync(UserIdentity userIdentity);
+
+        //Task<UserIdentity?> GetIdentityAsync(Guid userId, string provider);
     }
 }

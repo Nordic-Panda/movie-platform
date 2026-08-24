@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using MovieService.Application.Common.DTOs;
 
-namespace MovieService.Application.Users.Register
+namespace MovieService.Application.Auth.Register
 {
-    public record RegisterCommand(
+    public record LocalRegisterCommand(
         string Email,
         string Username,
         string DisplayName,

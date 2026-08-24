@@ -9,16 +9,16 @@ using MovieService.Domain.Roles;
 using MovieService.Domain.UserIdentities;
 using MovieService.Domain.Users;
 
-namespace MovieService.Application.Users.Register
+namespace MovieService.Application.Auth.Register
 {
-    public class RegisterHandler : IRequestHandler<RegisterCommand, UserDto>
+    public class LocalRegisterHandler : IRequestHandler<LocalRegisterCommand, UserDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserIdentityRepository _userIdentityRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public RegisterHandler(
+        public LocalRegisterHandler(
             IUserRepository userRepository,
             IRoleRepository roleRepository,
             IUserIdentityRepository userIdentityRepository,
@@ -32,7 +32,7 @@ namespace MovieService.Application.Users.Register
         }
 
         public async Task<UserDto> Handle(
-            RegisterCommand request,
+            LocalRegisterCommand request,
             CancellationToken cancellationToken
         )
         {
