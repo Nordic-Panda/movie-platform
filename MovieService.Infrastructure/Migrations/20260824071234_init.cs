@@ -119,6 +119,8 @@ namespace MovieService.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
@@ -138,13 +140,15 @@ namespace MovieService.Infrastructure.Migrations
                 name: "MovieActor",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MovieId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ActorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CharacterName = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    CharacterName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IsMainCast = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieActor", x => new { x.MovieId, x.ActorId });
+                    table.PrimaryKey("PK_MovieActor", x => x.Id);
                     table.ForeignKey(
                         name: "FK_MovieActor_Actors_ActorId",
                         column: x => x.ActorId,
@@ -189,6 +193,7 @@ namespace MovieService.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MovieId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
@@ -202,6 +207,12 @@ namespace MovieService.Infrastructure.Migrations
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -266,6 +277,11 @@ namespace MovieService.Infrastructure.Migrations
                 column: "MovieId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Roles_Code",
                 table: "Roles",
                 column: "Code",
@@ -287,6 +303,12 @@ namespace MovieService.Infrastructure.Migrations
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -302,9 +324,6 @@ namespace MovieService.Infrastructure.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "Actors");
 
             migrationBuilder.DropTable(
@@ -314,13 +333,16 @@ namespace MovieService.Infrastructure.Migrations
                 name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "Languages");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }

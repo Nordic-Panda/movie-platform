@@ -24,7 +24,7 @@ namespace MovieService.Infrastructure.Persistence.Users
             entity
                 .Property(x => x.DisplayName)
                 .IsRequired()
-                .HasMaxLength(UserRules.DisplayNameMaxLenth);
+                .HasMaxLength(UserRules.DisplayNameMaxLength);
 
             entity.Property(x => x.RoleId).IsRequired();
             // Though explicitly configure of this is not required

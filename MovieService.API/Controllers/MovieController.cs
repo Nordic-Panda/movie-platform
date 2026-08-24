@@ -105,7 +105,8 @@ public class MovieController : ControllerBase
         var command = MovieActorMapper.ToAddActorToMovieCommand(
             movieId,
             request.ActorId,
-            request.CharacterName
+            request.CharacterName,
+            request.IsMainCast
         );
         var result = await _mediator.Send(command);
         return Ok(ApiResponse<MovieActorDto>.Ok(result));

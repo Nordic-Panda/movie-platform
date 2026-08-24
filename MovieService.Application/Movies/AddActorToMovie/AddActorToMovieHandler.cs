@@ -53,7 +53,8 @@ namespace MovieService.Application.Movies.AddActorToMovie
             var movieActor = MovieActorFactory.Create(
                 command.MovieId,
                 command.ActorId,
-                command.CharacterName
+                command.CharacterName,
+                command.IsMainCast
             );
 
             await _movieActorRepository.AddActorToMovieAsync(movieActor);

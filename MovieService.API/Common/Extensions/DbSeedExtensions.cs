@@ -17,6 +17,8 @@ namespace MovieService.API.Common.Extensions
             await LanguageSeeder.SeedLanguages(db);
             await GenreSeeder.SeedGenres(db);
             await MovieSeeder.SeedMovies(db);
+            await ActorSeeder.SeedActors(db);
+            await MovieActorSeeder.SeedMovieActors(db);
             await ReviewSeeder.SeedReviews(db);
         }
     }

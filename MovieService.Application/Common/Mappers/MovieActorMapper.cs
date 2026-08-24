@@ -9,10 +9,11 @@ namespace MovieService.Application.Common.Mappers
         public static AddActorToMovieCommand ToAddActorToMovieCommand(
             Guid movieId,
             Guid actorId,
-            string characterName
+            string characterName,
+            bool isMainCast
         )
         {
-            return new AddActorToMovieCommand(movieId, actorId, characterName);
+            return new AddActorToMovieCommand(movieId, actorId, characterName, isMainCast);
         }
 
         public static MovieActorDto ToDto(MovieActor movieActor)
@@ -20,7 +21,8 @@ namespace MovieService.Application.Common.Mappers
             return new MovieActorDto(
                 movieActor.MovieId,
                 movieActor.ActorId,
-                movieActor.CharacterName
+                movieActor.CharacterName,
+                movieActor.IsMainCast
             );
         }
     }

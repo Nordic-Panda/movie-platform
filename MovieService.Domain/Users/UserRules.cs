@@ -4,7 +4,7 @@ namespace MovieService.Domain.Users
 {
     public static class UserRules
     {
-        public const int DisplayNameMaxLenth = 50;
+        public const int DisplayNameMaxLength = 50;
         public const int UsernameMaxLength = 30;
 
         public static void ValidateEmail(string email)
@@ -51,10 +51,10 @@ namespace MovieService.Domain.Users
 
         public static void ValidateDisplayNameLength(string name)
         {
-            if (name.Length > DisplayNameMaxLenth)
+            if (name.Length > DisplayNameMaxLength)
                 throw new DomainException(
                     UserErrors.DisplayNameTooLongCode,
-                    UserErrors.DisplayNameTooLongMessage(DisplayNameMaxLenth)
+                    UserErrors.DisplayNameTooLongMessage(DisplayNameMaxLength)
                 );
         }
 
