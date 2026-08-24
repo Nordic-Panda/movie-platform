@@ -85,7 +85,8 @@ namespace MovieService.Application.Movies.GetMovieDetailsById
                             actor.FirstName,
                             actor.LastName,
                             actor.BirthYear,
-                            movieActor.CharacterName
+                            movieActor.CharacterName,
+                            movieActor.IsMainCast
                         )
                 )
                 .ToList();

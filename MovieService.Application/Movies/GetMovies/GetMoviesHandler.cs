@@ -51,7 +51,7 @@ namespace MovieService.Application.Movies.GetMovies
                 .Include(m => m.Language)
                 .Include(m => m.Details)
                     .ThenInclude(d => d.Budget)
-                        .ThenInclude(d => d.Currency)
+                        .ThenInclude(d => d!.Currency)
                 .ApplyGenreFilter(request.GenreIds)
                 .ApplyTitleFilter(request.Title)
                 .ApplyDurationFilter(request.Duration)

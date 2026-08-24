@@ -10,14 +10,15 @@ namespace MovieService.Application.Common.Mappers
         {
             var displayName = user.IsActive ? user.DisplayName : UserErrors.InActiveUser;
 
+            var username = user.IsActive ? user.Username : string.Empty;
+
             return new ReviewDto(
                 review.Id,
                 review.MovieId,
-                review.UserId,
-                user.Username,
-                displayName,
                 review.Comment,
-                review.Rating
+                review.Rating,
+                displayName,
+                username
             );
         }
     }

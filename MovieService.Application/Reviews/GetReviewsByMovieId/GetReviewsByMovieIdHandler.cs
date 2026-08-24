@@ -49,16 +49,7 @@ namespace MovieService.Application.Reviews.GetReviewsByMovieId
                     users,
                     review => review.UserId,
                     user => user.Id,
-                    (review, user) =>
-                        new ReviewDto(
-                            review.Id,
-                            review.MovieId,
-                            review.UserId,
-                            user.Username,
-                            user.DisplayName,
-                            review.Comment,
-                            review.Rating
-                        )
+                    (review, user) => ReviewMapper.ToDto(review, user)
                 )
                 .ToList()
                 .AsReadOnly();

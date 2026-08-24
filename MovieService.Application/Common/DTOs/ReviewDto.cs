@@ -3,10 +3,9 @@
     public record ReviewDto(
         Guid Id,
         Guid MovieId,
-        Guid UserId,
-        string Username,
-        string DisplayName,
         string Comment,
-        int Rating
+        int Rating,
+        string DisplayName,
+        string Username
     );
 }

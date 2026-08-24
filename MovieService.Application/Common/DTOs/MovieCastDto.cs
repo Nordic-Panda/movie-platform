@@ -5,6 +5,7 @@
         string FirstName,
         string LastName,
         int BirthYear,
-        string CharacterName
+        string CharacterName,
+        bool IsMainCast
     );
 }
