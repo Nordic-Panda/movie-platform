@@ -28,7 +28,7 @@ namespace MovieService.Infrastructure.Data.Seeders
                 ReviewFactory.Create(
                     movie.Id,
                     yang.Id,
-                    "A beautiful and surprisingly touching film. Ove is such a memorable character.",
+                    "I really enjoyed *A Man Called Ove*. At first, Ove comes across as an extremely grumpy and difficult old man who seems to dislike almost everyone around him. However, as the story develops, you slowly understand why he has become the way he is. The characters are surprisingly warm and funny, and the story manages to balance humor with some genuinely emotional moments.\r\n\r\nWhat I liked most was how Ove gradually changes through his relationships with the people around him. It is a simple story, but it has a lot to say about loneliness, friendship, love, and finding a reason to keep going. Some parts were predictable, but I still found myself caring about the characters and wanting to see how everything turned out.\r\n\r\nOverall, I would definitely recommend this book. It is funny, touching, and easy to get into, with a main character who becomes much more lovable than you might expect at first.",
                     5
                 ),
                 ReviewFactory.Create(

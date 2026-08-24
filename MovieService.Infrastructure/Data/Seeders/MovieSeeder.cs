@@ -340,7 +340,7 @@ public static class MovieSeeder
                 2015,
                 new[] { comedy, drama },
                 swedish,
-                "A lonely and rigid widower's life changes after a lively young family moves in next door.",
+                "*A Man Called Ove* is a Swedish comedy-drama film based on the novel by Fredrik Backman. It follows Ove, a grumpy and stubborn widower who lives alone and strictly enforces the rules of his neighborhood. After losing his job and his beloved wife, Ove feels that he has nothing left to live for.\r\n\r\nHis life changes when a new family moves in next door. Despite initially finding them annoying, Ove gradually becomes friends with them and begins helping them in unexpected ways. The film also explores his past and reveals the caring and loyal person behind his rough exterior.\r\n\r\nCombining humor and emotional moments, the film explores loneliness, friendship, love, grief, and human connection. It is a touching story about how unexpected friendships can give someone a new reason to live.",
                 35_000_000m,
                 sek,
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm1bmPzBmPXIlnzgVg2SUZEKuyiKTTNKoiW6Lyxh_8DA&s=10"
