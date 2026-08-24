@@ -7,7 +7,13 @@ namespace MovieService.Application.Common.Mappers
     {
         public static UserDto ToDto(User user)
         {
-            return new UserDto(user.Id, user.Email);
+            return new UserDto(
+                user.Id,
+                user.Email,
+                user.Username,
+                user.DisplayName,
+                user.CreatedAt
+            );
         }
     }
 }
