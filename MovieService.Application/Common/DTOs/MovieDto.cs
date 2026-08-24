@@ -10,5 +10,6 @@ public record MovieDto(
     string? Synopsis,
     decimal? BudgetAmount,
     string? CurrencyCode,
-    string? PosterUrl
+    string? PosterUrl,
+    DateTime CreatedAt
 );

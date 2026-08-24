@@ -18,7 +18,8 @@ namespace MovieService.Application.Common.Mappers
                 review.Comment,
                 review.Rating,
                 displayName,
-                username
+                username,
+                review.CreatedAt
             );
         }
     }

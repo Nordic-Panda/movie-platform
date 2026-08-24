@@ -13,6 +13,7 @@
         public int Rating { get; private set; }
 
         public bool IsActive { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         public void Hide() => IsActive = false;
 
@@ -28,6 +29,7 @@
             Comment = comment;
             Rating = rating;
             IsActive = true;
+            CreatedAt = DateTime.UtcNow;
         }
     }
 }

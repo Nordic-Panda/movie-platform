@@ -89,6 +89,7 @@ namespace MovieService.Application.Movies.GetMovieDetailsById
                             movieActor.IsMainCast
                         )
                 )
+                .OrderByDescending(x => x.IsMainCast)
                 .ToList();
 
             return new MovieDetailsDto(

@@ -6,6 +6,7 @@
         string Comment,
         int Rating,
         string DisplayName,
-        string Username
+        string Username,
+        DateTime CreatedAt
     );
 }
