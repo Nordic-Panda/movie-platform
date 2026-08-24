@@ -1,4 +1,6 @@
-﻿public class User
+﻿namespace MovieService.Domain.Users;
+
+public class User
 {
     public Guid Id { get; private set; }
 
@@ -8,11 +10,11 @@
 
     public string DisplayName { get; private set; } = string.Empty;
 
-    public string PasswordHash { get; private set; } = string.Empty;
-
     public Guid RoleId { get; private set; }
 
     public bool IsActive { get; private set; }
+
+    public DateTime CreatedAt { get; private set; }
 
     public void Disable() => IsActive = false;
 
@@ -20,20 +22,14 @@
 
     private User() { }
 
-    internal User(
-        string email,
-        string username,
-        string displayName,
-        string passwordHash,
-        Guid roleId
-    )
+    internal User(string email, string username, string displayName, Guid roleId)
     {
         Id = Guid.NewGuid();
         Email = email;
         Username = username;
         DisplayName = displayName;
-        PasswordHash = passwordHash;
         RoleId = roleId;
         IsActive = true;
+        CreatedAt = DateTime.UtcNow;
     }
 }

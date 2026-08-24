@@ -38,6 +38,10 @@ namespace MovieService.API.Common.Extensions
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
 
+            services.AddHttpContextAccessor();
+
+            services.AddScoped<ICurrentUser, CurrentUser>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<ITokenService, JwtTokenService>();

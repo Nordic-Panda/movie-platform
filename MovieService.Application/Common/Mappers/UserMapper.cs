@@ -1,4 +1,5 @@
 ﻿using MovieService.Application.Common.DTOs;
+using MovieService.Domain.Users;
 
 namespace MovieService.Application.Common.Mappers
 {

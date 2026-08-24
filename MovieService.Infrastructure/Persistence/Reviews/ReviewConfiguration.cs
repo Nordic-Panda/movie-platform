@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieService.Domain.Movies;
 using MovieService.Domain.Reviews;
+using MovieService.Domain.Users;
 
 namespace MovieService.Infrastructure.Persistence.Reviews
 {

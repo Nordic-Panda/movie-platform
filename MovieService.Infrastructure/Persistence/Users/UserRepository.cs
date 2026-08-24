@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieService.Application.Common.Interfaces.Repositories;
+using MovieService.Domain.Users;
 using MovieService.Infrastructure.Data;
 
 namespace MovieService.Infrastructure.Persistence.Users
@@ -11,6 +12,11 @@ namespace MovieService.Infrastructure.Persistence.Users
         public UserRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
+        }
+
+        public async Task AddAsync(User user)
+        {
+            await _appDbContext.Users.AddAsync(user);
         }
 
         public async Task<User?> GetUserByEmailAsync(string email)
@@ -33,6 +39,11 @@ namespace MovieService.Infrastructure.Persistence.Users
         public async Task<User?> GetActiveUserByIdAsync(Guid id)
         {
             return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Id == id && u.IsActive);
+        }
+
+        public async Task<User?> GetUserByUsernameAsync(string username)
+        {
+            return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task<IReadOnlyList<User>> GetUsersByIdsAsync(IReadOnlyList<Guid> ids)

@@ -7,6 +7,7 @@ using MovieService.Domain.MovieActors;
 using MovieService.Domain.Movies;
 using MovieService.Domain.Reviews;
 using MovieService.Domain.Roles;
+using MovieService.Domain.UserIdentities;
 using MovieService.Domain.Users;
 
 namespace MovieService.Infrastructure.Data;
@@ -25,6 +26,7 @@ public class AppDbContext : DbContext
     public DbSet<Currency> Currencies => Set<Currency>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<UserIdentity> UserIdentities => Set<UserIdentity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

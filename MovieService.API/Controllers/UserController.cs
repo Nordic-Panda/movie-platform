@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Common.Contracts;
 using MovieService.Application.Common.DTOs;
@@ -17,6 +18,7 @@ namespace MovieService.API.Contollers
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginCommand request)
         {
