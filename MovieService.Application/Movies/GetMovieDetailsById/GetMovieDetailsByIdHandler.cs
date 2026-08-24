@@ -53,6 +53,12 @@ namespace MovieService.Application.Movies.GetMovieDetailsById
             var userIds = reviews.Select(r => r.UserId).Distinct().ToList();
             var users = userIds.Count == 0 ? [] : await _userRepository.GetUsersByIdsAsync(userIds);
 
+            var reviewCount = reviews.Count;
+
+            // round to one decimal
+            decimal? averageRating =
+                reviewCount == 0 ? null : Math.Round(reviews.Average(x => (decimal)x.Rating), 1);
+
             var reviewDtos = reviews
                 .Join(
                     users,
@@ -102,7 +108,10 @@ namespace MovieService.Application.Movies.GetMovieDetailsById
                 LanguageMapper.ToDto(movie.Language),
                 cast,
                 reviewDtos,
-                movie.PosterUrl
+                averageRating,
+                reviewCount,
+                movie.PosterUrl,
+                movie.CreatedAt
             );
         }
     }

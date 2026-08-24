@@ -10,6 +10,9 @@
         LanguageDto Language,
         IReadOnlyList<MovieCastDto> Cast,
         IReadOnlyList<ReviewDto> Reviews,
-        string? PosterUrl
+        decimal? AverageRating,
+        int ReviewCount,
+        string? PosterUrl,
+        DateTime CreatedAt
     );
 }
