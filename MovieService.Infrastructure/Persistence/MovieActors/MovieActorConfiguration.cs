@@ -10,7 +10,7 @@ namespace MovieService.Infrastructure.Persistence.MovieActors
     {
         void IEntityTypeConfiguration<MovieActor>.Configure(EntityTypeBuilder<MovieActor> entity)
         {
-            entity.HasKey(x => new { x.MovieId, x.ActorId });
+            entity.HasKey(x => x.Id);
 
             entity.Property(x => x.MovieId).IsRequired();
 
@@ -26,6 +26,8 @@ namespace MovieService.Infrastructure.Persistence.MovieActors
                     x.CharacterName,
                 })
                 .IsUnique();
+
+            entity.Property(x => x.IsMainCast).IsRequired();
 
             // Configure the relationship between MovieActor and Movie.
             // MovieActor has no navigation property to Movie, so this relationship

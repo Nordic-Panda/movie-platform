@@ -17,7 +17,8 @@ namespace MovieService.Application.Common.Mappers
                 movie.Details.Synopsis,
                 movie.Details.Budget?.Amount,
                 movie.Details.Budget?.Currency.Code,
-                movie.PosterUrl
+                movie.PosterUrl,
+                movie.CreatedAt
             );
         }
     }

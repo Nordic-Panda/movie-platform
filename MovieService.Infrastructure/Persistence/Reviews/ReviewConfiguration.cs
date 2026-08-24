@@ -18,6 +18,13 @@ namespace MovieService.Infrastructure.Persistence.Reviews
                 .HasForeignKey(x => x.MovieId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            entity.Property(x => x.UserId).IsRequired();
+            entity
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             entity.Property(x => x.Comment).IsRequired();
 
             entity.Property(x => x.Rating).IsRequired();

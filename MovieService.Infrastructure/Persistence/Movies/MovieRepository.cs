@@ -27,7 +27,7 @@ namespace MovieService.Infrastructure.Persistence.Movies
                 .Include(m => m.Language)
                 .Include(m => m.Details)
                     .ThenInclude(d => d.Budget)
-                        .ThenInclude(b => b.Currency)
+                        .ThenInclude(b => b!.Currency)
                 .ToListAsync();
         }
 
@@ -38,7 +38,7 @@ namespace MovieService.Infrastructure.Persistence.Movies
                 .Include(m => m.Language)
                 .Include(m => m.Details)
                     .ThenInclude(d => d.Budget)
-                        .ThenInclude(b => b.Currency)
+                        .ThenInclude(b => b!.Currency)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -49,8 +49,8 @@ namespace MovieService.Infrastructure.Persistence.Movies
                 .Include(m => m.Language)
                 .Include(m => m.Details)
                     .ThenInclude(d => d.Budget)
-                        .ThenInclude(b => b.Currency)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                        .ThenInclude(b => b!.Currency)
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
         }
 
         // Don't need include here because this is for checking movie dup

@@ -2,6 +2,7 @@
 {
     public static class UserErrors
     {
+        public const string InActiveUser = "Inactive User";
         public const string NotFoundCode = "USER_NOT_FOUND";
         public const string NotFoundMessage = "User not found";
 
@@ -19,5 +20,21 @@
 
         public const string RoleIdEmptyCode = "ROLE_ID_EMPTY";
         public const string RoleIdEmptyMessage = "Role is empty";
+
+        public const string DisplayNameEmptyCode = "DISPLAY_NAME_EMPTY";
+        public const string DisplayNameEmptyMessage = "Display name can not be empty";
+
+        public const string DisplayNameTooLongCode = "DISPLAY_NAME_TOO_LONG";
+
+        public static string DisplayNameTooLongMessage(int maxLength) =>
+            $"Display name can not exceed {maxLength} characters";
+
+        public const string UsernameEmptyCode = "USERNAME_EMPTY";
+        public const string UsernameEmptyMessage = "Username can not be empty";
+
+        public const string UsernameTooLongCode = "USERNAME_TOO_LONG";
+
+        public static string UsernameTooLongMessage(int maxLength) =>
+            $"Username can not exceed {maxLength} characters";
     }
 }

@@ -11,16 +11,46 @@ namespace MovieService.Infrastructure.Data.Seeders
                 return;
 
             var userRole = await db.Roles.FirstAsync(r => r.Code == "USER");
-
             var adminRole = await db.Roles.FirstAsync(r => r.Code == "ADMIN");
 
             var password = "pass";
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
-            db.Users.AddRange(
-                UserFactory.Create("y@admin.com", hashedPassword, adminRole.Id),
-                UserFactory.Create("y@user.com", hashedPassword, userRole.Id)
+            var inactiveUser = UserFactory.Create(
+                "inactive@movie.com",
+                "inactive",
+                "Inactive Test User",
+                hashedPassword,
+                userRole.Id
             );
+
+            inactiveUser.Disable();
+
+            db.Users.AddRange(
+                UserFactory.Create(
+                    "y@admin.com",
+                    "admin",
+                    "I'm just an Admin",
+                    hashedPassword,
+                    adminRole.Id
+                ),
+                UserFactory.Create(
+                    "y@user.com",
+                    "yang",
+                    "YangThePanda",
+                    hashedPassword,
+                    userRole.Id
+                ),
+                UserFactory.Create(
+                    "test@movie.com",
+                    "testUserName",
+                    "Test - I spam since i need to be long desu",
+                    hashedPassword,
+                    userRole.Id
+                ),
+                inactiveUser
+            );
+
             await db.SaveChangesAsync();
         }
     }

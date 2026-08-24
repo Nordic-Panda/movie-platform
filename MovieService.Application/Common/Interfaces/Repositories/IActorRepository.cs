@@ -12,6 +12,8 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task<Actor?> GetActorByIdAsync(Guid id);
         Task<Actor?> GetActiveActorByIdAsync(Guid id);
 
+        Task<IReadOnlyList<Actor>> GetActorsByIdsAsync(IReadOnlyList<Guid> ids);
+
         IQueryable<Actor> Query();
     }
 }

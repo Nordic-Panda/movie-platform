@@ -14,7 +14,6 @@ namespace MovieService.API.Contollers
     [ApiController]
     public class ReviewController : ControllerBase
     {
-
         private readonly IMediator _mediator;
 
         public ReviewController(IMediator mediator)
@@ -30,7 +29,6 @@ namespace MovieService.API.Contollers
             return Ok(ApiResponse<IReadOnlyList<ReviewDto>>.Ok(reviewList));
         }
 
-
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -42,13 +40,15 @@ namespace MovieService.API.Contollers
         [HttpPost("movies/{movieId:guid}")]
         public async Task<IActionResult> AddReviewToMovie(Guid movieId, CreateReviewRequest request)
         {
-            var reviewDto = await _mediator.Send(new CreateReviewCommand(movieId, request.Comment, request.Rating));
+            var reviewDto = await _mediator.Send(
+                new CreateReviewCommand(movieId, request.UserId, request.Comment, request.Rating)
+            );
 
             return CreatedAtAction(
                 nameof(GetById),
                 new { id = reviewDto.Id },
-                ApiResponse<ReviewDto>.Ok(reviewDto));
-
+                ApiResponse<ReviewDto>.Ok(reviewDto)
+            );
         }
 
         //// PUT api/<ReviewsController>/5

@@ -31,12 +31,18 @@ namespace MovieService.Infrastructure.Persistence.Reviews
 
         public async Task<IReadOnlyList<Review>> GetReviewsByMovieId(Guid id)
         {
-            return await _context.Reviews.Where(r => r.MovieId == id).ToListAsync();
+            return await _context
+                .Reviews.Where(r => r.MovieId == id)
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
         }
 
         public async Task<IReadOnlyList<Review>> GetActiveReviewsByMovieId(Guid id)
         {
-            return await _context.Reviews.Where(r => r.MovieId == id && r.IsActive).ToListAsync();
+            return await _context
+                .Reviews.Where(r => r.MovieId == id && r.IsActive)
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
         }
     }
 }

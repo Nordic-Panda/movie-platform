@@ -59,7 +59,7 @@ public class MovieController : ControllerBase
         return Ok(ApiResponse<PagedResult<MovieDto>>.Ok(result));
     }
 
-    [HttpGet("details/{id:guid}")]
+    [HttpGet("{id:guid}/details")]
     public async Task<IActionResult> GetDetailsById([FromRoute] Guid id)
     {
         var result = await _mediator.Send(new GetMovieDetailsByIdQuery(id));
@@ -105,7 +105,8 @@ public class MovieController : ControllerBase
         var command = MovieActorMapper.ToAddActorToMovieCommand(
             movieId,
             request.ActorId,
-            request.CharacterName
+            request.CharacterName,
+            request.IsMainCast
         );
         var result = await _mediator.Send(command);
         return Ok(ApiResponse<MovieActorDto>.Ok(result));
