@@ -43,11 +43,17 @@ namespace MovieService.API.Common.Extensions
             services.AddHttpContextAccessor();
 
             services.AddScoped<ICurrentUser, CurrentUser>();
+
             services.AddScoped<ILoginProvider, LocalLoginProvider>();
+            services.AddScoped<ILoginProvider, GoogleLoginProvider>();
             services.AddScoped<ILoginProviderResolver, LoginProviderResolver>();
+
             services.AddScoped<IRegisterProvider, LocalRegisterProvider>();
             services.AddScoped<IRegisterProviderResolver, RegisterProviderResolver>();
             //services.AddScoped<IRegisterProvider, MicrosoftRegisterProvider>();
+
+            // External providers
+            services.AddScoped<IExternalAuthenticationProvider, GoogleAuthenticationProvider>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -59,6 +65,8 @@ namespace MovieService.API.Common.Extensions
             services.Configure<PaginationSettings>(config.GetSection("Pagination"));
 
             services.Configure<JwtSettings>(config.GetSection("Jwt"));
+
+            services.Configure<GoogleSettings>(config.GetSection("Google"));
 
             return services;
         }

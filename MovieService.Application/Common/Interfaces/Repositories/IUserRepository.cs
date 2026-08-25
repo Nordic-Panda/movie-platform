@@ -10,6 +10,7 @@ namespace MovieService.Application.Common.Interfaces.Repositories
         Task<User?> GetUserByIdAsync(Guid id);
         Task<User?> GetActiveUserByIdAsync(Guid id);
         Task<User?> GetUserByUsernameAsync(string name);
+        Task<User?> GetActiveUserByUsernameAsync(string name);
 
         Task<IReadOnlyList<User>> GetUsersByIdsAsync(IReadOnlyList<Guid> ids);
     }

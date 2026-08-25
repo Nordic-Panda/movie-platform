@@ -1,5 +1,4 @@
 ﻿using MovieService.Application.Auth.Login;
-using MovieService.Domain.Users;
 
 namespace MovieService.Application.Common.Interfaces
 {
@@ -7,6 +6,11 @@ namespace MovieService.Application.Common.Interfaces
     {
         string Provider { get; }
 
-        Task<User> AuthenticateAsync(LoginCommand command, CancellationToken cancellationToken);
+        // Used to return User, BUT since external login for the first time does not have user
+        // So we use a nullable result
+        Task<LoginProviderResult> AuthenticateAsync(
+            LoginCommand command,
+            CancellationToken cancellationToken
+        );
     }
 }

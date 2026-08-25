@@ -46,6 +46,13 @@ namespace MovieService.Infrastructure.Persistence.Users
             return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
+        public async Task<User?> GetActiveUserByUsernameAsync(string username)
+        {
+            return await _appDbContext.Users.FirstOrDefaultAsync(u =>
+                u.Username == username && u.IsActive
+            );
+        }
+
         public async Task<IReadOnlyList<User>> GetUsersByIdsAsync(IReadOnlyList<Guid> ids)
         {
             return await _appDbContext

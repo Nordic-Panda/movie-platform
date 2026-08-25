@@ -35,11 +35,30 @@ namespace MovieService.Application.Auth.Login
             CancellationToken cancellationToken
         )
         {
+            // Polymorphism.
+            // Resolve the authentication provider at runtime.
+            // The handler does not need to know how the selected provider authenticates the user.
             var provider = _providerResolver.Resolve(request.Provider);
 
-            var user = await provider.AuthenticateAsync(request, cancellationToken);
+            var result = await provider.AuthenticateAsync(request, cancellationToken);
 
-            var existingRole = await _roleRepository.GetRoleByIdAsync(user.RoleId);
+            // If an external identity was successfully authenticated,
+            // but it is not linked to a local User yet.
+            // This indicates a first external login and requires registration.
+            if (result.User is null && result.ExternalIdentity is not null)
+            {
+                var externalIdentity = result.ExternalIdentity!;
+
+                return LoginResponseMapper.ToRegistrationRequiredDto(
+                    new ExternalRegistrationDto(
+                        externalIdentity.Provider,
+                        externalIdentity.Email,
+                        externalIdentity.DisplayName
+                    )
+                );
+            }
+
+            var existingRole = await _roleRepository.GetRoleByIdAsync(result.User.RoleId);
 
             if (existingRole is null || !existingRole.IsActive)
             {
@@ -49,13 +68,13 @@ namespace MovieService.Application.Auth.Login
                 );
             }
 
-            var token = _tokenService.CreateToken(user, existingRole);
+            var token = _tokenService.CreateToken(result.User, existingRole);
 
             var expiresInMinutes = _jwtSettings.ExpiresInMinutes;
 
-            var userDto = UserMapper.ToDto(user);
+            var userDto = UserMapper.ToDto(result.User);
 
-            return LoginResponseMapper.ToDto(token, expiresInMinutes, userDto);
+            return LoginResponseMapper.ToAuthenticatedDto(token, expiresInMinutes, userDto);
         }
     }
 }

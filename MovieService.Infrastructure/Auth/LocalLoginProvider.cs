@@ -23,7 +23,7 @@ namespace MovieService.Infrastructure.Auth
             _userIdentityRepository = userIdentityRepository;
         }
 
-        public async Task<User> AuthenticateAsync(
+        public async Task<LoginProviderResult> AuthenticateAsync(
             LoginCommand command,
             CancellationToken cancellationToken
         )
@@ -40,6 +40,7 @@ namespace MovieService.Infrastructure.Auth
             }
 
             // because identifier is username/email
+            // not using get active is for clear flow check
             var existingUser = await _userRepository.GetUserByEmailAsync(command.Identifier);
 
             if (existingUser is null)
@@ -89,7 +90,7 @@ namespace MovieService.Infrastructure.Auth
                 );
             }
 
-            return existingUser;
+            return new LoginProviderResult(User: existingUser, ExternalIdentity: null);
         }
     }
 }
