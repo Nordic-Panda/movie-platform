@@ -29,7 +29,7 @@ namespace MovieService.Infrastructure.Auth
         )
         {
             if (
-                string.IsNullOrWhiteSpace(command.Email)
+                string.IsNullOrWhiteSpace(command.Identifier)
                 || string.IsNullOrWhiteSpace(command.Password)
             )
             {
@@ -39,7 +39,13 @@ namespace MovieService.Infrastructure.Auth
                 );
             }
 
-            var existingUser = await _userRepository.GetUserByEmailAsync(command.Email);
+            // because identifier is username/email
+            var existingUser = await _userRepository.GetUserByEmailAsync(command.Identifier);
+
+            if (existingUser is null)
+            {
+                existingUser = await _userRepository.GetUserByUsernameAsync(command.Identifier);
+            }
 
             if (existingUser is null)
             {
