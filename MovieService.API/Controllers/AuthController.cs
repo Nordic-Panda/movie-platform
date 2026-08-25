@@ -20,9 +20,20 @@ namespace MovieService.API.Controllers
             _mediator = mediator;
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(
+            [FromBody] LoginCommand command,
+            CancellationToken cancellationToken
+        )
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+
+            return Ok(ApiResponse<LoginResponseDto>.Ok(result));
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register(
-            RegisterCommand command,
+            [FromBody] RegisterCommand command,
             CancellationToken cancellationToken
         )
         {
@@ -31,9 +42,9 @@ namespace MovieService.API.Controllers
             return Ok(ApiResponse<UserDto>.Ok(result));
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(
-            LoginCommand command,
+        [HttpPost("register/external")]
+        public async Task<IActionResult> CompleteExternalRegistration(
+            [FromBody] CompleteExternalRegistrationCommand command,
             CancellationToken cancellationToken
         )
         {

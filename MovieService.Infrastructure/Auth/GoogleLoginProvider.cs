@@ -9,21 +9,21 @@ namespace MovieService.Infrastructure.Auth
 {
     public class GoogleLoginProvider : ILoginProvider
     {
-        private readonly IExternalAuthenticationProvider _authenticationProvider;
+        private readonly IExternalAuthenticationProviderResolver _authenticationProviderResolver;
         private readonly IUserIdentityRepository _userIdentityRepository;
         private readonly IUserRepository _userRepository;
 
         public string Provider => IdentityProviders.Google;
 
         public GoogleLoginProvider(
-            IExternalAuthenticationProvider authenticationProvider,
             IUserIdentityRepository userIdentityRepository,
-            IUserRepository userRepository
+            IUserRepository userRepository,
+            IExternalAuthenticationProviderResolver authenticationProviderResolver
         )
         {
-            _authenticationProvider = authenticationProvider;
             _userIdentityRepository = userIdentityRepository;
             _userRepository = userRepository;
+            _authenticationProviderResolver = authenticationProviderResolver;
         }
 
         public async Task<LoginProviderResult> AuthenticateAsync(
@@ -31,7 +31,13 @@ namespace MovieService.Infrastructure.Auth
             CancellationToken cancellationToken
         )
         {
-            var externalIdentity = await _authenticationProvider.AuthenticateAsync(
+            // Resolve the external authentication provider at runtime.
+            // This allows the login flow to work with different external providers
+            // without knowing their implementations.
+            // Currently external is only Google, but what if we have Microsoft and others? Scalability
+            var authenticationProvider = _authenticationProviderResolver.Resolve(Provider);
+
+            var externalIdentity = await authenticationProvider.AuthenticateAsync(
                 command.Credential!,
                 cancellationToken
             );

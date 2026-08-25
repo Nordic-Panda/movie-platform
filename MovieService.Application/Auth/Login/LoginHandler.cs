@@ -17,17 +17,21 @@ namespace MovieService.Application.Auth.Login
         private readonly ITokenService _tokenService;
         private readonly JwtSettings _jwtSettings;
 
+        private readonly IExternalRegistrationTokenService _externalRegistrationTokenService;
+
         public LoginHandler(
             ILoginProviderResolver providerResolver,
             IRoleRepository roleRepository,
             ITokenService tokenService,
-            IOptions<JwtSettings> options
+            IOptions<JwtSettings> options,
+            IExternalRegistrationTokenService externalRegistrationTokenService
         )
         {
             _providerResolver = providerResolver;
             _roleRepository = roleRepository;
             _tokenService = tokenService;
             _jwtSettings = options.Value;
+            _externalRegistrationTokenService = externalRegistrationTokenService;
         }
 
         public async Task<LoginResponseDto> Handle(
@@ -45,12 +49,18 @@ namespace MovieService.Application.Auth.Login
             // If an external identity was successfully authenticated,
             // but it is not linked to a local User yet.
             // This indicates a first external login and requires registration.
+
             if (result.User is null && result.ExternalIdentity is not null)
             {
                 var externalIdentity = result.ExternalIdentity!;
 
+                var registrationToken = _externalRegistrationTokenService.CreateToken(
+                    externalIdentity
+                );
+
                 return LoginResponseMapper.ToRegistrationRequiredDto(
                     new ExternalRegistrationDto(
+                        registrationToken,
                         externalIdentity.Provider,
                         externalIdentity.Email,
                         externalIdentity.DisplayName

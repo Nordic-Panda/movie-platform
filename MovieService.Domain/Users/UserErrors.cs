@@ -42,5 +42,9 @@
 
         public const string UsernameExistsCode = "USERNAME_EXISTS";
         public const string UsernameExistsMessage = "This username is already linked to an account";
+
+        public const string AccountAlreadyExistsCode = "ACCOUNT_EXISTS";
+        public const string AccountAlreadyExistsMessage =
+            "An account with provided info already exists";
     }
 }

@@ -52,8 +52,18 @@ namespace MovieService.API.Common.Extensions
             services.AddScoped<IRegisterProviderResolver, RegisterProviderResolver>();
             //services.AddScoped<IRegisterProvider, MicrosoftRegisterProvider>();
 
+            // External Token service
+            services.AddScoped<
+                IExternalRegistrationTokenService,
+                ExternalRegistrationTokenService
+            >();
+
             // External providers
             services.AddScoped<IExternalAuthenticationProvider, GoogleAuthenticationProvider>();
+            services.AddScoped<
+                IExternalAuthenticationProviderResolver,
+                ExternalAuthenticationProviderResolver
+            >();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
