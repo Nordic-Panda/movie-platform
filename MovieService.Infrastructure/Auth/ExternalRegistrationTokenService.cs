@@ -89,11 +89,9 @@ namespace MovieService.Infrastructure.Auth
 
             try
             {
-                var principal = new JwtSecurityTokenHandler().ValidateToken(
-                    token,
-                    validationParameters,
-                    out _
-                );
+                var handler = new JwtSecurityTokenHandler { MapInboundClaims = false };
+
+                var principal = handler.ValidateToken(token, validationParameters, out _);
 
                 var purpose = principal.FindFirst("purpose")?.Value;
 

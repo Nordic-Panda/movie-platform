@@ -2,14 +2,14 @@
 
 namespace MovieService.Application.Auth.Login
 {
-    public class LogInValidator : AbstractValidator<LoginCommand>
+    public class LoginValidator : AbstractValidator<LoginCommand>
     {
-        public LogInValidator()
+        public LoginValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().EmailAddress().Must(email => email.Trim() == email);
+            //// could add business logic for length
+            //RuleFor(x => x.Password).NotEmpty();
 
-            // could add business logic for length
-            RuleFor(x => x.Password).NotEmpty();
+            RuleFor(x => x.Provider).NotEmpty();
         }
     }
 }
