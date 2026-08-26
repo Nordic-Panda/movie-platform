@@ -50,6 +50,9 @@ namespace MovieService.API.Common.Extensions
 
             services.AddScoped<IRegisterProvider, LocalRegisterProvider>();
             services.AddScoped<IRegisterProviderResolver, RegisterProviderResolver>();
+            // This is false, as we do not provide register service for Microsoft or Google,
+            // This is more for for example register with Invitation, or EnterpriseRegister
+            // Though currently we only have Local, which is user register themselves
             //services.AddScoped<IRegisterProvider, MicrosoftRegisterProvider>();
 
             // External Token service

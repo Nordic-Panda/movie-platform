@@ -31,30 +31,38 @@ namespace MovieService.Infrastructure.Auth
             CancellationToken cancellationToken
         )
         {
+            if (string.IsNullOrWhiteSpace(command.Credential))
+            {
+                throw new UnauthorizedException(
+                    UserErrors.CredentialInvalidCode,
+                    UserErrors.CredentialInvalidMessage
+                );
+            }
+
             // Resolve the external authentication provider at runtime.
-            // This allows the login flow to work with different external providers
-            // without knowing their implementations.
-            // Currently external is only Google, but what if we have Microsoft and others? Scalability
+            // The login provider does not need to know how a specific external provider
+            // validates credentials. This keeps provider-specific authentication isolated
+            // and allows additional providers, such as Microsoft, to be added later.
             var authenticationProvider = _authenticationProviderResolver.Resolve(Provider);
 
             var externalIdentity = await authenticationProvider.AuthenticateAsync(
-                command.Credential!,
+                command.Credential,
                 cancellationToken
             );
 
-            var identity = await _userIdentityRepository.GetByProviderAndSubjectAsync(
+            var existingIdentity = await _userIdentityRepository.GetByProviderAndSubjectAsync(
                 externalIdentity.Provider,
                 externalIdentity.Subject
             );
 
-            // If there is no identity in DB, but authenticated by 3rd party provider
-            // meanning it's first login
-            if (identity is null)
+            // If authentication with the external provider succeeds but no matching
+            // UserIdentity exists in our database, this is the user's first login.
+            if (existingIdentity is null)
             {
                 return new LoginProviderResult(User: null, ExternalIdentity: externalIdentity);
             }
 
-            var existingUser = await _userRepository.GetUserByIdAsync(identity.UserId);
+            var existingUser = await _userRepository.GetUserByIdAsync(existingIdentity.UserId);
 
             if (existingUser is null)
             {

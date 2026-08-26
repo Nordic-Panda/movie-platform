@@ -52,7 +52,7 @@ namespace MovieService.Application.Auth.Login
 
             if (result.User is null && result.ExternalIdentity is not null)
             {
-                var externalIdentity = result.ExternalIdentity!;
+                var externalIdentity = result.ExternalIdentity;
 
                 var registrationToken = _externalRegistrationTokenService.CreateToken(
                     externalIdentity
@@ -68,7 +68,16 @@ namespace MovieService.Application.Auth.Login
                 );
             }
 
-            var existingRole = await _roleRepository.GetRoleByIdAsync(result.User.RoleId);
+            // The nullable analyzer cannot understand that User is non-null after the
+            // external first-login branch, so we explicitly validate it here.
+            var user =
+                result.User
+                ?? throw new UnauthorizedException(
+                    UserErrors.AccountNotAvailableCode,
+                    UserErrors.AccountNotAvailableMessage
+                );
+
+            var existingRole = await _roleRepository.GetRoleByIdAsync(user.RoleId);
 
             if (existingRole is null || !existingRole.IsActive)
             {
@@ -78,11 +87,11 @@ namespace MovieService.Application.Auth.Login
                 );
             }
 
-            var token = _tokenService.CreateToken(result.User, existingRole);
+            var token = _tokenService.CreateToken(user, existingRole);
 
             var expiresInMinutes = _jwtSettings.ExpiresInMinutes;
 
-            var userDto = UserMapper.ToDto(result.User);
+            var userDto = UserMapper.ToDto(user);
 
             return LoginResponseMapper.ToAuthenticatedDto(token, expiresInMinutes, userDto);
         }

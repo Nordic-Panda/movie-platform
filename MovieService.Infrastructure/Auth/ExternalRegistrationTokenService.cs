@@ -7,6 +7,7 @@ using MovieService.Application.Common.Exceptions;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Settings;
 using MovieService.Domain.Auth;
+using MovieService.Domain.UserIdentities;
 using MovieService.Domain.Users;
 
 namespace MovieService.Infrastructure.Auth
@@ -25,13 +26,23 @@ namespace MovieService.Infrastructure.Auth
         // instead, using token that carries the identity data that was already validated by the external provider.
         public string CreateToken(ExternalIdentity identity)
         {
+            var now = DateTime.UtcNow;
+
+            // iat is not really needed here, but good to have for future scalability
+            // for example invalid all tokens issued before x time
+            // Token exp is used for validateLifeTime, not iat.
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, identity.Subject),
                 new Claim("provider", identity.Provider),
                 new Claim(JwtRegisteredClaimNames.Email, identity.Email),
                 new Claim("display_name", identity.DisplayName),
-                new Claim("purpose", "external-registration"),
+                new Claim("purpose", AuthConst.ExternalRegistration),
+                new Claim(
+                    JwtRegisteredClaimNames.Iat,
+                    new DateTimeOffset(now).ToUnixTimeSeconds().ToString(),
+                    ClaimValueTypes.Integer64
+                ),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
@@ -42,7 +53,7 @@ namespace MovieService.Infrastructure.Auth
                 issuer: _settings.Issuer,
                 audience: _settings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_settings.ExternalRegistrationExpiresInMinutes),
+                expires: now.AddMinutes(_settings.ExternalRegistrationExpiresInMinutes),
                 signingCredentials: credentials
             );
 
@@ -86,7 +97,7 @@ namespace MovieService.Infrastructure.Auth
 
                 var purpose = principal.FindFirst("purpose")?.Value;
 
-                if (purpose != "external-registration")
+                if (purpose != AuthConst.ExternalRegistration)
                 {
                     throw new UnauthorizedException(
                         UserErrors.CredentialInvalidCode,
@@ -107,6 +118,26 @@ namespace MovieService.Infrastructure.Auth
                     || string.IsNullOrWhiteSpace(subject)
                     || string.IsNullOrWhiteSpace(email)
                     || string.IsNullOrWhiteSpace(displayName)
+                )
+                {
+                    throw new UnauthorizedException(
+                        UserErrors.CredentialInvalidCode,
+                        UserErrors.CredentialInvalidMessage
+                    );
+                }
+
+                // Validate that the request token provider is supported by this application.
+                // This prevents a validly signed token with an unexpected provider
+                // from being accepted.
+                // As more external providers are added, this check can be moved
+                // behind a resolver instead of maintaining provider-specific conditions here.
+                if (
+                    !string.Equals(
+                        provider,
+                        IdentityProviders.Google,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                // Microsoft will be added here later.
                 )
                 {
                     throw new UnauthorizedException(

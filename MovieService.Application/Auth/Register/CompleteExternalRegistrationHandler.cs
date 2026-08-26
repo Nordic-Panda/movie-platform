@@ -49,7 +49,11 @@ namespace MovieService.Application.Auth.Register
             CancellationToken cancellationToken
         )
         {
-            // instead of trusting FE info, here we get info from Token
+            // We do NOT trust external identity data sent by the frontend.
+            // The registration token contains identity data that was already
+            // validated by the external authentication provider.
+
+            // ValidateToken also validates provider
             var externalIdentity = _externalRegistrationTokenService.ValidateToken(
                 request.RegistrationToken
             );
