@@ -10,13 +10,12 @@ using MovieService.Domain.Users;
 
 namespace MovieService.Application.Auth.Login
 {
-    public class LoginHandler : IRequestHandler<LoginCommand, LoginResponseDto>
+    public class LoginHandler : IRequestHandler<LoginCommand, LoginResult>
     {
         private readonly ILoginProviderResolver _providerResolver;
         private readonly IRoleRepository _roleRepository;
         private readonly ITokenService _tokenService;
         private readonly JwtSettings _jwtSettings;
-
         private readonly IExternalRegistrationTokenService _externalRegistrationTokenService;
 
         public LoginHandler(
@@ -34,7 +33,7 @@ namespace MovieService.Application.Auth.Login
             _externalRegistrationTokenService = externalRegistrationTokenService;
         }
 
-        public async Task<LoginResponseDto> Handle(
+        public async Task<LoginResult> Handle(
             LoginCommand request,
             CancellationToken cancellationToken
         )
@@ -46,7 +45,7 @@ namespace MovieService.Application.Auth.Login
 
             var result = await provider.AuthenticateAsync(request, cancellationToken);
 
-            // If an external identity was successfully authenticated,
+            // External identity was successfully authenticated,
             // but it is not linked to a local User yet.
             // This indicates a first external login and requires registration.
 
@@ -58,8 +57,12 @@ namespace MovieService.Application.Auth.Login
                     externalIdentity
                 );
 
-                return LoginResponseMapper.ToRegistrationRequiredDto(
-                    new ExternalRegistrationDto(
+                return new LoginResult(
+                    RequiresRegistration: true,
+                    AccessToken: null,
+                    ExpiresInMinutes: null,
+                    User: null,
+                    ExternalRegistration: new ExternalRegistrationDto(
                         registrationToken,
                         externalIdentity.Provider,
                         externalIdentity.Email,
@@ -68,8 +71,9 @@ namespace MovieService.Application.Auth.Login
                 );
             }
 
-            // The nullable analyzer cannot understand that User is non-null after the
-            // external first-login branch, so we explicitly validate it here.
+            // The nullable analyzer cannot understand that User is non-null
+            // after the external first-login branch, so we explicitly validate it here.
+
             var user =
                 result.User
                 ?? throw new UnauthorizedException(
@@ -93,7 +97,13 @@ namespace MovieService.Application.Auth.Login
 
             var userDto = UserMapper.ToDto(user);
 
-            return LoginResponseMapper.ToAuthenticatedDto(token, expiresInMinutes, userDto);
+            return new LoginResult(
+                RequiresRegistration: false,
+                AccessToken: token,
+                ExpiresInMinutes: expiresInMinutes,
+                User: userDto,
+                ExternalRegistration: null
+            );
         }
     }
 }

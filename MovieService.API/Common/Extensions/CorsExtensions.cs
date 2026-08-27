@@ -21,7 +21,13 @@
                     "Frontend",
                     policy =>
                     {
-                        policy.WithOrigins(frontendOrigins).AllowAnyHeader().AllowAnyMethod();
+                        // added credential because cookie is credential
+                        policy
+                            .WithOrigins(frontendOrigins)
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                        ;
                     }
                 );
             });

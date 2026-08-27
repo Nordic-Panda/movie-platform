@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using MovieService.Application.Common.DTOs;
 
 namespace MovieService.Application.Auth.Login
 {
@@ -15,5 +14,5 @@ namespace MovieService.Application.Auth.Login
         string? Identifier,
         string? Password,
         string? Credential
-    ) : IRequest<LoginResponseDto>;
+    ) : IRequest<LoginResult>;
 }

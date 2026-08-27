@@ -52,6 +52,24 @@ namespace MovieService.API.Common.Extensions
 
                     options.Events = new JwtBearerEvents
                     {
+                        // When request comes in, if there is no Token from Auth Header,
+                        // Try to get value from Cookies
+                        OnMessageReceived = context =>
+                        {
+                            if (
+                                string.IsNullOrEmpty(context.Token)
+                                && context.Request.Cookies.TryGetValue(
+                                    "access_token",
+                                    out var token
+                                )
+                            )
+                            {
+                                context.Token = token;
+                            }
+
+                            return Task.CompletedTask;
+                        },
+
                         // If challenged
                         OnChallenge = async context =>
                         {
