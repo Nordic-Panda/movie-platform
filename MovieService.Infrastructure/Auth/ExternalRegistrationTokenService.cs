@@ -89,6 +89,9 @@ namespace MovieService.Infrastructure.Auth
 
             try
             {
+                // .Net claim has different name for different info in the token as Claim Types
+                // This would cause translation problem and end up with wrong mapping
+                // Thus, MapInBoundClaims = false meanning DON'T translate, keep the JWT name in ClaimsPrincipal
                 var handler = new JwtSecurityTokenHandler { MapInboundClaims = false };
 
                 var principal = handler.ValidateToken(token, validationParameters, out _);
