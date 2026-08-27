@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieService.Domain.Roles;
+using MovieService.Domain.Users;
 
 namespace MovieService.Infrastructure.Persistence.Users
 {
@@ -14,7 +15,16 @@ namespace MovieService.Infrastructure.Persistence.Users
 
             entity.HasIndex(x => x.Email).IsUnique();
 
-            entity.Property(x => x.PasswordHash).IsRequired();
+            entity.Property(x => x.Username).IsRequired().HasMaxLength(UserRules.UsernameMaxLength);
+
+            entity.HasIndex(x => x.Username).IsUnique();
+
+            entity.Property(x => x.CreatedAt).IsRequired();
+
+            entity
+                .Property(x => x.DisplayName)
+                .IsRequired()
+                .HasMaxLength(UserRules.DisplayNameMaxLength);
 
             entity.Property(x => x.RoleId).IsRequired();
             // Though explicitly configure of this is not required

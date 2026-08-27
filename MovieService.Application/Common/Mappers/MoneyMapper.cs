@@ -1,17 +1,13 @@
 ﻿using MovieService.Application.Common.DTOs;
-using MovieService.Domain.Movies;
+using MovieService.Domain.ValueObjects;
 
 namespace MovieService.Application.Common.Mappers
 {
     public class MoneyMapper
     {
-        public static MoneyDto ToDto(Movie movie)
+        public static MoneyDto ToDto(Money money)
         {
-            return new MoneyDto(
-                movie.Details.Budget?.Amount,
-                movie.Details.Budget?.Currency.Name,
-                movie.Details.Budget?.Currency.Code
-            );
+            return new MoneyDto(money.Amount, money.Currency.Name, money.Currency.Code);
         }
     }
 }

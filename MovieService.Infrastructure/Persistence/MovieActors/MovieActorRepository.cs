@@ -1,4 +1,5 @@
-﻿using MovieService.Application.Common.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieService.Application.Common.Interfaces.Repositories;
 using MovieService.Domain.MovieActors;
 using MovieService.Infrastructure.Data;
 
@@ -16,6 +17,11 @@ namespace MovieService.Infrastructure.Persistence.MovieActors
         public async Task AddActorToMovieAsync(MovieActor movieActor)
         {
             await _appDbContext.MovieActor.AddAsync(movieActor);
+        }
+
+        public async Task<IReadOnlyList<MovieActor>> GetMovieActorsByMovieIdAsync(Guid movieId)
+        {
+            return await _appDbContext.MovieActor.Where(x => x.MovieId == movieId).ToListAsync();
         }
 
         public IQueryable<MovieActor> Query()

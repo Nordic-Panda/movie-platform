@@ -25,6 +25,8 @@ namespace MovieService.Domain.Movies
 
         public bool IsActive { get; private set; }
 
+        public DateTime CreatedAt { get; private set; }
+
         public void Disable() => IsActive = false;
 
         public void Enable() => IsActive = true;
@@ -50,6 +52,7 @@ namespace MovieService.Domain.Movies
             Language = language;
             PosterUrl = posterUrl;
             IsActive = true;
+            CreatedAt = DateTime.UtcNow;
         }
 
         public void Update(

@@ -1,10 +1,12 @@
 ﻿namespace MovieService.Application.Common.DTOs
 {
-    public record ReviewDto
-    (
+    public record ReviewDto(
         Guid Id,
         Guid MovieId,
         string Comment,
-        int Rating
+        int Rating,
+        string DisplayName,
+        string Username,
+        DateTime CreatedAt
     );
 }

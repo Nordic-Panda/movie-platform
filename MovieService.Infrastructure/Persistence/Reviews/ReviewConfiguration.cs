@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieService.Domain.Movies;
 using MovieService.Domain.Reviews;
+using MovieService.Domain.Users;
 
 namespace MovieService.Infrastructure.Persistence.Reviews
 {
@@ -17,6 +18,13 @@ namespace MovieService.Infrastructure.Persistence.Reviews
                 .WithMany()
                 .HasForeignKey(x => x.MovieId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            entity.Property(x => x.UserId).IsRequired();
+            entity
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             entity.Property(x => x.Comment).IsRequired();
 

@@ -4,13 +4,22 @@ namespace MovieService.Domain.Users
 {
     public static class UserFactory
     {
-        public static User Create(string email, string passwordHash, Guid roleId)
+        public static User Create(string email, string username, string displayName, Guid roleId)
         {
-            // lack validator
-
+            UserRules.ValidateEmail(email);
             var normalizedEmail = StringNormalizer.NormalizeName(email);
 
-            return new User(normalizedEmail, passwordHash, roleId);
+            UserRules.ValidateUsername(username);
+            var normalizedUsername = StringNormalizer.NormalizeName(username);
+            UserRules.ValidateUsernameLength(normalizedUsername);
+
+            UserRules.ValidateDisplayName(displayName);
+            var normalizedDisplayName = StringNormalizer.NormalizeName(displayName);
+            UserRules.ValidateDisplayNameLength(normalizedDisplayName);
+
+            UserRules.ValidateRoleId(roleId);
+
+            return new User(normalizedEmail, normalizedUsername, normalizedDisplayName, roleId);
         }
     }
 }
