@@ -20,36 +20,36 @@ namespace MovieService.Infrastructure.Data.Seeders
                 "inactive@movie.com",
                 "inactive",
                 "Inactive Test User",
-                hashedPassword,
+                userRole.Id
+            );
+
+            var admin = UserFactory.Create(
+                "y@admin.com",
+                "admin",
+                "I'm just an Admin",
+                adminRole.Id
+            );
+
+            var user = UserFactory.Create("y@user.com", "user", "YangThePanda", userRole.Id);
+
+            var test = UserFactory.Create(
+                "test@movie.com",
+                "testUserName",
+                "Test - I spam since i need to be long desu",
                 userRole.Id
             );
 
             inactiveUser.Disable();
 
-            db.Users.AddRange(
-                UserFactory.Create(
-                    "y@admin.com",
-                    "admin",
-                    "I'm just an Admin",
-                    hashedPassword,
-                    adminRole.Id
-                ),
-                UserFactory.Create(
-                    "y@user.com",
-                    "yang",
-                    "YangThePanda",
-                    hashedPassword,
-                    userRole.Id
-                ),
-                UserFactory.Create(
-                    "test@movie.com",
-                    "testUserName",
-                    "Test - I spam since i need to be long desu",
-                    hashedPassword,
-                    userRole.Id
-                ),
-                inactiveUser
-            );
+            var users = new[] { admin, user, test, inactiveUser };
+
+            db.Users.AddRange(users);
+
+            var identities = users
+                .Select(user => UserIdentityFactory.CreateLocal(user.Id, hashedPassword))
+                .ToArray();
+
+            db.UserIdentities.AddRange(identities);
 
             await db.SaveChangesAsync();
         }

@@ -17,5 +17,8 @@
 
         public static string CodeTooLongMessage(int length) =>
             $"Role code can not be longer than {length} characters.";
+
+        public const string DefaultRoleNotFoundCode = "ROLE_DEFAULT_NOT_FOUND";
+        public const string DefaultRoleNotFoundMessage = "Default role group is not found";
     }
 }

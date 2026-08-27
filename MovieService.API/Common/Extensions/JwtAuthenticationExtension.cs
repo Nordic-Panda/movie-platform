@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MovieService.API.Common.Contracts;
 using MovieService.API.Common.Errors;
 using MovieService.Application.Common.Settings;
-using System.Text;
 
 namespace MovieService.API.Common.Extensions
 {
@@ -18,7 +18,9 @@ namespace MovieService.API.Common.Extensions
             // Tho registered once in program.cs, we have to bind it here.
             // Extentions like this, runs during service registration not runtime, thus:
             // DI container is still being built, IOptions<JwtSettings> may not be available yet
-            var jwt = configuration.GetSection("Jwt").Get<JwtSettings>();
+            var jwt =
+                configuration.GetSection("Jwt").Get<JwtSettings>()
+                ?? throw new InvalidOperationException("Jwt configuration is missing.");
 
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -40,7 +42,8 @@ namespace MovieService.API.Common.Extensions
 
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(jwt.Key)),
+                            Encoding.UTF8.GetBytes(jwt.Key)
+                        ),
 
                         // Removes buffer. Default is 5 min. Strict expiration check.
                         // Without removing, token expiresTime validation will allow a + 5min
@@ -60,7 +63,8 @@ namespace MovieService.API.Common.Extensions
 
                             var response = ApiResponse<object>.Fail(
                                 AuthErrors.AuthenticationFailedCode,
-                                AuthErrors.AccesstokenInvalidMessage);
+                                AuthErrors.AccesstokenInvalidMessage
+                            );
 
                             await context.Response.WriteAsJsonAsync(response);
                         },
@@ -75,12 +79,12 @@ namespace MovieService.API.Common.Extensions
 
                             var response = ApiResponse<object>.Fail(
                                 AuthErrors.AuthorizationFailedCode,
-                                AuthErrors.NoPermissionMessage);
+                                AuthErrors.NoPermissionMessage
+                            );
 
                             await context.Response.WriteAsJsonAsync(response);
-                        }
+                        },
                     };
-
                 });
 
             // This registers DI / configuration, enables authorization system

@@ -9,5 +9,8 @@ namespace MovieService.Application.Common.Interfaces.Repositories
 
         Task<Role?> GetRoleByIdAsync(Guid id);
         Task<Role?> GetActiveRoleByIdAsync(Guid id);
+
+        Task<Role?> GetRoleByCodeAsync(string code);
+        Task<Role?> GetDefaultRoleAsync();
     }
 }

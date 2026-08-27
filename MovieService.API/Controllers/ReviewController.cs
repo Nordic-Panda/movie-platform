@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieService.API.Common.Contracts;
 using MovieService.Application.Common.DTOs;
@@ -37,11 +38,12 @@ namespace MovieService.API.Contollers
             return Ok(ApiResponse<ReviewDto>.Ok(reviewDto));
         }
 
+        [Authorize]
         [HttpPost("movies/{movieId:guid}")]
         public async Task<IActionResult> AddReviewToMovie(Guid movieId, CreateReviewRequest request)
         {
             var reviewDto = await _mediator.Send(
-                new CreateReviewCommand(movieId, request.UserId, request.Comment, request.Rating)
+                new CreateReviewCommand(movieId, request.Comment, request.Rating)
             );
 
             return CreatedAtAction(
@@ -57,6 +59,7 @@ namespace MovieService.API.Contollers
         //{
         //}
 
+        //[Authorize(Policy = Policies.AdminOnly)]
         //// DELETE api/<ReviewsController>/5
         //[HttpDelete("{id}")]
         //public void Delete(int id)

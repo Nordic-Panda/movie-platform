@@ -36,5 +36,15 @@
 
         public static string UsernameTooLongMessage(int maxLength) =>
             $"Username can not exceed {maxLength} characters";
+
+        public const string EmailExistsCode = "EMAIL_EXISTS";
+        public const string EmailExistsMessage = "This email is already linked to an account";
+
+        public const string UsernameExistsCode = "USERNAME_EXISTS";
+        public const string UsernameExistsMessage = "This username is already linked to an account";
+
+        public const string AccountAlreadyExistsCode = "ACCOUNT_EXISTS";
+        public const string AccountAlreadyExistsMessage =
+            "An account with provided info already exists";
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using MovieService.Application.Common.Interfaces;
 using MovieService.Application.Common.Settings;
 using MovieService.Domain.Roles;
+using MovieService.Domain.Users;
 
 namespace MovieService.Infrastructure.Auth
 {
@@ -28,7 +29,8 @@ namespace MovieService.Infrastructure.Auth
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, role.Name),
+                new Claim(ClaimTypes.Role, role.Code),
+                new Claim(ClaimTypes.Name, user.Username),
             };
 
             var expires = DateTime.UtcNow.AddMinutes(_settings.ExpiresInMinutes);

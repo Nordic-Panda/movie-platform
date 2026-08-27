@@ -1,4 +1,5 @@
 ﻿using MovieService.Domain.Roles;
+using MovieService.Domain.Users;
 
 namespace MovieService.Application.Common.Interfaces
 {

@@ -122,9 +122,9 @@ namespace MovieService.Infrastructure.Migrations
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -217,6 +217,28 @@ namespace MovieService.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserIdentities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Provider = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserIdentities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserIdentities_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Currencies_Code",
                 table: "Currencies",
@@ -296,6 +318,17 @@ namespace MovieService.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserIdentities_Provider_Subject",
+                table: "UserIdentities",
+                columns: new[] { "Provider", "Subject" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserIdentities_UserId",
+                table: "UserIdentities",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
@@ -324,6 +357,9 @@ namespace MovieService.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Reviews");
+
+            migrationBuilder.DropTable(
+                name: "UserIdentities");
 
             migrationBuilder.DropTable(
                 name: "Actors");

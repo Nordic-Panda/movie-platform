@@ -13,6 +13,7 @@ using MovieService.Infrastructure.Persistence.MovieActors;
 using MovieService.Infrastructure.Persistence.Movies;
 using MovieService.Infrastructure.Persistence.Reviews;
 using MovieService.Infrastructure.Persistence.Roles;
+using MovieService.Infrastructure.Persistence.UserIdentities;
 using MovieService.Infrastructure.Persistence.Users;
 
 namespace MovieService.API.Common.Extensions
@@ -37,6 +38,35 @@ namespace MovieService.API.Common.Extensions
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserIdentityRepository, UserIdentityRepository>();
+
+            services.AddHttpContextAccessor();
+
+            services.AddScoped<ICurrentUser, CurrentUser>();
+
+            services.AddScoped<ILoginProvider, LocalLoginProvider>();
+            services.AddScoped<ILoginProvider, GoogleLoginProvider>();
+            services.AddScoped<ILoginProviderResolver, LoginProviderResolver>();
+
+            services.AddScoped<IRegisterProvider, LocalRegisterProvider>();
+            services.AddScoped<IRegisterProviderResolver, RegisterProviderResolver>();
+            // This is false, as we do not provide register service for Microsoft or Google,
+            // This is more for for example register with Invitation, or EnterpriseRegister
+            // Though currently we only have Local, which is user register themselves
+            //services.AddScoped<IRegisterProvider, MicrosoftRegisterProvider>();
+
+            // External Token service
+            services.AddScoped<
+                IExternalRegistrationTokenService,
+                ExternalRegistrationTokenService
+            >();
+
+            // External providers
+            services.AddScoped<IExternalAuthenticationProvider, GoogleAuthenticationProvider>();
+            services.AddScoped<
+                IExternalAuthenticationProviderResolver,
+                ExternalAuthenticationProviderResolver
+            >();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -48,6 +78,8 @@ namespace MovieService.API.Common.Extensions
             services.Configure<PaginationSettings>(config.GetSection("Pagination"));
 
             services.Configure<JwtSettings>(config.GetSection("Jwt"));
+
+            services.Configure<GoogleSettings>(config.GetSection("Google"));
 
             return services;
         }

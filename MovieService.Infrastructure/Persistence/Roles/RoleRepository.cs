@@ -8,6 +8,7 @@ namespace MovieService.Infrastructure.Persistence.Roles
     public class RoleRepository : IRoleRepository
     {
         private readonly AppDbContext _context;
+        private readonly string _DefaultRoleCode = "USER";
 
         public RoleRepository(AppDbContext context)
         {
@@ -34,6 +35,16 @@ namespace MovieService.Infrastructure.Persistence.Roles
         public async Task<Role?> GetActiveRoleByIdAsync(Guid id)
         {
             return await _context.Roles.FirstOrDefaultAsync(r => r.Id == id && r.IsActive);
+        }
+
+        public async Task<Role?> GetRoleByCodeAsync(string code)
+        {
+            return await _context.Roles.FirstOrDefaultAsync(r => r.Code == code);
+        }
+
+        public async Task<Role?> GetDefaultRoleAsync()
+        {
+            return await _context.Roles.FirstOrDefaultAsync(r => r.Code == _DefaultRoleCode);
         }
     }
 }
